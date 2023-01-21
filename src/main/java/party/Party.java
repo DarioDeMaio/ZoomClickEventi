@@ -1,5 +1,6 @@
 package party;
 
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import pacchetto.Pacchetto;
 
 import java.util.Date;
@@ -10,12 +11,12 @@ public class Party {
     private int id;
     private String tipo, nomeLocale;
     private Date data, dataPrenotazione;
-    private int stato;
+    private String stato;
     private double prezzoPacchetto;
     private HashMap<Artista, Double> artisti;
     private HashMap<Fornitore, Double> fornitori;
 
-    public Party(String tipo, String nomeLocale, Date data, Date dataPrenotazione, int stato, double prezzoPacchetto) {
+    public Party(String tipo, String nomeLocale, Date data, Date dataPrenotazione, String stato, double prezzoPacchetto) {
         this.tipo = tipo;
         this.nomeLocale = nomeLocale;
         this.data = data;
@@ -66,11 +67,11 @@ public class Party {
         this.dataPrenotazione = dataPrenotazione;
     }
 
-    public int isStato() {
+    public String getStato() {
         return stato;
     }
 
-    public void setStato(int stato) {
+    public void setStato(String stato) {
         this.stato = stato;
     }
 
