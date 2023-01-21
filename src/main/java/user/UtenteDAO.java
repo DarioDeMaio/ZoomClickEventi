@@ -13,11 +13,6 @@ import java.sql.SQLException;
 
 public class UtenteDAO {
 
-    private DataSource dataSource;
-
-    public UtenteDAO() throws NamingException {
-
-    }
 
     public String doLogin(String username, String psw) {
 
