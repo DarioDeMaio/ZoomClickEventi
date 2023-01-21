@@ -4,9 +4,9 @@ public class Pacchetto {
     private int id;
     private String titolo, eventiConsigliati;
     private double prezzo;
-    private boolean flag;
+    private int flag;
 
-    public Pacchetto(String titolo, String eventiConsigliati, double prezzo, boolean flag) {
+    public Pacchetto(String titolo, String eventiConsigliati, double prezzo, int flag) {
         this.titolo = titolo;
         this.eventiConsigliati = eventiConsigliati;
         this.prezzo = prezzo;
@@ -44,11 +44,11 @@ public class Pacchetto {
         this.prezzo = prezzo;
     }
 
-    public boolean isFlag() {
+    public int getFlag() {
         return flag;
     }
 
-    public void setFlag(boolean flag) {
+    public void setFlag(int flag) {
         this.flag = flag;
     }
 
