@@ -15,6 +15,7 @@ public class Party {
     private double prezzoPacchetto;
     private HashMap<Artista, Double> artisti;
     private HashMap<Fornitore, Double> fornitori;
+    private int x;
 
     public Party(String tipo, String nomeLocale, Date data, Date dataPrenotazione, String stato, double prezzoPacchetto) {
         this.tipo = tipo;
