@@ -11,7 +11,7 @@ public class GestorePacchetti extends Gestore {
 
     private HashSet<Pacchetto> pacchetti;
 
-    public GestorePacchetti(int telefono, String nome, String cognome, String email, String password, String tipoGestore) {
+    public GestorePacchetti(String telefono, String nome, String cognome, String email, String password, String tipoGestore) {
         super(telefono, nome, cognome, email, password, tipoGestore);
         pacchetti = new HashSet<Pacchetto>();
     }

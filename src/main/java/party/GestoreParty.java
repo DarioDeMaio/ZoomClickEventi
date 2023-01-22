@@ -9,7 +9,7 @@ public class GestoreParty extends Gestore {
 
     private HashSet<Party> party;
 
-    public GestoreParty(int telefono, String nome, String cognome, String email, String password, String tipoGestore) {
+    public GestoreParty(String telefono, String nome, String cognome, String email, String password, String tipoGestore) {
         super(telefono, nome, cognome, email, password, tipoGestore);
         party = new HashSet<Party>();
     }

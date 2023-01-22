@@ -52,5 +52,14 @@ public class Pacchetto {
         this.flag = flag;
     }
 
-
+    @Override
+    public String toString() {
+        return "Pacchetto{" +
+                "id=" + id +
+                ", titolo='" + titolo + '\'' +
+                ", eventiConsigliati='" + eventiConsigliati + '\'' +
+                ", prezzo=" + prezzo +
+                ", flag=" + flag +
+                '}';
+    }
 }

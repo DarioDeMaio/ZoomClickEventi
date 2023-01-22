@@ -8,7 +8,7 @@ public class Contabile extends Gestore {
 
     private HashSet<Party> party;
 
-    public Contabile(int telefono, String nome, String cognome, String email, String password, String tipoGestore) {
+    public Contabile(String telefono, String nome, String cognome, String email, String password, String tipoGestore) {
         super(telefono, nome, cognome, email, password, tipoGestore);
         party = new HashSet<>();
     }
