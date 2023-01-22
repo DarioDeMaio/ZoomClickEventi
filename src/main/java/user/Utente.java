@@ -2,10 +2,10 @@ package user;
 
 public class Utente {
 
-    private int id, telefono;
-    private String nome, cognome, email, password;
+    private int id;
+    private String nome, cognome, email, password, telefono;
 
-    public Utente(int telefono, String nome, String cognome, String email, String password) {
+    public Utente(String nome, String cognome, String email, String password, String telefono) {
 
         this.telefono = telefono;
         this.nome = nome;
@@ -22,11 +22,11 @@ public class Utente {
         this.id = id;
     }
 
-    public int getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
