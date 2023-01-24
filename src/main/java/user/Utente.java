@@ -1,10 +1,16 @@
 package user;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class Utente {
 
     private int id;
     private String nome, cognome, email, password, telefono;
 
+    public Utente(){}
     public Utente(String nome, String cognome, String email, String password, String telefono) {
 
         this.telefono = telefono;
@@ -59,6 +65,15 @@ public class Utente {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        try
+        {
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            digest.reset();
+            digest.update(password.getBytes(StandardCharsets.UTF_8));
+            this.password = String.format("%040x", new BigInteger(1, digest.digest()));
+        }
+        catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,6 +1,8 @@
 package user;
 
 import connection.ConPool;
+import employee.EmployeeManager;
+import party.Artista;
 
 
 import java.sql.*;
@@ -80,4 +82,66 @@ public class UserManager {
     {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
+
+    public Utente login(String email, String pwd)
+    {
+        try(Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM utente WHERE email=? AND password=SHA1(?)");
+            ps.setString(1, email);
+            ps.setString(2, pwd);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next())
+            {
+                Utente u = new Utente();
+                u.setId(rs.getInt(1));
+                u.setNome(rs.getString(2));
+                u.setCognome(rs.getString(3));
+                u.setEmail(rs.getString(4));
+                u.setPassword(rs.getString(5));
+                u.setTelefono(rs.getString(6));
+
+                if(isCliente(u)) {
+                    Cliente c = (Cliente) u;
+                    return c;
+                }else {
+                    Artista a = EmployeeManager.isArtista(u);
+                    if(a != null)
+                    {
+                        return a;
+                    }else{
+                        Gestore g = (Gestore) EmployeeManager.isGestore(u);
+                        return g;
+                    }
+                }
+            }else
+                return null;
+        }catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private boolean isCliente(Utente u)
+    {
+        try(Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("SELECT u.id\n" +
+                    "FROM utente AS u\n" +
+                    "WHERE u.id IN (\n" +
+                    "\tselect c.idCliente\n" +
+                    "    FROM cliente AS c\n" +
+                    "    WHERE c.idCliente=u.id AND u.id=?\n" +
+                    ")");
+            ps.setInt(1, u.getId());
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next())
+            {
+                return true;
+            }else
+                return false;
+        }catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }
