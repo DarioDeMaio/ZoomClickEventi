@@ -9,22 +9,48 @@ import java.util.HashSet;
 
 public class Party {
     private int id;
-    private String tipo, nomeLocale;
+    private String tipo, nomeLocale, citta;
     private Date data, dataPrenotazione;
-    private String stato;
-    private double prezzoPacchetto;
+    private String stato, servizi;
     private HashMap<Artista, Double> artisti;
     private HashMap<Fornitore, Double> fornitori;
+    private Pacchetto pacchetto;
 
-    public Party(String tipo, String nomeLocale, Date data, Date dataPrenotazione, String stato, double prezzoPacchetto) {
-        this.tipo = tipo;
+    public Party(String tipo, String nomeLocale, String citta, Date data, Date dataPrenotazione, String stato, String servizi, Pacchetto pacchetto) {
+       this.tipo = tipo;
         this.nomeLocale = nomeLocale;
+        this.citta = citta;
         this.data = data;
         this.dataPrenotazione = dataPrenotazione;
         this.stato = stato;
-        this.prezzoPacchetto = prezzoPacchetto;
-        this.artisti = new HashMap<Artista, Double>();
-        this.fornitori = new HashMap<Fornitore, Double>();
+        this.servizi = servizi;
+        this.artisti = new HashMap<>();
+        this.fornitori = new HashMap<>();
+        this.pacchetto = pacchetto;
+    }
+
+    public String getCitta() {
+        return citta;
+    }
+
+    public void setCitta(String citta) {
+        this.citta = citta;
+    }
+
+    public String getServizi() {
+        return servizi;
+    }
+
+    public void setServizi(String servizi) {
+        this.servizi = servizi;
+    }
+
+    public Pacchetto getPacchetto() {
+        return pacchetto;
+    }
+
+    public void setPacchetto(Pacchetto pacchetto) {
+        this.pacchetto = pacchetto;
     }
 
     public int getId() {
@@ -75,12 +101,12 @@ public class Party {
         this.stato = stato;
     }
 
-    public double getPrezzoPacchetto() {
-        return prezzoPacchetto;
+    public Pacchetto getPrezzoPacchetto() {
+        return pacchetto;
     }
 
-    public void setPrezzoPacchetto(double prezzoPacchetto) {
-        this.prezzoPacchetto = prezzoPacchetto;
+    public void setPrezzoPacchetto(Pacchetto prezzoPacchetto) {
+        this.pacchetto = prezzoPacchetto;
     }
 
     public HashMap<Artista, Double> getArtisti() {

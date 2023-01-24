@@ -8,26 +8,27 @@ import java.util.HashSet;
 
 public class PacchettoManager {
 
-    public PacchettoManager(){
-
-    }
-    public boolean insertPacchetto(String titolo, String eventoConsigliato, double prezzo) {
+    public static Pacchetto insertPacchetto(Pacchetto p) {
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO pacchetti (titolo, eventiConsigliati, prezzo, flag) VALUES (?, ?, ?, ?)");
-            ps.setString(1,titolo);
-            ps.setString(2, eventoConsigliato);
-            ps.setDouble(3, prezzo);
+            PreparedStatement ps = con.prepareStatement("INSERT INTO pacchetti (titolo, eventiConsigliati, prezzo, flag) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1,p.getTitolo());
+            ps.setString(2, p.getEventiConsigliati());
+            ps.setDouble(3, p.getPrezzo());
             ps.setInt(4, 1);
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }
-            return true;
+            ResultSet rs= ps.getGeneratedKeys();
+            rs.next();
+            int idPacchetto = rs.getInt(1);
+            p.setId(idPacchetto);
+            return p;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void updatePacchetto(int id, String eventoConsigliato, double prezzo) {
+    public static void updatePacchetto(int id, String eventoConsigliato, double prezzo) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("UPDATE pacchetti SET eventiConsigliati=?, prezzo=? WHERE id=?");
             ps.setString(1,eventoConsigliato);
@@ -42,7 +43,7 @@ public class PacchettoManager {
         }
     }
 
-    public void deletePacchetto(int id){
+    public static void deletePacchetto(int id){
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("UPDATE pacchetti SET flag=? WHERE id=?");
             ps.setInt(1, 0);
@@ -55,7 +56,7 @@ public class PacchettoManager {
         }
     }
 
-    public Pacchetto findByid(int id){
+    public static Pacchetto findByid(int id){
         Pacchetto p;
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM  pacchetti WHERE id=?");
@@ -69,7 +70,7 @@ public class PacchettoManager {
         return p;
     }
 
-    public HashSet<Pacchetto> retrieveAll(){
+    public static HashSet<Pacchetto> retrieveAll(){
 
         HashSet<Pacchetto> collection = new HashSet<>();
         try (Connection con = ConPool.getConnection()) {
