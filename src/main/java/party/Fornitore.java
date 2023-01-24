@@ -1,10 +1,10 @@
 package party;
 
 public class Fornitore {
-    private int id, telefono;
-    private String nomeAzienda, proprietario, tipoFornitore;
+    private int id;
+    private String nomeAzienda, proprietario, tipoFornitore, telefono;
 
-    public Fornitore(int telefono, String nomeAzienda, String proprietario, String tipoFornitore) {
+    public Fornitore(String telefono, String nomeAzienda, String proprietario, String tipoFornitore) {
 
         this.telefono = telefono;
         this.nomeAzienda = nomeAzienda;
@@ -20,11 +20,11 @@ public class Fornitore {
         this.id = id;
     }
 
-    public int getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 

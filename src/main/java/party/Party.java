@@ -9,22 +9,48 @@ import java.util.HashSet;
 
 public class Party {
     private int id;
-    private String tipo, nomeLocale;
+    private String tipo, nomeLocale, citta;
     private Date data, dataPrenotazione;
-    private String stato;
+    private String stato, servizi;
     private Pacchetto pacchetto;
     private HashMap<Artista, Double> artisti;
     private HashMap<Fornitore, Double> fornitori;
 
-    public Party(String tipo, String nomeLocale, Date data, Date dataPrenotazione, String stato, Pacchetto pacchetto) {
+    public Party(String tipo, String nomeLocale, String citta, Date data, Date dataPrenotazione, String stato, String servizi, Pacchetto pacchetto) {
         this.tipo = tipo;
         this.nomeLocale = nomeLocale;
+        this.citta = citta;
         this.data = data;
         this.dataPrenotazione = dataPrenotazione;
         this.stato = stato;
+        this.servizi = servizi;
+        this.artisti = new HashMap<>();
+        this.fornitori = new HashMap<>();
         this.pacchetto = pacchetto;
-        this.artisti = new HashMap<Artista, Double>();
-        this.fornitori = new HashMap<Fornitore, Double>();
+    }
+
+    public String getCitta() {
+        return citta;
+    }
+
+    public void setCitta(String citta) {
+        this.citta = citta;
+    }
+
+    public String getServizi() {
+        return servizi;
+    }
+
+    public void setServizi(String servizi) {
+        this.servizi = servizi;
+    }
+
+    public Pacchetto getPacchetto() {
+        return pacchetto;
+    }
+
+    public void setPacchetto(Pacchetto pacchetto) {
+        this.pacchetto = pacchetto;
     }
 
     public int getId() {
@@ -73,14 +99,6 @@ public class Party {
 
     public void setStato(String stato) {
         this.stato = stato;
-    }
-
-    public Pacchetto getPrezzoPacchetto() {
-        return pacchetto;
-    }
-
-    public void setPrezzoPacchetto(Pacchetto pacchetto) {
-        this.pacchetto = pacchetto;
     }
 
     public HashMap<Artista, Double> getArtisti() {
