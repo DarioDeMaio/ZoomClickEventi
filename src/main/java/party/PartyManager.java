@@ -29,7 +29,7 @@ public class PartyManager {
         }
     }
 
-    public HashSet<Party> retrieveAll(){
+    /*public HashSet<Party> retrieveAll(){
         HashSet<Party> collection = new HashSet<>();
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM  party");
@@ -55,7 +55,7 @@ public class PartyManager {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Party p;
-                p = new Party(rs.getString("tipo"), rs.getString("nomeLocale"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"), rs.getDouble("prezzo"));
+                p = new Party(rs.getString("tipo"), rs.getString("nomeLocale"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"), new Pacchetto());
                 p.setId(rs.getInt("id"));
                 collection.put(p,rs.getDouble("prezzo"));
             }
@@ -63,19 +63,21 @@ public class PartyManager {
             throw new RuntimeException(e);
         }
         return collection;
-    }
+    }*/
 
-    public void prenotaParty(String servizi, String tipoEvento, String città, String nomeLocale, Date dataEvento, java.util.Date dataPrenotazione, int idPacchetto, int idCliente){
+    public void prenotaParty(String servizi, String tipoEvento, String città, String nomeLocale, Date dataEvento, java.util.Date dataPrenotazione, Pacchetto pacchetto, int idCliente){
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO party (tipo, data, dataPrenotazione, nomeLocale, servizi, stato, idPacchetto, idCliente) VALUES (?, ?, ?, ?,?,?,?,?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO party (tipo, data, dataPrenotazione, nomeLocale, servizi, stato, idPacchetto, idCliente, prezzoPacchetto) VALUES (?, ?, ?, ?, ?,?,?,?,?)");
             ps.setString(1,tipoEvento);
             ps.setDate(2,dataEvento);
             ps.setDate(3, (Date) dataPrenotazione);
             ps.setString(4, nomeLocale);
             ps.setString(5, servizi);
             ps.setString(6,"In attesa");
-            ps.setInt(7,idPacchetto);
-            ps.setInt(8,idPacchetto);
+            ps.setInt(7, pacchetto.getId());
+            ps.setInt(8, idCliente);
+            ps.setDouble(9, pacchetto.getPrezzo());
+
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }

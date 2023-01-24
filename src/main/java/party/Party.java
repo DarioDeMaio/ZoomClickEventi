@@ -12,17 +12,17 @@ public class Party {
     private String tipo, nomeLocale;
     private Date data, dataPrenotazione;
     private String stato;
-    private double prezzoPacchetto;
+    private Pacchetto pacchetto;
     private HashMap<Artista, Double> artisti;
     private HashMap<Fornitore, Double> fornitori;
 
-    public Party(String tipo, String nomeLocale, Date data, Date dataPrenotazione, String stato, double prezzoPacchetto) {
+    public Party(String tipo, String nomeLocale, Date data, Date dataPrenotazione, String stato, Pacchetto pacchetto) {
         this.tipo = tipo;
         this.nomeLocale = nomeLocale;
         this.data = data;
         this.dataPrenotazione = dataPrenotazione;
         this.stato = stato;
-        this.prezzoPacchetto = prezzoPacchetto;
+        this.pacchetto = pacchetto;
         this.artisti = new HashMap<Artista, Double>();
         this.fornitori = new HashMap<Fornitore, Double>();
     }
@@ -75,12 +75,12 @@ public class Party {
         this.stato = stato;
     }
 
-    public double getPrezzoPacchetto() {
-        return prezzoPacchetto;
+    public Pacchetto getPrezzoPacchetto() {
+        return pacchetto;
     }
 
-    public void setPrezzoPacchetto(double prezzoPacchetto) {
-        this.prezzoPacchetto = prezzoPacchetto;
+    public void setPrezzoPacchetto(Pacchetto pacchetto) {
+        this.pacchetto = pacchetto;
     }
 
     public HashMap<Artista, Double> getArtisti() {
