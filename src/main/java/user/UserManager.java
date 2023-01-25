@@ -1,14 +1,13 @@
 package user;
 
 import connection.ConPool;
-import employee.EmployeeManager;
+import pacchetto.GestorePacchetti;
 import party.Artista;
+import party.Contabile;
+import party.GestoreParty;
 
 
 import java.sql.*;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class UserManager {
 
@@ -30,12 +29,158 @@ public class UserManager {
             ResultSet rs= ps.getGeneratedKeys();
             rs.next();
             int idUtente = rs.getInt(1);
-            System.out.println(idUtente);
 
             Utente u = new Utente(nome, cognome, email, password, telefono);
             u.setId(idUtente);
 
             return u;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Utente insertImpiegato(Utente u, String tipoGestore, String tipoArtista)
+    {
+        try (Connection con = ConPool.getConnection()) {
+            u=insertUser(u.getNome(), u.getCognome(), u.getEmail(), u.getPassword(), u.getTelefono());
+
+            if(tipoGestore=="artista")
+            {
+                PreparedStatement ps = con.prepareStatement("INSERT INTO artista (idArtista, tipoArtista) VALUES (?, ?)");
+                ps.setInt(1, u.getId());
+                ps.setString(2, tipoArtista);
+
+                if (ps.executeUpdate() != 1)
+                {
+                    throw new RuntimeException("INSERT error.");
+                }
+
+                Artista a = (Artista) u;
+                a.setId(u.getId());
+                a.setTipoArtista(tipoArtista);
+                return a;
+            }else{
+                Gestore g = insertGestore(u, tipoGestore);
+                if(g.getTipoGestore()=="contabile")
+                {
+                    Contabile c = insertContabile(g);
+                    return c;
+                }else if(g.getTipoGestore()=="impiegati")
+                {
+                    GestoreImpiegati gi = insertGestoreImpiegati(g);
+                    return gi;
+                }else if(g.getTipoGestore()=="pacchetti")
+                {
+                    GestorePacchetti gp = insertGestorePacchetti(g);
+                    return gp;
+                }else{
+                    GestoreParty gParty = insertGestoreParty(g);
+                    return gParty;
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static Gestore insertGestore(Utente u, String tipoGestore)
+    {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("INSERT INTO gestore (idGestore, tipoGestore) VALUES (?, ?)");
+            ps.setInt(1, u.getId());
+            ps.setString(2, tipoGestore);
+
+            if (ps.executeUpdate() != 1)
+            {
+                throw new RuntimeException("INSERT error.");
+            }
+
+            Gestore g = (Gestore) u;
+            g.setId(u.getId());
+            g.setTipoGestore(tipoGestore);
+
+            return g;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static Contabile insertContabile(Gestore g)
+    {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("INSERT INTO contabile (idContabile) VALUES (?)");
+            ps.setInt(1, g.getId());
+
+            if (ps.executeUpdate() != 1)
+            {
+                throw new RuntimeException("INSERT error.");
+            }
+
+            Contabile c = (Contabile) g;
+            c.setId(g.getId());
+
+            return c;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static GestoreParty insertGestoreParty(Gestore g)
+    {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("INSERT INTO gestoreParty (idGestoreParty) VALUES (?)");
+            ps.setInt(1, g.getId());
+
+            if (ps.executeUpdate() != 1)
+            {
+                throw new RuntimeException("INSERT error.");
+            }
+
+            GestoreParty gParty = (GestoreParty) g;
+            gParty.setId(g.getId());
+
+            return gParty;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static GestoreImpiegati insertGestoreImpiegati(Gestore g)
+    {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("INSERT INTO gestoreImpiegati (idGestoreImpiegati) VALUES (?)");
+            ps.setInt(1, g.getId());
+
+            if (ps.executeUpdate() != 1)
+            {
+                throw new RuntimeException("INSERT error.");
+            }
+
+            GestoreImpiegati gi = (GestoreImpiegati) g;
+            gi.setId(g.getId());
+
+            return gi;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static GestorePacchetti insertGestorePacchetti(Gestore g)
+    {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("INSERT INTO gestorePacchetti (idGestorePacchetti) VALUES (?)");
+            ps.setInt(1, g.getId());
+
+            if (ps.executeUpdate() != 1)
+            {
+                throw new RuntimeException("INSERT error.");
+            }
+
+            GestorePacchetti gPacchetti = (GestorePacchetti) g;
+            gPacchetti.setId(g.getId());
+
+            return gPacchetti;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -104,12 +249,12 @@ public class UserManager {
                     Cliente c = (Cliente) u;
                     return c;
                 }else {
-                    Artista a = EmployeeManager.isArtista(u);
+                    Artista a = isArtista(u);
                     if(a != null)
                     {
                         return a;
                     }else{
-                        Gestore g = (Gestore) EmployeeManager.isGestore(u);
+                        Gestore g = (Gestore) isGestore(u);
                         return g;
                     }
                 }
@@ -138,6 +283,56 @@ public class UserManager {
                 return true;
             }else
                 return false;
+        }catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static Artista isArtista(Utente u)
+    {
+        try(Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("SELECT u.id, a.tipoArtista \n" +
+                    "FROM utente AS u, artista AS a\n" +
+                    "WHERE u.id IN (\n" +
+                    "\tselect a.idArtista\n" +
+                    "    WHERE a.idArtista=u.id AND u.id=?\n" +
+                    ")");
+            ps.setInt(1, u.getId());
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next())
+            {
+                Artista a = (Artista) u;
+                a.setTipoArtista(rs.getString("tipoArtista"));
+                return a;
+            }else
+                return null;
+        }catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static Gestore isGestore(Utente u)
+    {
+        try(Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("SELECT u.id, g.tipoGestore\n" +
+                    "FROM utente AS u, gestore AS g\n" +
+                    "WHERE u.id IN (\n" +
+                    "\tselect g.idgestore\n" +
+                    "    WHERE g.idgestore=u.id AND u.id=?\n" +
+                    ")");
+            ps.setInt(1, u.getId());
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next())
+            {
+                String tipoGestore = rs.getString("tipoGestore");
+                Gestore g = (Gestore) u;
+                g.setTipoGestore(tipoGestore);
+                return g;
+            }else
+                return null;
+
         }catch(SQLException e) {
             throw new RuntimeException(e);
         }

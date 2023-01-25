@@ -1,11 +1,14 @@
 package user;
 
+import party.Artista;
+
 import java.util.HashSet;
 import java.util.Set;
 
 public class GestoreImpiegati extends Gestore{
 
     private HashSet<Gestore> impiegati;
+    private HashSet<Artista> artisti;
 
     public GestoreImpiegati(String telefono, String nome, String cognome, String email, String password, String tipoGestore) {
         super(telefono, nome, cognome, email, password, tipoGestore);
@@ -21,5 +24,15 @@ public class GestoreImpiegati extends Gestore{
     public void setImpiegati(HashSet<Gestore> impiegati) {
 
         this.impiegati = impiegati;
+    }
+
+    public HashSet<Artista> getArtisti() {
+
+        return artisti;
+    }
+
+    public void setArtisti(HashSet<Artista> artisti) {
+
+        this.artisti = artisti;
     }
 }
