@@ -3,6 +3,7 @@ package party;
 import connection.ConPool;
 import pacchetto.Pacchetto;
 import pacchetto.PacchettoManager;
+import user.UserManager;
 
 import java.sql.*;
 import java.util.Date;
@@ -37,7 +38,7 @@ public class PartyManager {
 
             while (rs.next()) {
                 int idPacchetto = rs.getInt("idPacchetto");
-                Pacchetto pacchetto = PacchettoManager.findPacchettoById(idPacchetto);
+                Pacchetto pacchetto = UserManager.findPacchettoById(idPacchetto);
                 Party p;
                 p = new Party(rs.getString("tipo"), rs.getString("nomeLocale"), rs.getString("citta"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"),rs.getString("servizi"), pacchetto);
                 p.setId(rs.getInt("id"));
@@ -62,7 +63,7 @@ public class PartyManager {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int idPacchetto = rs.getInt("idPacchetto");
-                Pacchetto pacchetto = PacchettoManager.findPacchettoById(idPacchetto);
+                Pacchetto pacchetto = UserManager.findPacchettoById(idPacchetto);
                 Party p;
                 p = new Party(rs.getString("tipo"), rs.getString("nomeLocale"), rs.getString("citta"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"),rs.getString("servizi"), pacchetto);
                 p.setId(rs.getInt("id"));

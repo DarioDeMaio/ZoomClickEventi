@@ -70,35 +70,5 @@ public class PacchettoManager {
         return p;
     }
 
-    public static HashSet<Pacchetto> retrieveAll(){
-
-        HashSet<Pacchetto> collection = new HashSet<>();
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM  pacchetti");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Pacchetto p = new Pacchetto(rs.getString("titolo"), rs.getString("eventiConsigliati"), rs.getDouble("prezzo"), rs.getInt("flag"));
-                p.setId(rs.getInt("id"));
-                collection.add(p);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return collection;
-    }
-
-    public static Pacchetto findPacchettoById(int id){
-        Pacchetto p;
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM  pacchetti WHERE id=?");
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            p = new Pacchetto(rs.getString("titolo"), rs.getString("eventiConsigliati"), rs.getDouble("prezzo"), rs.getInt("flag"));
-            p.setId(rs.getInt("id"));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return p;
-    }
 
 }
