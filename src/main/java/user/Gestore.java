@@ -8,4 +8,8 @@ public class Gestore extends Utente{
         super(telefono, nome, cognome, email, password);
         this.tipoGestore = tipoGestore;
     }
+
+    public void setTipoGestore(String tipo){this.tipoGestore=tipo;}
+
+    public String getTipoGestore(){ return this.tipoGestore;}
 }

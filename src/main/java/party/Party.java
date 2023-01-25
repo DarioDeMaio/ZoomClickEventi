@@ -12,12 +12,12 @@ public class Party {
     private String tipo, nomeLocale, citta;
     private Date data, dataPrenotazione;
     private String stato, servizi;
+    private Pacchetto pacchetto;
     private HashMap<Artista, Double> artisti;
     private HashMap<Fornitore, Double> fornitori;
-    private Pacchetto pacchetto;
 
     public Party(String tipo, String nomeLocale, String citta, Date data, Date dataPrenotazione, String stato, String servizi, Pacchetto pacchetto) {
-       this.tipo = tipo;
+        this.tipo = tipo;
         this.nomeLocale = nomeLocale;
         this.citta = citta;
         this.data = data;
