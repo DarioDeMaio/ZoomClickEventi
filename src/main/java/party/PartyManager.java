@@ -2,6 +2,7 @@ package party;
 
 import connection.ConPool;
 import pacchetto.Pacchetto;
+import pacchetto.PacchettoManager;
 
 import java.sql.*;
 import java.util.Date;
@@ -36,7 +37,7 @@ public class PartyManager {
 
             while (rs.next()) {
                 int idPacchetto = rs.getInt("idPacchetto");
-                Pacchetto pacchetto = findPacchettoByid(idPacchetto);
+                Pacchetto pacchetto = PacchettoManager.findPacchettoById(idPacchetto);
                 Party p;
                 p = new Party(rs.getString("tipo"), rs.getString("nomeLocale"), rs.getString("citta"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"),rs.getString("servizi"), pacchetto);
                 p.setId(rs.getInt("id"));
@@ -61,7 +62,7 @@ public class PartyManager {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int idPacchetto = rs.getInt("idPacchetto");
-                Pacchetto pacchetto = findPacchettoByid(idPacchetto);
+                Pacchetto pacchetto = PacchettoManager.findPacchettoById(idPacchetto);
                 Party p;
                 p = new Party(rs.getString("tipo"), rs.getString("nomeLocale"), rs.getString("citta"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"),rs.getString("servizi"), pacchetto);
                 p.setId(rs.getInt("id"));
@@ -74,7 +75,7 @@ public class PartyManager {
         return collection;
     }
 
-    public static int prenotaParty(Party p, int idCliente){
+    public static void prenotaParty(Party p, int idCliente){
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("INSERT INTO party (tipo, data, dataPrenotazione, nomeLocale, servizi, stato, idPacchetto, idCliente, prezzoPacchetto, citta) VALUES (?, ?, ?, ?, ?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1,p.getTipo());
@@ -93,7 +94,7 @@ public class PartyManager {
             ResultSet rs= ps.getGeneratedKeys();
             rs.next();
             int idParty = rs.getInt(1);
-            return idParty;
+            p.setId(idParty);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -112,21 +113,7 @@ public class PartyManager {
         }
     }
 
-    private static Pacchetto findPacchettoByid(int id){
-        Pacchetto p;
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM  pacchetti WHERE id=?");
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            p = new Pacchetto(rs.getString("titolo"), rs.getString("eventiConsigliati"), rs.getDouble("prezzo"), rs.getInt("flag"));
-            p.setId(rs.getInt("id"));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return p;
-    }
-
-    private static HashMap<Artista,Double> findArtistaByIdParty(int idParty){
+    public static HashMap<Artista,Double> findArtistaByIdParty(int idParty){
 
         HashMap<Artista,Double> collection = new HashMap<>();
         try (Connection con = ConPool.getConnection()) {
@@ -146,7 +133,7 @@ public class PartyManager {
         return collection;
     }
 
-    private static HashMap<Fornitore,Double> findFornitoreByIdParty(int idParty){
+    public static HashMap<Fornitore,Double> findFornitoreByIdParty(int idParty){
 
         HashMap<Fornitore,Double> collection = new HashMap<>();
         try (Connection con = ConPool.getConnection()) {

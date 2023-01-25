@@ -101,14 +101,6 @@ public class Party {
         this.stato = stato;
     }
 
-    public Pacchetto getPrezzoPacchetto() {
-        return pacchetto;
-    }
-
-    public void setPrezzoPacchetto(Pacchetto prezzoPacchetto) {
-        this.pacchetto = prezzoPacchetto;
-    }
-
     public HashMap<Artista, Double> getArtisti() {
         return artisti;
     }
