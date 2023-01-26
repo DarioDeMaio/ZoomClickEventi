@@ -47,7 +47,7 @@ public class PacchettoManager {
 
         HashSet<Pacchetto> collection = new HashSet<>();
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM  pacchetti");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM  pacchetti WHERE flag=1");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Pacchetto p = new Pacchetto(rs.getString("titolo"), rs.getString("eventiConsigliati"), rs.getDouble("prezzo"), rs.getInt("flag"));
@@ -73,10 +73,10 @@ public class PacchettoManager {
         }
     }
 
-    public static Pacchetto findByid(int id){
+    public static Pacchetto findPacchettoByid(int id){
         Pacchetto p;
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM  pacchetti WHERE id=?");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM  pacchetti WHERE id=? and flag=1");
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             p = new Pacchetto(rs.getString("titolo"), rs.getString("eventiConsigliati"), rs.getDouble("prezzo"), rs.getInt("flag"));

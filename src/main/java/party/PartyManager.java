@@ -38,12 +38,12 @@ public class PartyManager {
 
             while (rs.next()) {
                 int idPacchetto = rs.getInt("idPacchetto");
-                Pacchetto pacchetto = UserManager.findPacchettoById(idPacchetto);
+                Pacchetto pacchetto = PacchettoManager.findPacchettoByid(idPacchetto);
                 Party p;
                 p = new Party(rs.getString("tipo"), rs.getString("nomeLocale"), rs.getString("citta"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"),rs.getString("servizi"), pacchetto);
                 p.setId(rs.getInt("id"));
-                p.setArtisti(findArtistaByIdParty(p.getId()));
-                p.setFornitori(findFornitoreByIdParty(p.getId()));
+                p.setArtisti(UserManager.findArtistaByIdParty(p.getId()));
+                p.setFornitori(UserManager.findFornitoreByIdParty(p.getId()));
                 collection.add(p);
             }
         } catch (SQLException e) {
@@ -63,11 +63,11 @@ public class PartyManager {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int idPacchetto = rs.getInt("idPacchetto");
-                Pacchetto pacchetto = UserManager.findPacchettoById(idPacchetto);
+                Pacchetto pacchetto = PacchettoManager.findPacchettoByid(idPacchetto);
                 Party p;
                 p = new Party(rs.getString("tipo"), rs.getString("nomeLocale"), rs.getString("citta"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"),rs.getString("servizi"), pacchetto);
                 p.setId(rs.getInt("id"));
-                p.setArtisti(findArtistaByIdParty(p.getId()));
+                p.setArtisti(UserManager.findArtistaByIdParty(p.getId()));
                 collection.put(p,rs.getDouble("prezzoPacchetto"));
             }
         } catch (SQLException e) {
@@ -114,44 +114,5 @@ public class PartyManager {
         }
     }
 
-    public static HashMap<Artista,Double> findArtistaByIdParty(int idParty){
-
-        HashMap<Artista,Double> collection = new HashMap<>();
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("select ingaggio.prezzo, artista.tipoArtista, utente.id, utente.nome, utente.cognome, utente.email, utente.telefono, utente.password\n" +
-                    "from artista, ingaggio, utente\n" +
-                    "where ingaggio.idParty=? AND utente.id = ingaggio.idArtista AND ingaggio.idArtista = artista.idArtista");
-            ps.setInt(1, idParty);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                Artista a = new Artista(rs.getString("telefono"), rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("tipoArtista"));
-                a.setId(rs.getInt("id"));
-                collection.put(a,rs.getDouble("prezzo"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return collection;
-    }
-
-    public static HashMap<Fornitore,Double> findFornitoreByIdParty(int idParty){
-
-        HashMap<Fornitore,Double> collection = new HashMap<>();
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("select richiede.prezzo, fornitori.id, fornitori.nomeAzienda, fornitori.proprietario, fornitori.telefono, fornitori.tipoFornitore\n" +
-                    "from richiede, fornitori, party\n" +
-                    "where party.id=? AND richiede.idParty = party.id AND fornitori.id=richiede.idFornitore");
-            ps.setInt(1, idParty);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                Fornitore f = new Fornitore(rs.getString("telefono"), rs.getString("nomeAzienda"), rs.getString("proprietario"), rs.getString("tipoFornitore"));
-                f.setId(rs.getInt("id"));
-                collection.put(f,rs.getDouble("prezzo"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return collection;
-    }
 
 }

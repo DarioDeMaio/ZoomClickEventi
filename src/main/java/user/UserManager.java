@@ -5,10 +5,12 @@ import pacchetto.GestorePacchetti;
 import pacchetto.Pacchetto;
 import party.Artista;
 import party.Contabile;
+import party.Fornitore;
 import party.GestoreParty;
 
 
 import java.sql.*;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class UserManager {
@@ -340,20 +342,45 @@ public class UserManager {
         }
     }
 
+    public static HashMap<Artista,Double> findArtistaByIdParty(int idParty){
 
-
-    public static Pacchetto findPacchettoById(int id){
-        Pacchetto p;
+        HashMap<Artista,Double> collection = new HashMap<>();
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM  pacchetti WHERE id=?");
-            ps.setInt(1, id);
+            PreparedStatement ps = con.prepareStatement("select ingaggio.prezzo, artista.tipoArtista, utente.id, utente.nome, utente.cognome, utente.email, utente.telefono, utente.password\n" +
+                    "from artista, ingaggio, utente\n" +
+                    "where ingaggio.idParty=? AND utente.id = ingaggio.idArtista AND ingaggio.idArtista = artista.idArtista");
+            ps.setInt(1, idParty);
             ResultSet rs = ps.executeQuery();
-            p = new Pacchetto(rs.getString("titolo"), rs.getString("eventiConsigliati"), rs.getDouble("prezzo"), rs.getInt("flag"));
-            p.setId(rs.getInt("id"));
+            while(rs.next()){
+                Artista a = new Artista(rs.getString("telefono"), rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("tipoArtista"));
+                a.setId(rs.getInt("id"));
+                collection.put(a,rs.getDouble("prezzo"));
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return p;
+        return collection;
     }
+
+    public static HashMap<Fornitore,Double> findFornitoreByIdParty(int idParty){
+
+        HashMap<Fornitore,Double> collection = new HashMap<>();
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("select richiede.prezzo, fornitori.id, fornitori.nomeAzienda, fornitori.proprietario, fornitori.telefono, fornitori.tipoFornitore\n" +
+                    "from richiede, fornitori, party\n" +
+                    "where party.id=? AND richiede.idParty = party.id AND fornitori.id=richiede.idFornitore");
+            ps.setInt(1, idParty);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Fornitore f = new Fornitore(rs.getString("telefono"), rs.getString("nomeAzienda"), rs.getString("proprietario"), rs.getString("tipoFornitore"));
+                f.setId(rs.getInt("id"));
+                collection.put(f,rs.getDouble("prezzo"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return collection;
+    }
+
 
 }
