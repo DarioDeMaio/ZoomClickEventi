@@ -2,6 +2,8 @@ package user.bean;
 
 import party.bean.Artista;
 
+import party.Artista;
+
 import java.util.HashSet;
 
 public class GestoreImpiegati extends Gestore{
