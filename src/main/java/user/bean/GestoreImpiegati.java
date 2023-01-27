@@ -2,7 +2,7 @@ package user.bean;
 
 import party.bean.Artista;
 
-import party.Artista;
+import party.bean.Artista;
 
 import java.util.HashSet;
 
