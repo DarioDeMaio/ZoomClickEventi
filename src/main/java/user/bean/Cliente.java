@@ -11,10 +11,6 @@ public class Cliente extends Utente{
         super(nome, cognome, email, password, telefono);
     }
 
-    public HashSet<Party> getPartiesInCorso() {
-        return parties;
-    }
-
     public HashSet<Party> getParties() {
         return parties;
     }

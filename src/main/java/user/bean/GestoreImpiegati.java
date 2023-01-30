@@ -7,14 +7,13 @@ import party.bean.GestoreParty;
 
 import java.util.HashSet;
 
-
 public class GestoreImpiegati extends Gestore{
 
     private HashSet<Gestore> impiegati;
     private HashSet<Artista> artisti;
 
-    public GestoreImpiegati(String telefono, String nome, String cognome, String email, String password, String tipoGestore) {
-        super(telefono, nome, cognome, email, password, tipoGestore);
+    public GestoreImpiegati(String nome, String cognome, String email, String password, String telefono, String tipoGestore) {
+        super(nome, cognome, email, password, telefono, tipoGestore);
         impiegati = new HashSet<>();
     }
 
