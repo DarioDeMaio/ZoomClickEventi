@@ -42,7 +42,7 @@ public class PartyManager {
                 int idPacchetto = rs.getInt("idPacchetto");
                 Pacchetto pacchetto = PacchettoManager.findPacchettoByid(idPacchetto);
                 Party p;
-                p = new Party(rs.getString("tipo"), rs.getString("nomeLocale"), rs.getString("citta"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"),rs.getString("servizi"), pacchetto);
+                p = new Party(rs.getString("tipo"), rs.getString("nomeLocale"), rs.getString("citta"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"),rs.getString("servizi"), pacchetto, rs.getInt("idCliente"));
                 p.setId(rs.getInt("id"));
                 p.setArtisti(UserManager.findArtistaByIdParty(p.getId()));
                 p.setFornitori(UserManager.findFornitoreByIdParty(p.getId()));
@@ -59,7 +59,7 @@ public class PartyManager {
 
         HashMap<Party, Double> collection = new HashMap<>();
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT id, tipo, data, dataPrenotazione, nomeLocale, servizi, stato, prezzo, idPacchetto" +
+            PreparedStatement ps = con.prepareStatement("SELECT id, tipo, data, dataPrenotazione, nomeLocale, servizi, stato, prezzo, idPacchetto, idCliente" +
                     " FROM  party, ingaggio WHERE ingaggio.idArtista=?");
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();
@@ -67,7 +67,7 @@ public class PartyManager {
                 int idPacchetto = rs.getInt("idPacchetto");
                 Pacchetto pacchetto = PacchettoManager.findPacchettoByid(idPacchetto);
                 Party p;
-                p = new Party(rs.getString("tipo"), rs.getString("nomeLocale"), rs.getString("citta"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"),rs.getString("servizi"), pacchetto);
+                p = new Party(rs.getString("tipo"), rs.getString("nomeLocale"), rs.getString("citta"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"),rs.getString("servizi"), pacchetto, rs.getInt("idCliente"));
                 p.setId(rs.getInt("id"));
                 p.setArtisti(UserManager.findArtistaByIdParty(p.getId()));
                 collection.put(p,rs.getDouble("prezzoPacchetto"));
@@ -78,7 +78,7 @@ public class PartyManager {
         return collection;
     }
 
-    public static void prenotaParty(Party p, int idCliente){
+    public static void prenotaParty(Party p){
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("INSERT INTO party (tipo, data, dataPrenotazione, nomeLocale, servizi, stato, idPacchetto, idCliente, prezzoPacchetto, citta) VALUES (?, ?, ?, ?, ?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1,p.getTipo());
@@ -88,7 +88,7 @@ public class PartyManager {
             ps.setString(5, p.getServizi());
             ps.setString(6,"In attesa");
             ps.setInt(7,p.getPacchetto().getId());
-            ps.setInt(8,idCliente);
+            ps.setInt(8,p.getIdCliente());
             ps.setDouble(9,p.getPacchetto().getPrezzo());
             ps.setString(10,p.getCitta());
             if (ps.executeUpdate() != 1) {
@@ -148,6 +148,28 @@ public class PartyManager {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static HashSet<Party> findPartyByIdCliente(int idCliente){
+        HashSet<Party> collection = new HashSet<>();
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("SELECT *" +
+                    " FROM party WHERE idCliente = ?");
+            ps.setInt(1,idCliente);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int idPacchetto = rs.getInt("idPacchetto");
+                Pacchetto pacchetto = PacchettoManager.findPacchettoByid(idPacchetto);
+                Party p;
+                p = new Party(rs.getString("tipo"), rs.getString("nomeLocale"), rs.getString("citta"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"),rs.getString("servizi"), pacchetto, idCliente);
+                p.setId(rs.getInt("id"));
+                p.setArtisti(UserManager.findArtistaByIdParty(p.getId()));
+                collection.add(p);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return collection;
     }
 
 }
