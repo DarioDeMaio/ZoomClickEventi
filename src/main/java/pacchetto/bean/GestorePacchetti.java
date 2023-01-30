@@ -15,12 +15,22 @@ public class GestorePacchetti extends Gestore {
 
 
     public HashSet<Pacchetto> getPacchetti() {
-
         return pacchetti;
     }
 
     public void setPacchetti(HashSet<Pacchetto> pacchetti) {
-
         this.pacchetti = pacchetti;
     }
+
+    //metodi di business
+
+    public void addPacchetto(Pacchetto p){
+        if(!pacchetti.contains(p))
+            pacchetti.add(p);
+    }
+    public void deletePacchetto(Pacchetto p){
+        if(pacchetti.contains(p))
+            pacchetti.remove(p);
+    }
+
 }

@@ -3,8 +3,10 @@ package user.bean;
 import party.bean.Artista;
 
 import party.bean.Artista;
+import party.bean.GestoreParty;
 
 import java.util.HashSet;
+
 
 public class GestoreImpiegati extends Gestore{
 
@@ -33,7 +35,30 @@ public class GestoreImpiegati extends Gestore{
     }
 
     public void setArtisti(HashSet<Artista> artisti) {
-
         this.artisti = artisti;
     }
+
+    //metodi di business
+
+    public void addImpiegato(Gestore g){
+        if(!impiegati.contains(g))
+            impiegati.add(g);
+    }
+
+    public void removeImpiegato(int id){
+       Gestore g = findGestoreById(id);
+       if(g != null)
+        impiegati.remove(g);
+    }
+
+    private Gestore findGestoreById(int id){
+        for(Gestore g : impiegati)
+            if(g.getId()==id)
+                return g;
+        return null;
+    }
+
+
+
+
 }
