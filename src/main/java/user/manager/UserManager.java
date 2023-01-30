@@ -14,6 +14,7 @@ import user.bean.Utente;
 
 import java.sql.*;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class UserManager {
 
@@ -45,49 +46,32 @@ public class UserManager {
         }
     }
 
-    public static Utente insertImpiegato(Utente u, String tipoGestore, String tipoArtista)
+    public static Utente insertImpiegato(Utente u, String tipoGestore)
     {
         try (Connection con = ConPool.getConnection()) {
             u=insertUser(u.getNome(), u.getCognome(), u.getEmail(), u.getPassword(), u.getTelefono());
 
-            if(tipoGestore=="artista")
+            Gestore g = insertGestore(u, tipoGestore);
+            if(g.getTipoGestore()=="contabile")
             {
-                PreparedStatement ps = con.prepareStatement("INSERT INTO artista (idArtista, tipoArtista) VALUES (?, ?)");
-                ps.setInt(1, u.getId());
-                ps.setString(2, tipoArtista);
-
-                if (ps.executeUpdate() != 1)
-                {
-                    throw new RuntimeException("INSERT error.");
-                }
-
-                Artista a = (Artista) u;
-                a.setId(u.getId());
-                a.setTipoArtista(tipoArtista);
-                return a;
+                Contabile c = insertContabile(g);
+                return c;
+            }else if(g.getTipoGestore()=="impiegati")
+            {
+                GestoreImpiegati gi = insertGestoreImpiegati(g);
+                return gi;
+            }else if(g.getTipoGestore()=="pacchetti")
+            {
+                GestorePacchetti gp = insertGestorePacchetti(g);
+                return gp;
             }else{
-                Gestore g = insertGestore(u, tipoGestore);
-                if(g.getTipoGestore()=="contabile")
-                {
-                    Contabile c = insertContabile(g);
-                    return c;
-                }else if(g.getTipoGestore()=="impiegati")
-                {
-                    GestoreImpiegati gi = insertGestoreImpiegati(g);
-                    return gi;
-                }else if(g.getTipoGestore()=="pacchetti")
-                {
-                    GestorePacchetti gp = insertGestorePacchetti(g);
-                    return gp;
-                }else{
-                    GestoreParty gParty = insertGestoreParty(g);
-                    return gParty;
-                }
+                GestoreParty gParty = insertGestoreParty(g);
+                return gParty;
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     private static Gestore insertGestore(Utente u, String tipoGestore)
@@ -354,7 +338,7 @@ public class UserManager {
             ps.setInt(1, idParty);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                Artista a = new Artista(rs.getString("telefono"), rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("tipoArtista"));
+                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipoArtista"));
                 a.setId(rs.getInt("id"));
                 collection.put(a,rs.getDouble("prezzo"));
             }
@@ -404,5 +388,47 @@ public class UserManager {
         }
     }
 
+    public HashSet<Gestore> retrieveAllEmployee()
+    {
+        HashSet<Gestore> collection = new HashSet<Gestore>();
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, g.tipoGestore\n" +
+                    "FROM Gestore AS g, utente AS u\n" +
+                    "WHERE g.idGestore = u.id");
 
+            ResultSet rs= ps.executeQuery();
+
+            while(rs.next())
+            {
+                Gestore g = new Gestore(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipoGestore"));
+                g.setId(rs.getInt("id"));
+                collection.add(g);
+            }
+            return collection;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public HashSet<Artista> retrieveAllArtisti()
+    {
+        HashSet<Artista> collection = new HashSet<Artista>();
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, a.tipoArtista\n" +
+                    "FROM Artista AS a, utente AS u\n" +
+                    "WHERE a.idArtista = u.id");
+
+            ResultSet rs= ps.executeQuery();
+
+            while(rs.next())
+            {
+                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipoArtista"));
+                a.setId(rs.getInt("id"));
+                collection.add(a);
+            }
+            return collection;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

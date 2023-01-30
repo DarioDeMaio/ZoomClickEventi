@@ -7,20 +7,20 @@ import java.util.HashMap;
 public class Artista extends Utente {
 
     private String tipoArtista;
-    private HashMap<Party, Double> party;
+    private HashMap<Party, Double> parties;
 
-    public Artista(String telefono, String nome, String cognome, String email, String password, String tipoArtista) {
-        super(telefono, nome, cognome, email, password);
+    public Artista(String nome, String cognome, String email, String password, String telefono, String tipoArtista) {
+        super(nome, cognome, email, password, telefono);
         this.tipoArtista = tipoArtista;
-        party = new HashMap<Party, Double>();
+        parties = new HashMap<Party, Double>();
     }
 
-    public HashMap<Party, Double> getParty() {
-        return party;
+    public HashMap<Party, Double> getParties() {
+        return parties;
     }
 
-    public void setParty(HashMap<Party, Double> party) {
-        this.party = party;
+    public void setParties(HashMap<Party, Double> party) {
+        this.parties = party;
     }
     public String getTipoArtista() {
         return tipoArtista;
@@ -28,5 +28,14 @@ public class Artista extends Utente {
 
     public void setTipoArtista(String tipoArtista) {
         this.tipoArtista = tipoArtista;
+    }
+
+    public void addParty(Party p, double prezzo)
+    {
+        if(!parties.containsKey(p))
+        {
+            parties.put(p, prezzo);
+            p.addArtista(this, prezzo);
+        }
     }
 }

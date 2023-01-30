@@ -114,4 +114,17 @@ public class Party {
     public void setFornitori(HashMap<Fornitore, Double> fornitori) {
         this.fornitori = fornitori;
     }
+
+    public void addArtista(Artista a, double prezzo) {
+        if (!artisti.containsKey(a)) {
+            artisti.put(a, prezzo);
+            a.addParty(this, prezzo);
+        }
+    }
+
+    public void addFornitore(Fornitore f, double prezzo)
+    {
+        if(!fornitori.containsKey(f))
+            fornitori.put(f, prezzo);
+    }
 }

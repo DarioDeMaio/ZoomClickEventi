@@ -4,8 +4,8 @@ public class Gestore extends Utente{
 
     private String tipoGestore;
 
-    public Gestore(String telefono, String nome, String cognome, String email, String password, String tipoGestore) {
-        super(telefono, nome, cognome, email, password);
+    public Gestore(String nome, String cognome, String email, String password, String telefono, String tipoGestore) {
+        super(nome, cognome, email, password, telefono);
         this.tipoGestore = tipoGestore;
     }
 
