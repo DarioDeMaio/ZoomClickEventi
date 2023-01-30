@@ -46,7 +46,7 @@ public class UserManager {
         }
     }
 
-    public static Utente insertImpiegato(Utente u, String tipoGestore)
+    public static Gestore insertImpiegato(Utente u, String tipoGestore)
     {
         try (Connection con = ConPool.getConnection()) {
             u=insertUser(u.getNome(), u.getCognome(), u.getEmail(), u.getPassword(), u.getTelefono());
@@ -393,7 +393,7 @@ public class UserManager {
         HashSet<Gestore> collection = new HashSet<Gestore>();
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, g.tipoGestore\n" +
-                    "FROM Gestore AS g, utente AS u\n" +
+                    "FROM gestore AS g, utente AS u\n" +
                     "WHERE g.idGestore = u.id");
 
             ResultSet rs= ps.executeQuery();
@@ -415,7 +415,7 @@ public class UserManager {
         HashSet<Artista> collection = new HashSet<Artista>();
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, a.tipoArtista\n" +
-                    "FROM Artista AS a, utente AS u\n" +
+                    "FROM artista AS a, utente AS u\n" +
                     "WHERE a.idArtista = u.id");
 
             ResultSet rs= ps.executeQuery();
@@ -431,4 +431,43 @@ public class UserManager {
             throw new RuntimeException(e);
         }
     }
-}
+
+    public static HashMap<Artista, Double> findArtistiById(HashMap<Integer, Double> map) {
+        HashMap<Artista, Double> mapFinal = new HashMap<>();
+        try (Connection con = ConPool.getConnection()) {
+            for(Integer i : map.keySet()) {
+                PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, a.tipoArtista\n" +
+                        "FROM artista AS a, utente AS u\n" +
+                        "WHERE a.idArtista = u.id AND a.idArtista = ?");
+                ps.setInt(1, i);
+                ResultSet rs = ps.executeQuery();
+                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipoArtista"));
+                a.setId(rs.getInt("id"));
+                mapFinal.put(a, map.get(i));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return mapFinal;
+    }
+
+    public static HashMap<Fornitore, Double> findFornitoriById(HashMap<Integer, Double> map) {
+        HashMap<Fornitore, Double> mapFinal = new HashMap<>();
+        try (Connection con = ConPool.getConnection()) {
+            for(Integer i : map.keySet()) {
+                PreparedStatement ps = con.prepareStatement("SELECT f.id, f.nomeAzienda, f.proprietario, f.telefono, f.tipoFornitore\n" +
+                        "FROM fornitori AS f\n" +
+                        "WHERE f.idFornitore = ?");
+                ps.setInt(1, i);
+                ResultSet rs = ps.executeQuery();
+                Fornitore fornitore = new Fornitore(rs.getString("telefono"), rs.getString("nomeAzienda"), rs.getString("proprietario"), rs.getString("tipoFornitore"));
+                fornitore.setId(rs.getInt("id"));
+                mapFinal.put(fornitore, map.get(i));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return mapFinal;
+    }
+
+    }

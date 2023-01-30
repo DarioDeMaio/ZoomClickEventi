@@ -8,7 +8,7 @@ import java.util.HashSet;
 
 public class PacchettoManager {
 
-    public static Pacchetto insertPacchetto(Pacchetto p) {
+    public void insertPacchetto(Pacchetto p) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("INSERT INTO pacchetti (titolo, eventiConsigliati, prezzo, flag) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1,p.getTitolo());
@@ -22,7 +22,6 @@ public class PacchettoManager {
             rs.next();
             int idPacchetto = rs.getInt(1);
             p.setId(idPacchetto);
-            return p;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

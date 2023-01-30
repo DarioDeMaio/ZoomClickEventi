@@ -8,18 +8,18 @@ import java.util.Iterator;
 
 public class GestoreParty extends Gestore {
 
-    private HashSet<Party> party;
+    private HashSet<Party> parties;
 
     public GestoreParty(String nome, String cognome, String email, String password, String telefono, String tipoGestore) {
         super(nome, cognome, email, password, telefono, tipoGestore);
-        party = new HashSet<Party>();
+        parties = new HashSet<Party>();
     }
 
     public HashSet<Party> getParty() {
-        return party;
+        return parties;
     }
 
     public void setParty(HashSet<Party> party) {
-        this.party = party;
+        this.parties = party;
     }
 }

@@ -3,6 +3,8 @@ package party.manager;
 import connection.ConPool;
 import pacchetto.bean.Pacchetto;
 import pacchetto.manager.PacchettoManager;
+import party.bean.Artista;
+import party.bean.Fornitore;
 import party.bean.Party;
 import user.manager.UserManager;
 
@@ -114,5 +116,38 @@ public class PartyManager {
         }
     }
 
+    public static void confermaParty(Party p){
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("UPDATE party SET stato=? WHERE id=?");
+            ps.setString(1, "Confermato");
+            ps.setInt(2, p.getId());
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("Conferma error.");
+            }
+
+            for(Artista a : p.getArtisti().keySet()){
+                PreparedStatement ps2 = con.prepareStatement("INSERT INTO ingaggio (idArtista, idParty, prezzo) VALUES (?,?,?)");
+                ps2.setInt(1, a.getId());
+                ps2.setInt(2, p.getId());
+                ps2.setDouble(3, p.getArtisti().get(a));
+                if (ps2.executeUpdate() != 1) {
+                    throw new RuntimeException("Inserimento artista error.");
+                }
+            }
+
+            for(Fornitore f : p.getFornitori().keySet()){
+                PreparedStatement ps2 = con.prepareStatement("INSERT INTO richiede (idFornitore, idParty, prezzo) VALUES (?,?,?)");
+                ps2.setInt(1, f.getId());
+                ps2.setInt(2, p.getId());
+                ps2.setDouble(3, p.getFornitori().get(f));
+                if (ps2.executeUpdate() != 1) {
+                    throw new RuntimeException("Inserimento fornitore error.");
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
