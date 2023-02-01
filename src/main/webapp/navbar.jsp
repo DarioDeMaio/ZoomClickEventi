@@ -1,5 +1,6 @@
 <%@ page import="user.bean.Cliente" %>
-<%@ page import="party.bean.Artista" %><%--
+<%@ page import="party.bean.Artista" %>
+<%@ page import="user.bean.Gestore" %><%--
   Created by IntelliJ IDEA.
   User: 122nl
   Date: 01/02/2023
@@ -9,7 +10,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-  Cliente c = (Cliente) session.getAttribute("utente");
+
+  if(session.getAttribute("utente") instanceof Cliente)
+  {
+    Cliente c = (Cliente) session.getAttribute("utente");
+  }else if(session.getAttribute("utente") instanceof Artista)
+  {
+    Artista a = (Artista) session.getAttribute("utente");
+  }else{
+    Gestore g = (Gestore) session.getAttribute("utente");
+  }
+
+
 %>
 
 <html>

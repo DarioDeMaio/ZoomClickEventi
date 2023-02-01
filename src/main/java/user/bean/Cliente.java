@@ -8,8 +8,8 @@ public class Cliente extends Utente{
 
     private HashSet<Party> parties;
 
-    public Cliente(String nome, String cognome, String email, String password, String telefono) {
-        super(nome, cognome, email, password, telefono);
+    public Cliente(String nome, String cognome, String email, String password, String telefono, String tipo) {
+        super(nome, cognome, email, password, telefono, tipo);
     }
 
     public HashSet<Party> getParties() {

@@ -238,8 +238,6 @@ public class UserManager {
                 u.setTipo(rs.getString(7));
 
                 return u;
-
-
             }
                 return null;
         }catch(SQLException e) {
@@ -301,13 +299,13 @@ public class UserManager {
 
         HashMap<Artista,Double> collection = new HashMap<>();
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("select ingaggio.prezzo, artista.tipoArtista, utente.id, utente.nome, utente.cognome, utente.email, utente.telefono, utente.password\n" +
+            PreparedStatement ps = con.prepareStatement("select ingaggio.prezzo, artista.tipoArtista, utente.id, utente.nome, utente.cognome, utente.email, utente.telefono, utente.password, utente.tipo\n" +
                     "from artista, ingaggio, utente\n" +
                     "where ingaggio.idParty=? AND utente.id = ingaggio.idArtista AND ingaggio.idArtista = artista.idArtista");
             ps.setInt(1, idParty);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipoArtista"));
+                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipo"), rs.getString("tipoArtista"));
                 a.setId(rs.getInt("id"));
                 collection.put(a,rs.getDouble("prezzo"));
             }
@@ -361,7 +359,7 @@ public class UserManager {
     {
         HashSet<Gestore> collection = new HashSet<Gestore>();
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, g.tipoGestore\n" +
+            PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, u.tipo, g.tipoGestore\n" +
                     "FROM gestore AS g, utente AS u\n" +
                     "WHERE g.idGestore = u.id");
 
@@ -369,7 +367,7 @@ public class UserManager {
 
             while(rs.next())
             {
-                Gestore g = new Gestore(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipoGestore"));
+                Gestore g = new Gestore(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipo"), rs.getString("tipoGestore"));
                 g.setId(rs.getInt("id"));
                 collection.add(g);
             }
@@ -383,7 +381,7 @@ public class UserManager {
     {
         HashSet<Artista> collection = new HashSet<Artista>();
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, a.tipoArtista\n" +
+            PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, u.tipo, a.tipoArtista\n" +
                     "FROM artista AS a, utente AS u\n" +
                     "WHERE a.idArtista = u.id");
 
@@ -391,7 +389,7 @@ public class UserManager {
 
             while(rs.next())
             {
-                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipoArtista"));
+                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipo"), rs.getString("tipoArtista"));
                 a.setId(rs.getInt("id"));
                 collection.add(a);
             }
@@ -405,12 +403,12 @@ public class UserManager {
         HashMap<Artista, Double> mapFinal = new HashMap<>();
         try (Connection con = ConPool.getConnection()) {
             for(Integer i : map.keySet()) {
-                PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, a.tipoArtista\n" +
+                PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, u.tipo, a.tipoArtista\n" +
                         "FROM artista AS a, utente AS u\n" +
                         "WHERE a.idArtista = u.id AND a.idArtista = ?");
                 ps.setInt(1, i);
                 ResultSet rs = ps.executeQuery();
-                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipoArtista"));
+                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipo"), rs.getString("tipoArtista"));
                 a.setId(rs.getInt("id"));
                 mapFinal.put(a, map.get(i));
             }
