@@ -18,15 +18,16 @@ import java.util.HashSet;
 
 public class UserManager {
 
-    public static Utente insertUser(String nome, String cognome, String email, String password, String telefono)
+    public static Utente insertUser(String nome, String cognome, String email, String password, String telefono, String tipo)
     {
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO utente (nome, cognome, email, password, telefono) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = con.prepareStatement("INSERT INTO utente (nome, cognome, email, password, telefono, tipo) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, firstLetterUpperCase(nome));
             ps.setString(2, firstLetterUpperCase(cognome));
             ps.setString(3, email);
             ps.setString(4, password);
             ps.setString(5, telefono);
+            ps.setString(6, tipo);
 
             if (ps.executeUpdate() != 1)
             {
@@ -37,7 +38,7 @@ public class UserManager {
             rs.next();
             int idUtente = rs.getInt(1);
 
-            Utente u = new Utente(nome, cognome, email, password, telefono);
+            Utente u = new Utente(nome, cognome, email, password, telefono, tipo);
             u.setId(idUtente);
 
             return u;
@@ -49,7 +50,7 @@ public class UserManager {
     public static Gestore insertImpiegato(Utente u, String tipoGestore)
     {
         try (Connection con = ConPool.getConnection()) {
-            u=insertUser(u.getNome(), u.getCognome(), u.getEmail(), u.getPassword(), u.getTelefono());
+            u=insertUser(u.getNome(), u.getCognome(), u.getEmail(), u.getPassword(), u.getTelefono(), "g");
 
             Gestore g = insertGestore(u, tipoGestore);
             if(g.getTipoGestore()=="contabile")
@@ -196,7 +197,7 @@ public class UserManager {
         }
     }
 
-    public boolean checkIdByEmail(String email)
+    public static boolean checkIdByEmail(String email)
     {
         try (Connection con = ConPool.getConnection()) {
             java.sql.Statement st = con.createStatement();
@@ -218,10 +219,10 @@ public class UserManager {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
-    public Utente login(String email, String pwd)
+    public static Utente login(String email, String pwd)
     {
         try(Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM utente WHERE email=? AND password=SHA1(?)");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM utente WHERE email=? AND password=?/*SHA1(?)*/");
             ps.setString(1, email);
             ps.setString(2, pwd);
             ResultSet rs = ps.executeQuery();
@@ -234,51 +235,19 @@ public class UserManager {
                 u.setEmail(rs.getString(4));
                 u.setPassword(rs.getString(5));
                 u.setTelefono(rs.getString(6));
+                u.setTipo(rs.getString(7));
 
-                if(isCliente(u)) {
-                    Cliente c = (Cliente) u;
-                    return c;
-                }else {
-                    Artista a = isArtista(u);
-                    if(a != null)
-                    {
-                        return a;
-                    }else{
-                        Gestore g = (Gestore) isGestore(u);
-                        return g;
-                    }
-                }
-            }else
+                return u;
+
+
+            }
                 return null;
         }catch(SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private boolean isCliente(Utente u)
-    {
-        try(Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT u.id\n" +
-                    "FROM utente AS u\n" +
-                    "WHERE u.id IN (\n" +
-                    "\tselect c.idCliente\n" +
-                    "    FROM cliente AS c\n" +
-                    "    WHERE c.idCliente=u.id AND u.id=?\n" +
-                    ")");
-            ps.setInt(1, u.getId());
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next())
-            {
-                return true;
-            }else
-                return false;
-        }catch(SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static Artista isArtista(Utente u)
+    public static Artista isArtista(Utente u)
     {
         try(Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("SELECT u.id, a.tipoArtista \n" +
@@ -302,7 +271,7 @@ public class UserManager {
         }
     }
 
-    private static Gestore isGestore(Utente u)
+    public static Gestore isGestore(Utente u)
     {
         try(Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("SELECT u.id, g.tipoGestore\n" +
