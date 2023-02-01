@@ -1,6 +1,8 @@
 package user.control;
 
 import party.bean.Artista;
+import party.bean.Party;
+import party.manager.PartyManager;
 import user.bean.Cliente;
 import user.bean.Gestore;
 import user.bean.Utente;
@@ -11,6 +13,8 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import static user.manager.UserManager.isArtista;
 
@@ -35,7 +39,8 @@ public class LoginServlet extends HttpServlet {
         Utente u = (Utente) UserManager.login(email, psw);
 
         if(u==null) {
-            indirizzo="Errore";
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("errore");
+            rd.forward(request, response);
         }
 
         id=u.getId();
@@ -47,10 +52,14 @@ public class LoginServlet extends HttpServlet {
             indirizzo = "cliente";
         }else if(u.getTipo().compareTo("a")==0)
         {
+            //quì se è un artista gli carichiamo subito tutti i party a cui ha partecipato
             Artista a = UserManager.isArtista(u);
+            HashMap<Party, Double> parties = PartyManager.retrievePartyByIdArtista(id);
+            a.setParties(parties);
             session.setAttribute("utente", a);
             indirizzo = "artista";
         }else{
+            //qui se è un gestore vediamo che tipo di gestore è, così da caricargli subito le varie liste
             Gestore g = (Gestore) UserManager.isGestore(u);
             session.setAttribute("utente", g);
             indirizzo = "gestore";

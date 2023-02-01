@@ -10,18 +10,32 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
+  Cliente c = null;
+  Artista a = null;
+  Gestore g = null;
 
   if(session.getAttribute("utente") instanceof Cliente)
   {
-    Cliente c = (Cliente) session.getAttribute("utente");
+    c = (Cliente) session.getAttribute("utente");
   }else if(session.getAttribute("utente") instanceof Artista)
   {
-    Artista a = (Artista) session.getAttribute("utente");
+    a = (Artista) session.getAttribute("utente");
   }else{
-    Gestore g = (Gestore) session.getAttribute("utente");
+    g = (Gestore) session.getAttribute("utente");
   }
 
-
+  /*if(c != null)
+    vuol dire che è un cliente
+  else if(a != null)
+    vuol dire che è un artista
+  else
+    vuol dire che è un gestore quindi facciamo:
+    if(g.getTipoGestore==impiegati)
+      vuol dire che è un gestore degli impiegati
+    else if(g.getTipoGestore==pacchetti)
+      vuol dire che è un gestore di pacchetti
+    ecc. ecc.
+*/
 %>
 
 <html>
