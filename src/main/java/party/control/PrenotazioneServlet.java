@@ -1,19 +1,21 @@
-package user.control;
+package party.control;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "LogoutServlet", value = "/logout")
-public class LogoutServlet extends HttpServlet {
+@WebServlet(name = "prenotazione", value = "/prenotazione")
+public class PrenotazioneServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String indirizzo="/header";
-        HttpSession session= request.getSession();
-        session.invalidate();
+        double prezzo= Double.parseDouble(request.getParameter("prezzo"));
+        String titolo = request.getParameter("titolo");
 
-        RequestDispatcher rd = getServletContext().getRequestDispatcher(indirizzo);
+        request.setAttribute("prezzo", prezzo);
+        request.setAttribute("titolo", titolo);
+
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/prenotazione.jsp");
         rd.forward(request, response);
     }
 

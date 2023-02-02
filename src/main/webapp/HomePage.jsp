@@ -97,7 +97,7 @@
 
     <div class="row">
         <div class="col-md-10">
-            <a class = "linkServlet" href="login.jsp" >
+            <a class = "linkServlet" href="prenotazione?prezzo=<%=p.getPrezzo()%>&titolo=<%=p.getTitolo()%>">
             <div class="card card-body">
                 <div class="media align-items-center align-items-lg-start text-center text-lg-left flex-column flex-lg-row" class="test">
 
@@ -108,11 +108,10 @@
                         </h3>
 
                         <ul class="list-inline list-inline-dotted mb-3 mb-lg-2">
-                            <li class="list-inline-item"><h6>Data</h6></li>
-                            <li class="list-inline-item"><h6>prova</h6></li>
+                            <li class="list-inline-item"><h6>Pacchetto consigliato per eventi del tipo:</h6></li>
                         </ul>
 
-                        <p class="mb-3">Organizzata dal gruppo "<%=p.getEventiConsigliati()%>"</p>
+                        <p class="mb-3">"<%=p.getEventiConsigliati()%>"</p>
 
 
                     </div>

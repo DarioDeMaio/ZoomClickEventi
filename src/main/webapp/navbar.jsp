@@ -11,8 +11,8 @@
 
 <%
   Cliente c = null;
-  Artista a;
-  Gestore g;
+  Artista a = null;
+  Gestore g = null;
 
   if(session.getAttribute("utente") instanceof Cliente)
   {
@@ -24,18 +24,7 @@
     g = (Gestore) session.getAttribute("utente");
   }
 
-  /*if(c != null)
-    vuol dire che è un cliente
-  else if(a != null)
-    vuol dire che è un artista
-  else
-    vuol dire che è un gestore quindi facciamo:
-    if(g.getTipoGestore==impiegati)
-      vuol dire che è un gestore degli impiegati
-    else if(g.getTipoGestore==pacchetti)
-      vuol dire che è un gestore di pacchetti
-    ecc. ecc.
-*/
+  String nome=(String) request.getAttribute("nome");
 %>
 
 <html>
@@ -93,7 +82,7 @@
 <nav class="navbar navbar-light bg-dark">
   <div class="container-fluid" id="Ricerca">
 
-    <h2 class="benvenuto">Zoom Click Eventi</h2>
+    <h2 class="benvenuto">Zoom Click Eventi <%=nome%></h2>
 
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -109,7 +98,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link">Logout</a>
+            <a href="logout" class="nav-link">Logout</a>
           </li>
 
           <li class="nav-item dropdown">
@@ -120,8 +109,8 @@
               <%if(c != null){%>
                 <a class="dropdown-item" href="login.jsp">I miei ordini</a>
               <%}%>
-              <a class="dropdown-item" href="${ pageContext.request.contextPath }/login.jsp">Login</a>
-              <a class="dropdown-item" href="${ pageContext.request.contextPath }/registrazione.jsp">Registrati</a>
+              <a class="dropdown-item" href="login.jsp">Login</a>
+              <a class="dropdown-item" href="registrazione.jsp">Registrati</a>
 
             </div>
           </li>

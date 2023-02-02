@@ -1,19 +1,19 @@
 package user.control;
 
+import pacchetto.manager.PacchettoManager;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "LogoutServlet", value = "/logout")
-public class LogoutServlet extends HttpServlet {
+@WebServlet(name = "header", value = "/header")
+public class HeaderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String indirizzo="/header";
-        HttpSession session= request.getSession();
-        session.invalidate();
+        request.setAttribute("catalogo", PacchettoManager.retrieveAll());
 
-        RequestDispatcher rd = getServletContext().getRequestDispatcher(indirizzo);
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/HomePage.jsp");
         rd.forward(request, response);
     }
 

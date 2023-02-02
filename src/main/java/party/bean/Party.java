@@ -9,14 +9,14 @@ public class Party {
     private int id;
     private String tipo, nomeLocale, citta;
     private Date data, dataPrenotazione;
-    private String stato, servizi;
+    private String stato, servizi, festeggiato;
     private Pacchetto pacchetto;
     private HashMap<Artista, Double> artisti;
     private HashMap<Fornitore, Double> fornitori;
     private int idCliente;
 
 
-    public Party(String tipo, String nomeLocale, String citta, Date data, Date dataPrenotazione, String stato, String servizi, Pacchetto pacchetto, int idCliente) {
+    public Party(String tipo, String festeggiato, String nomeLocale, String citta, Date data, Date dataPrenotazione, String stato, String servizi, Pacchetto pacchetto, int idCliente) {
         this.tipo = tipo;
         this.nomeLocale = nomeLocale;
         this.citta = citta;
@@ -28,6 +28,7 @@ public class Party {
         this.fornitori = new HashMap<>();
         this.pacchetto = pacchetto;
         this.idCliente = idCliente;
+        this.festeggiato=festeggiato;
     }
 
     public int getIdCliente() {
@@ -125,6 +126,13 @@ public class Party {
         this.fornitori = fornitori;
     }
 
+    public String getFesteggiato() {
+        return festeggiato;
+    }
+
+    public void setFesteggiato(String festeggiato) {
+        this.festeggiato = festeggiato;
+    }
     public void addArtista(Artista a, double prezzo) {
         if (!artisti.containsKey(a)) {
             artisti.put(a, prezzo);

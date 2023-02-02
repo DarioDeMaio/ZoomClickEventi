@@ -47,6 +47,21 @@ public class UserManager {
         }
     }
 
+    public static void insertCliente(Utente u)
+    {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("INSERT INTO cliente (idCliente) VALUES (?)");
+            ps.setInt(1, u.getId());
+
+            if (ps.executeUpdate() != 1)
+            {
+                throw new RuntimeException("INSERT error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static Gestore insertImpiegato(Utente u, String tipoGestore)
     {
         try (Connection con = ConPool.getConnection()) {
@@ -200,15 +215,14 @@ public class UserManager {
     public static boolean checkIdByEmail(String email)
     {
         try (Connection con = ConPool.getConnection()) {
-            java.sql.Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT email FROM utente");
+            PreparedStatement ps = con.prepareStatement("SELECT email FROM utente WHERE email=?");
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
 
-            while(rs.next())
-            {
-                if(email.equals(rs.getString(1)))
-                    return false;
-            }
-            return true;
+            if(rs.next())
+                return false;
+            else
+                return true;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -319,7 +333,7 @@ public class UserManager {
 
         HashMap<Artista,Double> collection = new HashMap<>();
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("select ingaggio.prezzo, artista.tipoArtista, utente.id, utente.nome, utente.cognome, utente.email, utente.telefono, utente.password, utente.tipo\n" +
+            PreparedStatement ps = con.prepareStatement("select ingaggio.prezzo, artista.tipoArtista, utente.id, utente.nome, utente.cognome, utente.email, utente.telefono, utente.password\n" +
                     "from artista, ingaggio, utente\n" +
                     "where ingaggio.idParty=? AND utente.id = ingaggio.idArtista AND ingaggio.idArtista = artista.idArtista");
             ps.setInt(1, idParty);

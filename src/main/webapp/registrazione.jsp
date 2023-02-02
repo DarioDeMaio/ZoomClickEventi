@@ -9,6 +9,8 @@
 <html>
 <head>
     <title>Register Page</title>
+
+    <script src="js/validationForm.js"></script>
 </head>
 <body>
 
@@ -21,13 +23,13 @@
                 <div class="card" style="border-radius: 1rem;">
                     <div class="row g-0">
                         <div class="col-md-6 col-lg-5 d-none d-md-block">
-                            <img src="${ pageContext.request.contextPath }/img/logo.png">
+                            <img src="img/logoZoomClick.png">
 
                         </div>
                         <div class="col-md-6 col-lg-7 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
 
-                                <form action="${ pageContext.request.contextPath }/registra" method="post" onsubmit="return validate(this)">
+                                <form action="registra" method="post" onsubmit="return validate(this)">
 
                                     <div class="d-flex align-items-center mb-3 pb-1">
                                         <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
@@ -64,8 +66,6 @@
                                     <div class="pt-1 mb-4">
                                         <input type="submit" value="Registrati" class="btn btn-dark btn-lg btn-block">
                                     </div>
-
-                                    <a href="${ pageContext.request.contextPath }/header"style="color: #393f81;">Torna alla Home</a>
                                 </form>
 
                             </div>
