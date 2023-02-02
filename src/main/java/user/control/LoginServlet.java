@@ -33,6 +33,9 @@ public class LoginServlet extends HttpServlet {
         if(request.getParameter("email")!=null) {
             email = request.getParameter("email");
             psw = request.getParameter("password");
+        }else{
+            email = (String) request.getAttribute("email");
+            psw = (String) request.getAttribute("password");
         }
 
         String indirizzo="";
@@ -50,8 +53,9 @@ public class LoginServlet extends HttpServlet {
             //setto la collection di parties del cliente
             Cliente c = UserManager.isCliente(u);
             c.setParties(PartyManager.findPartyByIdCliente(c.getId()));
+            request.setAttribute("catalogo",PacchettoManager.retrieveAll());
             session.setAttribute("utente", c);
-            indirizzo = "/index.jsp";
+            indirizzo = "/HomePage.jsp";
         }else if(UserManager.isArtista(u) != null)
         {
             //quì se è un artista gli carichiamo subito tutti i party a cui ha partecipato

@@ -17,13 +17,13 @@ public class RegistrazioneServlet extends HttpServlet {
         String psw= request.getParameter("psw");
         String email= request.getParameter("email");
         String telefono= request.getParameter("telefono");
-        String tipo = request.getParameter("tipo");
+
 
         String indirizzo="";
 
         if(UserManager.checkIdByEmail(email))
         {
-            Utente u = UserManager.insertUser(nome, cognome, email, psw, telefono, "c");
+            Utente u = UserManager.insertUser(nome, cognome, email, psw, telefono);
             indirizzo = "/login";
             request.setAttribute("email", email);
             request.setAttribute("password", psw);

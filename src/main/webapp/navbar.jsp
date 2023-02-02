@@ -11,8 +11,8 @@
 
 <%
   Cliente c = null;
-  Artista a = null;
-  Gestore g = null;
+  Artista a;
+  Gestore g;
 
   if(session.getAttribute("utente") instanceof Cliente)
   {
@@ -105,7 +105,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="${ pageContext.request.contextPath }/header">Home <span class="sr-only"></span></a>
+            <a class="nav-link" href="header.jsp">Home <span class="sr-only"></span></a>
           </li>
 
           <li class="nav-item">
@@ -117,6 +117,9 @@
               Accedi
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <%if(c != null){%>
+                <a class="dropdown-item" href="login.jsp">I miei ordini</a>
+              <%}%>
               <a class="dropdown-item" href="${ pageContext.request.contextPath }/login.jsp">Login</a>
               <a class="dropdown-item" href="${ pageContext.request.contextPath }/registrazione.jsp">Registrati</a>
 

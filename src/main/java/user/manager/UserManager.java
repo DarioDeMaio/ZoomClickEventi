@@ -18,16 +18,16 @@ import java.util.HashSet;
 
 public class UserManager {
 
-    public static Utente insertUser(String nome, String cognome, String email, String password, String telefono, String tipo)
+    public static Utente insertUser(String nome, String cognome, String email, String password, String telefono)
     {
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO utente (nome, cognome, email, password, telefono, tipo) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = con.prepareStatement("INSERT INTO utente (nome, cognome, email, password, telefono) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, firstLetterUpperCase(nome));
             ps.setString(2, firstLetterUpperCase(cognome));
             ps.setString(3, email);
             ps.setString(4, password);
             ps.setString(5, telefono);
-            ps.setString(6, tipo);
+
 
             if (ps.executeUpdate() != 1)
             {
@@ -50,7 +50,7 @@ public class UserManager {
     public static Gestore insertImpiegato(Utente u, String tipoGestore)
     {
         try (Connection con = ConPool.getConnection()) {
-            u=insertUser(u.getNome(), u.getCognome(), u.getEmail(), u.getPassword(), u.getTelefono(), "g");
+            u=insertUser(u.getNome(), u.getCognome(), u.getEmail(), u.getPassword(), u.getTelefono());
 
             Gestore g = insertGestore(u, tipoGestore);
             if(g.getTipoGestore()=="contabile")
@@ -381,7 +381,8 @@ public class UserManager {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, u.tipo, g.tipoGestore\n" +
                     "FROM gestore AS g, utente AS u\n" +
-                    "WHERE g.idGestore = u.id");
+                    "WHERE g.idGestore = u.id" +
+                    "ORDER BY g.tipoGestore");
 
             ResultSet rs= ps.executeQuery();
 
@@ -457,4 +458,17 @@ public class UserManager {
         return mapFinal;
     }
 
+    public static double visualizzaIncassi(int idParty){
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("SELECT (p.prezzoPacchetto-SUM(i.prezzo)) AS incasso\n" +
+                    "FROM ingaggio AS i, party AS p\n" +
+                    "WHERE p.id=?");
+            ps.setInt(1, idParty);
+            ResultSet rs = ps.executeQuery();
+            return rs.getDouble("incasso");
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
+}
