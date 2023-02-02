@@ -18,7 +18,7 @@
         }
 
         body {
-            background-image: url('${ pageContext.request.contextPath }/img/sfondo2.png');
+            background-image: url('${ pageContext.request.contextPath }/pic/images.png');
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: cover;
@@ -47,7 +47,7 @@
 
                         <div class="col-md-6 col-lg-7 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
-
+                                <img src="pic/images.jpeg">
                                 <form action="login" method="post">
 
                                     <div class="d-flex align-items-center mb-3 pb-1">

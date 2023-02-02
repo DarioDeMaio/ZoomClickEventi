@@ -13,17 +13,17 @@ import java.security.NoSuchAlgorithmException;
 public class Utente {
 
     private int id;
-    private String nome, cognome, email, password, telefono, tipo;
+    private String nome, cognome, email, password, telefono;
 
     public Utente(){}
-    public Utente(String nome, String cognome, String email, String password, String telefono, String tipo) {
+    public Utente(String nome, String cognome, String email, String password, String telefono) {
 
         this.telefono = telefono;
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
         this.password = password;
-        this.tipo=tipo;
+
     }
 
     public int getId() {
@@ -83,11 +83,5 @@ public class Utente {
         }
     }
 
-    public String getTipo() {
-        return tipo;
-    }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
 }

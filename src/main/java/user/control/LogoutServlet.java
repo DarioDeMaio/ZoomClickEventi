@@ -9,12 +9,12 @@ import java.io.IOException;
 public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String indirizzo="header";
+        String indirizzo="/login.jsp";
         HttpSession session= request.getSession();
         session.invalidate();
 
-        LoginServlet.id= 0;
-        response.sendRedirect(indirizzo);
+        RequestDispatcher rd = getServletContext().getRequestDispatcher(indirizzo);
+        rd.forward(request, response);
     }
 
     @Override

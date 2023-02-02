@@ -38,7 +38,7 @@ public class UserManager {
             rs.next();
             int idUtente = rs.getInt(1);
 
-            Utente u = new Utente(nome, cognome, email, password, telefono, tipo);
+            Utente u = new Utente(nome, cognome, email, password, telefono);
             u.setId(idUtente);
 
             return u;
@@ -235,7 +235,6 @@ public class UserManager {
                 u.setEmail(rs.getString(4));
                 u.setPassword(rs.getString(5));
                 u.setTelefono(rs.getString(6));
-                u.setTipo(rs.getString(7));
 
                 return u;
             }
@@ -245,10 +244,31 @@ public class UserManager {
         }
     }
 
+    public static Cliente isCliente(Utente u)
+    {
+        try(Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("SELECT u.nome, u.cognome, u.email, u.password, u.id, u.telefono FROM utente as u, cliente as c WHERE u.id=? AND c.idCliente = u.id");
+            ps.setInt(1, u.getId());
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next())
+            {
+                Cliente c = new Cliente(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"));
+                c.setId(rs.getInt("id"));
+                return c;
+            }else
+                return null;
+        }catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
     public static Artista isArtista(Utente u)
     {
         try(Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT u.id, a.tipoArtista \n" +
+            PreparedStatement ps = con.prepareStatement("SELECT u.nome, u.cognome, u.email, u.password, u.id, u.telefono, a.tipoArtista \n" +
                     "FROM utente AS u, artista AS a\n" +
                     "WHERE u.id IN (\n" +
                     "\tselect a.idArtista\n" +
@@ -259,8 +279,8 @@ public class UserManager {
 
             if (rs.next())
             {
-                Artista a = (Artista) u;
-                a.setTipoArtista(rs.getString("tipoArtista"));
+                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipoArtista"));
+                a.setId(rs.getInt("id"));
                 return a;
             }else
                 return null;
@@ -272,7 +292,7 @@ public class UserManager {
     public static Gestore isGestore(Utente u)
     {
         try(Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT u.id, g.tipoGestore\n" +
+            PreparedStatement ps = con.prepareStatement("SELECT u.nome, u.cognome, u.email, u.password, u.id, u.telefono, g.tipoGestore\n" +
                     "FROM utente AS u, gestore AS g\n" +
                     "WHERE u.id IN (\n" +
                     "\tselect g.idgestore\n" +
@@ -284,8 +304,8 @@ public class UserManager {
             if (rs.next())
             {
                 String tipoGestore = rs.getString("tipoGestore");
-                Gestore g = (Gestore) u;
-                g.setTipoGestore(tipoGestore);
+                Gestore g = new Gestore(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), tipoGestore);
+                g.setId(rs.getInt("id"));
                 return g;
             }else
                 return null;
@@ -305,7 +325,7 @@ public class UserManager {
             ps.setInt(1, idParty);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipo"), rs.getString("tipoArtista"));
+                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipoArtista"));
                 a.setId(rs.getInt("id"));
                 collection.put(a,rs.getDouble("prezzo"));
             }
@@ -355,7 +375,7 @@ public class UserManager {
         }
     }
 
-    public HashSet<Gestore> retrieveAllEmployee()
+    public static HashSet<Gestore> retrieveAllEmployee()
     {
         HashSet<Gestore> collection = new HashSet<Gestore>();
         try (Connection con = ConPool.getConnection()) {
@@ -367,7 +387,7 @@ public class UserManager {
 
             while(rs.next())
             {
-                Gestore g = new Gestore(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipo"), rs.getString("tipoGestore"));
+                Gestore g = new Gestore(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipoGestore"));
                 g.setId(rs.getInt("id"));
                 collection.add(g);
             }
@@ -377,7 +397,7 @@ public class UserManager {
         }
     }
 
-    public HashSet<Artista> retrieveAllArtisti()
+    public static HashSet<Artista> retrieveAllArtisti()
     {
         HashSet<Artista> collection = new HashSet<Artista>();
         try (Connection con = ConPool.getConnection()) {
@@ -389,7 +409,7 @@ public class UserManager {
 
             while(rs.next())
             {
-                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipo"), rs.getString("tipoArtista"));
+                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipoArtista"));
                 a.setId(rs.getInt("id"));
                 collection.add(a);
             }
@@ -408,7 +428,7 @@ public class UserManager {
                         "WHERE a.idArtista = u.id AND a.idArtista = ?");
                 ps.setInt(1, i);
                 ResultSet rs = ps.executeQuery();
-                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipo"), rs.getString("tipoArtista"));
+                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipoArtista"));
                 a.setId(rs.getInt("id"));
                 mapFinal.put(a, map.get(i));
             }
