@@ -10,6 +10,15 @@
 <head>
     <title>Register Page</title>
 
+    <style>
+        body{
+            background: radial-gradient(circle at top left, #F44336, #2196F3, #f5a02f);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+    </style>
+
     <script src="js/validationForm.js"></script>
 </head>
 <body>
@@ -23,7 +32,7 @@
                 <div class="card" style="border-radius: 1rem;">
                     <div class="row g-0">
                         <div class="col-md-6 col-lg-5 d-none d-md-block">
-                            <img src="img/logoZoomClick.png">
+                            <img src="img/zoomClickLogo.png">
 
                         </div>
                         <div class="col-md-6 col-lg-7 d-flex align-items-center">

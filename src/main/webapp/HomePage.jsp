@@ -32,11 +32,10 @@
     <style>
 
         body {
-            /*background: linear-gradient(to right, #FFCA28, #F44336);*/
-            /*background-color: rgba(255, 255, 255, 0.7);*/
             background: radial-gradient(circle at top left, #F44336, #2196F3, #f5a02f);
-            /*background-color: #f5a02f;*/
-
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
             font-family:"Segoe UI";
         }
 

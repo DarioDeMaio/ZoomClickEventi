@@ -19,6 +19,9 @@
 
         body {
             background: radial-gradient(circle at top left, #F44336, #2196F3, #f5a02f);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
         }
 
         @media only screen and (max-width:991px) {
