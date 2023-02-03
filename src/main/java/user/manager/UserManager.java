@@ -62,12 +62,22 @@ public class UserManager {
         }
     }
 
-    public static Gestore insertImpiegato(Utente u, String tipoGestore)
+    private static Gestore insertGestore(Utente u, String tipoGestore)
     {
         try (Connection con = ConPool.getConnection()) {
             u=insertUser(u.getNome(), u.getCognome(), u.getEmail(), u.getPassword(), u.getTelefono());
+            PreparedStatement ps = con.prepareStatement("INSERT INTO gestore (idGestore, tipoGestore) VALUES (?, ?)");
+            ps.setInt(1, u.getId());
+            ps.setString(2, tipoGestore);
 
-            Gestore g = insertGestore(u, tipoGestore);
+            if (ps.executeUpdate() != 1)
+            {
+                throw new RuntimeException("INSERT error.");
+            }
+
+            Gestore g = new Gestore(u.getNome(), u.getCognome(), u.getEmail(), u.getPassword(), u.getTelefono(), tipoGestore);
+            g.setId(u.getId());
+
             if(g.getTipoGestore()=="contabile")
             {
                 Contabile c = insertContabile(g);
@@ -84,29 +94,7 @@ public class UserManager {
                 GestoreParty gParty = insertGestoreParty(g);
                 return gParty;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
-    }
-
-    private static Gestore insertGestore(Utente u, String tipoGestore)
-    {
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO gestore (idGestore, tipoGestore) VALUES (?, ?)");
-            ps.setInt(1, u.getId());
-            ps.setString(2, tipoGestore);
-
-            if (ps.executeUpdate() != 1)
-            {
-                throw new RuntimeException("INSERT error.");
-            }
-
-            Gestore g = (Gestore) u;
-            g.setId(u.getId());
-            g.setTipoGestore(tipoGestore);
-
-            return g;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -123,9 +111,8 @@ public class UserManager {
                 throw new RuntimeException("INSERT error.");
             }
 
-            Contabile c = (Contabile) g;
+            Contabile c = new Contabile(g.getNome(), g.getCognome(), g.getEmail(), g.getPassword(), g.getTelefono(), g.getTipoGestore());
             c.setId(g.getId());
-
             return c;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -143,9 +130,8 @@ public class UserManager {
                 throw new RuntimeException("INSERT error.");
             }
 
-            GestoreParty gParty = (GestoreParty) g;
+            GestoreParty gParty = new GestoreParty(g.getNome(), g.getCognome(), g.getEmail(), g.getPassword(), g.getTelefono(), g.getTipoGestore());
             gParty.setId(g.getId());
-
             return gParty;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -163,9 +149,8 @@ public class UserManager {
                 throw new RuntimeException("INSERT error.");
             }
 
-            GestoreImpiegati gi = (GestoreImpiegati) g;
+            GestoreImpiegati gi = new GestoreImpiegati(g.getNome(), g.getCognome(), g.getEmail(), g.getPassword(), g.getTelefono(), g.getTipoGestore());
             gi.setId(g.getId());
-
             return gi;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -183,9 +168,8 @@ public class UserManager {
                 throw new RuntimeException("INSERT error.");
             }
 
-            GestorePacchetti gPacchetti = (GestorePacchetti) g;
+            GestorePacchetti gPacchetti = new GestorePacchetti(g.getNome(), g.getCognome(), g.getEmail(), g.getPassword(), g.getTelefono(), g.getTipoGestore());
             gPacchetti.setId(g.getId());
-
             return gPacchetti;
         } catch (SQLException e) {
             throw new RuntimeException(e);
