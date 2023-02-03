@@ -41,7 +41,7 @@
             <div class="col col-xl-10">
                 <div class="card" style="border-radius: 1rem;">
                     <div class="row g-0">
-                        <div class="col-md-6 col-lg-5 d-none d-md-block"><img src="img/images.jpeg"></div>
+                        <div class="col-md-6 col-lg-5 d-none d-md-block"><img src="img/zoomClickLogo.png"></div>
                         <div class="col-md-6 col-lg-7 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
                                 <form action="login" method="post">
