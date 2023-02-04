@@ -13,6 +13,7 @@ public class LogoutServlet extends HttpServlet {
         HttpSession session= request.getSession();
         session.invalidate();
 
+        request.setAttribute("daLogout", true);
         RequestDispatcher rd = getServletContext().getRequestDispatcher(indirizzo);
         rd.forward(request, response);
     }

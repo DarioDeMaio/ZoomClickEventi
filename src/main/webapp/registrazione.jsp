@@ -19,7 +19,7 @@
         }
     </style>
 
-    <script src="js/validationForm.js"></script>
+
 </head>
 <body>
 
@@ -53,22 +53,22 @@
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <input type="text" name="cognome" id="form2Example17" class="form-control form-control-lg" style="text-transform:capitalize;" required/>
+                                        <input type="text" name="cognome" class="form-control form-control-lg" style="text-transform:capitalize;" required/>
                                         <label class="form-label" for="form2Example17">Cognome</label>
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <input type="email" name="email" id="form2Example17" class="form-control form-control-lg" required/>
+                                        <input type="email" name="email" class="form-control form-control-lg" required/>
                                         <label class="form-label" for="form2Example17">Email address</label>
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <input type="password" name="password" id="form2Example27" class="form-control form-control-lg" required/>
+                                        <input type="password" name="password" class="form-control form-control-lg" required/>
                                         <label class="form-label" for="form2Example27">Password</label>
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <input type="tel" name="telefono" id="form2Example27" class="form-control form-control-lg" required/>
+                                        <input type="tel" name="telefono" class="form-control form-control-lg" required/>
                                         <label class="form-label" for="form2Example27">Telefono</label>
                                     </div>
 
@@ -86,6 +86,6 @@
     </div>
 
 </section>
-
+<script type="text/javascript" src="js/validationForm.js"></script>
 </body>
 </html>

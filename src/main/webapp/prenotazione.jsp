@@ -27,7 +27,7 @@
     <br><br>
 </div>
 
-<form action="" method="post">
+<form action="prenotazione?action=prenotazione&idPacchetto=" method="post">
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="inputEmail4">Tipo Evento</label>

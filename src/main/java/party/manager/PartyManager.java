@@ -59,7 +59,7 @@ public class PartyManager {
 
         HashMap<Party, Double> collection = new HashMap<>();
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT id, tipo, festeggiato, data, dataPrenotazione, nomeLocale, servizi, stato, prezzo, idPacchetto, idCliente" +
+            PreparedStatement ps = con.prepareStatement("SELECT id, tipo, festeggiato, data, citta, dataPrenotazione, nomeLocale, servizi, stato, prezzo, idPacchetto, idCliente, prezzoPacchetto" +
                     " FROM  party, ingaggio WHERE ingaggio.idArtista=?");
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();

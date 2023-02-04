@@ -377,9 +377,9 @@ public class UserManager {
     {
         HashSet<Gestore> collection = new HashSet<Gestore>();
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, u.tipo, g.tipoGestore\n" +
+            PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, g.tipoGestore\n" +
                     "FROM gestore AS g, utente AS u\n" +
-                    "WHERE g.idGestore = u.id" +
+                    "WHERE g.idGestore = u.id " +
                     "ORDER BY g.tipoGestore");
 
             ResultSet rs= ps.executeQuery();
@@ -400,7 +400,7 @@ public class UserManager {
     {
         HashSet<Artista> collection = new HashSet<Artista>();
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, u.tipo, a.tipoArtista\n" +
+            PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, a.tipoArtista\n" +
                     "FROM artista AS a, utente AS u\n" +
                     "WHERE a.idArtista = u.id");
 
@@ -422,7 +422,7 @@ public class UserManager {
         HashMap<Artista, Double> mapFinal = new HashMap<>();
         try (Connection con = ConPool.getConnection()) {
             for(Integer i : map.keySet()) {
-                PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, u.tipo, a.tipoArtista\n" +
+                PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, a.tipoArtista\n" +
                         "FROM artista AS a, utente AS u\n" +
                         "WHERE a.idArtista = u.id AND a.idArtista = ?");
                 ps.setInt(1, i);

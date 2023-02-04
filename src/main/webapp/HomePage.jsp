@@ -5,7 +5,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     HashSet<Pacchetto> catalogo = (HashSet<Pacchetto>) request.getAttribute("catalogo");
-    Iterator<Pacchetto> it = catalogo.iterator();
+    Iterator<Pacchetto> it = null;
+    if(catalogo!=null) {
+        it = catalogo.iterator();
+    }
 %>
 <html>
 <head>
@@ -87,7 +90,10 @@
 </head>
 <body>
 <%@ include file="navbar.jsp" %>
+
 <%
+    if(catalogo!=null)
+    {
     while(it.hasNext()){
         Pacchetto p = it.next();
 %>
@@ -96,7 +102,7 @@
 
     <div class="row">
         <div class="col-md-10">
-            <a class = "linkServlet" href="prenotazione?prezzo=<%=p.getPrezzo()%>&titolo=<%=p.getTitolo()%>">
+            <a class = "linkServlet" href="prenotazione?idPacchetto=<%=p.getId()%>&prezzo=<%=p.getPrezzo()%>&titolo=<%=p.getTitolo()%>">
             <div class="card card-body">
                 <div class="media align-items-center align-items-lg-start text-center text-lg-left flex-column flex-lg-row" class="test">
 
@@ -135,7 +141,7 @@
     </div>
 </div>
 
-<%} %>
+<%} }%>
 
 </body>
 </html>

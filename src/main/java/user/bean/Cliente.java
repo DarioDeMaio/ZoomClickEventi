@@ -10,6 +10,7 @@ public class Cliente extends Utente{
 
     public Cliente(String nome, String cognome, String email, String password, String telefono) {
         super(nome, cognome, email, password, telefono);
+        parties = new HashSet<Party>();
     }
 
     public HashSet<Party> getParties() {

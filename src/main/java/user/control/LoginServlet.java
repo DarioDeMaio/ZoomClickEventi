@@ -57,7 +57,6 @@ public class LoginServlet extends HttpServlet {
             c.setParties(PartyManager.findPartyByIdCliente(id));
             session.setAttribute("utente", c);
             request.setAttribute("nome", c.getNome());
-            indirizzo = "/header";
         }else if(UserManager.isArtista(u) != null)
         {
             //quì se è un artista gli carichiamo subito tutti i party a cui ha partecipato
@@ -65,24 +64,23 @@ public class LoginServlet extends HttpServlet {
             HashMap<Party, Double> parties = PartyManager.retrievePartyByIdArtista(id);
             a.setParties(parties);
             session.setAttribute("utente", a);
-            indirizzo = "/artista";
         }else{
             //qui se è un gestore vediamo che tipo di gestore è, così da caricargli subito le varie liste
             Gestore g = (Gestore) UserManager.isGestore(u);
             indirizzo = "/gestore";
-            if(g.getTipoGestore().compareTo("Contabile") == 0) {
+            if(g.getTipoGestore().compareTo("contabile") == 0) {
                 Contabile c = new Contabile(g.getNome(), g.getCognome(), g.getEmail(), g.getPassword(), g.getTelefono(), g.getTipoGestore());
                 c.setId(g.getId());
                 //setto i party per il contabile cosicchè possa visualizzare incassi ecc
                 c.setParty(PartyManager.retrieveAllParty());
                 session.setAttribute("utente", c);
-            }else if(g.getTipoGestore().compareTo("GestoreParty") == 0) {
+            }else if(g.getTipoGestore().compareTo("party") == 0) {
                 GestoreParty gp = new GestoreParty(g.getNome(), g.getCognome(), g.getEmail(), g.getPassword(), g.getTelefono(), g.getTipoGestore());
                 gp.setId(g.getId());
                 //setto i party per il gestore Party cosicché possa accetarli o meno
                 gp.setParty(PartyManager.retrieveAllParty());
                 session.setAttribute("utente", gp);
-            }else if(g.getTipoGestore().compareTo("GestorePacchetti") == 0) {
+            }else if(g.getTipoGestore().compareTo("pacchetti") == 0) {
                 GestorePacchetti gp = new GestorePacchetti(g.getNome(), g.getCognome(), g.getEmail(), g.getPassword(), g.getTelefono(), g.getTipoGestore());
                 gp.setId(g.getId());
                 //setto i pacchetti in modo tale che questo gestore possa fare operazioni su di essi
@@ -97,11 +95,9 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("utente", gi);
             }
         }
-
-        RequestDispatcher rd = getServletContext().getRequestDispatcher(indirizzo);
+        session.setAttribute("logged",true);
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/header");
         rd.forward(request, response);
-
-
     }
 
     @Override
