@@ -95,6 +95,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("utente", gi);
             }
         }
+
         session.setAttribute("logged",true);
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/header");
         rd.forward(request, response);

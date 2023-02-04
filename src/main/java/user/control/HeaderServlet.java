@@ -13,22 +13,16 @@ import java.util.HashSet;
 @WebServlet(name = "header", value = "/header")
 public class HeaderServlet extends HttpServlet {
     public static HashSet<Pacchetto> catalogo = null;
-    public int start=0;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Object daLogout = request.getAttribute("daLogout");
-        boolean flag=false;
-
-        if(daLogout!=null)
-            flag=true;
-
         HttpSession session = request.getSession();
-        if((session.getAttribute("utente") instanceof Cliente) || (flag == true) || (start==0))
-        {
 
-            start=1;
+        Object logged = session.getAttribute("logged");
+        boolean cliente = session.getAttribute("utente") instanceof Cliente;
+
+        if(cliente || logged == null)
+        {
             if(catalogo==null) {
-                System.out.println("sono qui");
                 catalogo = PacchettoManager.retrieveAll();
             }
             request.setAttribute("catalogo", catalogo);
