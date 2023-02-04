@@ -47,12 +47,37 @@ public class UserManager {
         }
     }
 
-    public static Gestore insertImpiegato(Utente u, String tipoGestore)
+    public static void insertCliente(Utente u)
+    {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("INSERT INTO cliente (idCliente) VALUES (?)");
+            ps.setInt(1, u.getId());
+
+            if (ps.executeUpdate() != 1)
+            {
+                throw new RuntimeException("INSERT error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static Gestore insertGestore(Utente u, String tipoGestore)
     {
         try (Connection con = ConPool.getConnection()) {
             u=insertUser(u.getNome(), u.getCognome(), u.getEmail(), u.getPassword(), u.getTelefono());
+            PreparedStatement ps = con.prepareStatement("INSERT INTO gestore (idGestore, tipoGestore) VALUES (?, ?)");
+            ps.setInt(1, u.getId());
+            ps.setString(2, tipoGestore);
 
-            Gestore g = insertGestore(u, tipoGestore);
+            if (ps.executeUpdate() != 1)
+            {
+                throw new RuntimeException("INSERT error.");
+            }
+
+            Gestore g = new Gestore(u.getNome(), u.getCognome(), u.getEmail(), u.getPassword(), u.getTelefono(), tipoGestore);
+            g.setId(u.getId());
+
             if(g.getTipoGestore()=="contabile")
             {
                 Contabile c = insertContabile(g);
@@ -69,29 +94,7 @@ public class UserManager {
                 GestoreParty gParty = insertGestoreParty(g);
                 return gParty;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
-    }
-
-    private static Gestore insertGestore(Utente u, String tipoGestore)
-    {
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO gestore (idGestore, tipoGestore) VALUES (?, ?)");
-            ps.setInt(1, u.getId());
-            ps.setString(2, tipoGestore);
-
-            if (ps.executeUpdate() != 1)
-            {
-                throw new RuntimeException("INSERT error.");
-            }
-
-            Gestore g = (Gestore) u;
-            g.setId(u.getId());
-            g.setTipoGestore(tipoGestore);
-
-            return g;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -108,9 +111,8 @@ public class UserManager {
                 throw new RuntimeException("INSERT error.");
             }
 
-            Contabile c = (Contabile) g;
+            Contabile c = new Contabile(g.getNome(), g.getCognome(), g.getEmail(), g.getPassword(), g.getTelefono(), g.getTipoGestore());
             c.setId(g.getId());
-
             return c;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -128,9 +130,8 @@ public class UserManager {
                 throw new RuntimeException("INSERT error.");
             }
 
-            GestoreParty gParty = (GestoreParty) g;
+            GestoreParty gParty = new GestoreParty(g.getNome(), g.getCognome(), g.getEmail(), g.getPassword(), g.getTelefono(), g.getTipoGestore());
             gParty.setId(g.getId());
-
             return gParty;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -148,9 +149,8 @@ public class UserManager {
                 throw new RuntimeException("INSERT error.");
             }
 
-            GestoreImpiegati gi = (GestoreImpiegati) g;
+            GestoreImpiegati gi = new GestoreImpiegati(g.getNome(), g.getCognome(), g.getEmail(), g.getPassword(), g.getTelefono(), g.getTipoGestore());
             gi.setId(g.getId());
-
             return gi;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -168,9 +168,8 @@ public class UserManager {
                 throw new RuntimeException("INSERT error.");
             }
 
-            GestorePacchetti gPacchetti = (GestorePacchetti) g;
+            GestorePacchetti gPacchetti = new GestorePacchetti(g.getNome(), g.getCognome(), g.getEmail(), g.getPassword(), g.getTelefono(), g.getTipoGestore());
             gPacchetti.setId(g.getId());
-
             return gPacchetti;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -200,15 +199,14 @@ public class UserManager {
     public static boolean checkIdByEmail(String email)
     {
         try (Connection con = ConPool.getConnection()) {
-            java.sql.Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT email FROM utente");
+            PreparedStatement ps = con.prepareStatement("SELECT email FROM utente WHERE email=?");
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
 
-            while(rs.next())
-            {
-                if(email.equals(rs.getString(1)))
-                    return false;
-            }
-            return true;
+            if(rs.next())
+                return false;
+            else
+                return true;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -319,7 +317,7 @@ public class UserManager {
 
         HashMap<Artista,Double> collection = new HashMap<>();
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("select ingaggio.prezzo, artista.tipoArtista, utente.id, utente.nome, utente.cognome, utente.email, utente.telefono, utente.password, utente.tipo\n" +
+            PreparedStatement ps = con.prepareStatement("select ingaggio.prezzo, artista.tipoArtista, utente.id, utente.nome, utente.cognome, utente.email, utente.telefono, utente.password\n" +
                     "from artista, ingaggio, utente\n" +
                     "where ingaggio.idParty=? AND utente.id = ingaggio.idArtista AND ingaggio.idArtista = artista.idArtista");
             ps.setInt(1, idParty);
@@ -379,9 +377,9 @@ public class UserManager {
     {
         HashSet<Gestore> collection = new HashSet<Gestore>();
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, u.tipo, g.tipoGestore\n" +
+            PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, g.tipoGestore\n" +
                     "FROM gestore AS g, utente AS u\n" +
-                    "WHERE g.idGestore = u.id" +
+                    "WHERE g.idGestore = u.id " +
                     "ORDER BY g.tipoGestore");
 
             ResultSet rs= ps.executeQuery();
@@ -402,7 +400,7 @@ public class UserManager {
     {
         HashSet<Artista> collection = new HashSet<Artista>();
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, u.tipo, a.tipoArtista\n" +
+            PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, a.tipoArtista\n" +
                     "FROM artista AS a, utente AS u\n" +
                     "WHERE a.idArtista = u.id");
 
@@ -424,7 +422,7 @@ public class UserManager {
         HashMap<Artista, Double> mapFinal = new HashMap<>();
         try (Connection con = ConPool.getConnection()) {
             for(Integer i : map.keySet()) {
-                PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, u.tipo, a.tipoArtista\n" +
+                PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, a.tipoArtista\n" +
                         "FROM artista AS a, utente AS u\n" +
                         "WHERE a.idArtista = u.id AND a.idArtista = ?");
                 ps.setInt(1, i);

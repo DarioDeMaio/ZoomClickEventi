@@ -72,12 +72,13 @@ public class PacchettoManager {
         }
     }
 
-    public static Pacchetto findPacchettoByid(int id){
+    public static Pacchetto findPacchettoById(int id){
         Pacchetto p;
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM  pacchetti WHERE id=? and flag=1");
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
+            rs.next();
             p = new Pacchetto(rs.getString("titolo"), rs.getString("eventiConsigliati"), rs.getDouble("prezzo"), rs.getInt("flag"));
             p.setId(rs.getInt("id"));
         } catch (SQLException e) {
