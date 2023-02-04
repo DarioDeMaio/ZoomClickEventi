@@ -18,6 +18,8 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -44,7 +46,7 @@ public class LoginServlet extends HttpServlet {
         Utente u = UserManager.login(email, psw);
 
         if(u==null) {
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/errore");
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/errore.jsp");
             rd.forward(request, response);
         }
 
@@ -92,9 +94,13 @@ public class LoginServlet extends HttpServlet {
             }
 
         }
+        LocalDate ld = null;
+        Date d = null;
+        ld.getDayOfMonth();
+        ld.getMonthValue();
 
-        RequestDispatcher rd = getServletContext().getRequestDispatcher(indirizzo);
-        rd.forward(request, response);
+        //RequestDispatcher rd = getServletContext().getRequestDispatcher(indirizzo);
+        //rd.forward(request, response);
 
 
     }
