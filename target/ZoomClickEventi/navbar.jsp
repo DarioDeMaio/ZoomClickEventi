@@ -1,18 +1,25 @@
 <%@ page import="user.bean.Cliente" %>
 <%@ page import="party.bean.Artista" %>
-<%@ page import="user.bean.Gestore" %><%--
-  Created by IntelliJ IDEA.
-  User: 122nl
-  Date: 01/02/2023
-  Time: 18:20
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="user.bean.Gestore" %>
+<%@ page import="user.bean.GestoreImpiegati" %>
+<%@ page import="pacchetto.bean.GestorePacchetti" %>
+<%@ page import="party.bean.GestoreParty" %>
+<%@ page import="party.bean.Contabile" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
+  Object logged = session.getAttribute("logged");
+  boolean loggedBool=false;
+
+  if(logged!=null)
+    loggedBool=true;
+
   Cliente c = null;
-  Artista a;
-  Gestore g;
+  Artista a = null;
+  GestoreImpiegati gi = null;
+  GestorePacchetti gPacchetti = null;
+  GestoreParty gParty = null;
+  Contabile contabile = null;
 
   if(session.getAttribute("utente") instanceof Cliente)
   {
@@ -20,22 +27,17 @@
   }else if(session.getAttribute("utente") instanceof Artista)
   {
     a = (Artista) session.getAttribute("utente");
-  }else{
-    g = (Gestore) session.getAttribute("utente");
+  }else if(session.getAttribute("utente") instanceof GestoreImpiegati){
+    gi=(GestoreImpiegati) session.getAttribute("utente");
+  }else if(session.getAttribute("utente") instanceof GestoreParty){
+    gParty=(GestoreParty) session.getAttribute("utente");
+  }else if(session.getAttribute("utente") instanceof GestorePacchetti){
+    gPacchetti=(GestorePacchetti) session.getAttribute("utente");
+  }else if(session.getAttribute("utente") instanceof Contabile){
+    contabile=(Contabile) session.getAttribute("utente");
   }
 
-  /*if(c != null)
-    vuol dire che è un cliente
-  else if(a != null)
-    vuol dire che è un artista
-  else
-    vuol dire che è un gestore quindi facciamo:
-    if(g.getTipoGestore==impiegati)
-      vuol dire che è un gestore degli impiegati
-    else if(g.getTipoGestore==pacchetti)
-      vuol dire che è un gestore di pacchetti
-    ecc. ecc.
-*/
+  String nome=(String) request.getAttribute("nome");
 %>
 
 <html>
@@ -95,7 +97,6 @@
 
     <h2 class="benvenuto">Zoom Click Eventi</h2>
 
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,30 +106,87 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="header.jsp">Home <span class="sr-only"></span></a>
+            <a class="nav-link" href="header">Home <span class="sr-only"></span></a>
           </li>
 
+          <% if(loggedBool==true){%>
           <li class="nav-item">
-            <a class="nav-link">Logout</a>
+            <a href="logout" class="nav-link">Logout</a>
           </li>
-
+          <% } %>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="funct()">
-              Accedi
-            </a>
+            <% if(loggedBool==false){ %>
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="funct()">
+                  Accedi
+              </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <%if(c != null){%>
-                <a class="dropdown-item" href="login.jsp">I miei ordini</a>
-              <%}%>
-              <a class="dropdown-item" href="${ pageContext.request.contextPath }/login.jsp">Login</a>
-              <a class="dropdown-item" href="${ pageContext.request.contextPath }/registrazione.jsp">Registrati</a>
+              <a class="dropdown-item" href="login.jsp">Login</a>
+              <a class="dropdown-item" href="registrazione.jsp">Registrati</a>
+            </div>
+            <% }else{
+                if(c!=null){
+            %>
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="funct()">
+                Account
+              </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Profilo</a>
+              <a class="dropdown-item" href="#">Mie prenotazioni</a>
+              <a class="dropdown-item" href="#">Prenotazioni in corso</a>
+            </div>
+            <% }else if(a != null){ %>
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="funct()">
+                Visualizza
+              </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Profilo</a>
+              <a class="dropdown-item" href="#">Eventi Passati</a>
+              <a class="dropdown-item" href="#">Eventi Futuri</a>
+            </div>
+            <% }else if(gi != null){%>
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="funct()">
+                Visualizza
+              </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Profilo</a>
+              <a class="dropdown-item" href="#">Impiegati</a>
+              <a class="dropdown-item" href="#">Nuovo impiegato</a>
+            </div>
+            <% } else if(gPacchetti != null){ %>
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="funct()">
+                Visualizza
+              </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Profilo</a>
+              <a class="dropdown-item" href="#">Pacchetti</a>
+              <a class="dropdown-item" href="#">Nuovo pacchetto</a>
+            </div>
+            <% } else if(gParty != null) {%>
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="funct()">
+                Visualizza
+              </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Profilo</a>
+              <a class="dropdown-item" href="#">Prenotazioni in corso</a>
+            </div>
+            <% } else if(contabile != null){  %>
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="funct()">
+                Visualizza
+              </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Profilo</a>
+              <a class="dropdown-item" href="#">Eventi Passati</a>
+              <a class="dropdown-item" href="#">Eventi Futuri</a>
+            </div>
+            <% } %>
+
 
             </div>
           </li>
 
         </ul>
+  <% } %>
 
-      </div>
     </nav>
 
   </div>
