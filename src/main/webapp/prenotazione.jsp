@@ -10,6 +10,8 @@
 
     String titolo = (String) request.getAttribute("titolo");
     double prezzo = (Double) request.getAttribute("prezzo");
+    String id = String.valueOf(request.getAttribute("idPacchetto"));
+    int idPacchetto = Integer.parseInt(id);
 
 %>
 <html>
@@ -27,7 +29,7 @@
     <br><br>
 </div>
 
-<form action="prenotazione?action=prenotazione&idPacchetto=" method="post">
+<form action="prenotazione?action=prenotazione&idPacchetto=<%=idPacchetto%>" method="post">
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="inputEmail4">Tipo Evento</label>
