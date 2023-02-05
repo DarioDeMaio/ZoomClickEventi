@@ -1,9 +1,3 @@
-function checkCf(input){
-	var cf=/^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$/;
-	if(input.value.match(cf))
-		return true;
-	return false;
-}
 
 function checkPwd(input){
 	var pwd=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/g;
@@ -38,17 +32,7 @@ function checkPhonenumber(input){
 function validate(obj)
 {
 	var valid = true;
-	
-	
-	//validiamo il codice fiscale
-	var cf = document.getElementsByName("cf")[0];
-	if(!checkCf(cf)){
-		valid=false;
-		alert('Campo CODICE FISCALE non corretto!');
-		cf.classList.add("error");
-	}else
-		cf.classList.remove("error");
-	
+
 	//validiamo il nome
 	var name=document.getElementsByName("nome")[0];
 	if(!checkName(name)){
@@ -77,7 +61,7 @@ function validate(obj)
 		email.classList.remove("error");
 
 	//validiamo la password
-	var pwd = document.getElementsByName("psw")[0];
+	var pwd = document.getElementsByName("password")[0];
 	if(!checkPwd(pwd)){
 		valid=false;
 		alert('Campo PASSWORD non corretto!');
