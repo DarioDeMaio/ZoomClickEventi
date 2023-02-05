@@ -5,10 +5,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     HashSet<Pacchetto> catalogo = (HashSet<Pacchetto>) request.getAttribute("catalogo");
-    Iterator<Pacchetto> it = null;
-    if(catalogo!=null) {
-        it = catalogo.iterator();
-    }
+    Iterator<Pacchetto> it = catalogo.iterator();
 %>
 <html>
 <head>
@@ -35,10 +32,11 @@
     <style>
 
         body {
+            /*background: linear-gradient(to right, #FFCA28, #F44336);*/
+            /*background-color: rgba(255, 255, 255, 0.7);*/
             background: radial-gradient(circle at top left, #F44336, #2196F3, #f5a02f);
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
+            /*background-color: #f5a02f;*/
+
             font-family:"Segoe UI";
         }
 
@@ -90,10 +88,7 @@
 </head>
 <body>
 <%@ include file="navbar.jsp" %>
-
 <%
-    if(catalogo!=null)
-    {
     while(it.hasNext()){
         Pacchetto p = it.next();
 %>
@@ -102,7 +97,7 @@
 
     <div class="row">
         <div class="col-md-10">
-            <a class = "linkServlet" href="prenotazione?idPacchetto=<%=p.getId()%>&prezzo=<%=p.getPrezzo()%>&titolo=<%=p.getTitolo()%>">
+            <a class = "linkServlet" href="login.jsp" >
             <div class="card card-body">
                 <div class="media align-items-center align-items-lg-start text-center text-lg-left flex-column flex-lg-row" class="test">
 
@@ -113,10 +108,11 @@
                         </h3>
 
                         <ul class="list-inline list-inline-dotted mb-3 mb-lg-2">
-                            <li class="list-inline-item"><h6>Pacchetto consigliato per eventi del tipo:</h6></li>
+                            <li class="list-inline-item"><h6>Data</h6></li>
+                            <li class="list-inline-item"><h6>prova</h6></li>
                         </ul>
 
-                        <p class="mb-3">"<%=p.getEventiConsigliati()%>"</p>
+                        <p class="mb-3">Organizzata dal gruppo "<%=p.getEventiConsigliati()%>"</p>
 
 
                     </div>
@@ -141,7 +137,7 @@
     </div>
 </div>
 
-<%} }%>
+<%} %>
 
 </body>
 </html>

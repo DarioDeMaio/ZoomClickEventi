@@ -236,7 +236,7 @@ public class UserManager {
 
                 return u;
             }
-                return null;
+            return null;
         }catch(SQLException e) {
             throw new RuntimeException(e);
         }
