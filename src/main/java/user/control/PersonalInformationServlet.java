@@ -40,11 +40,11 @@ public class PersonalInformationServlet extends HttpServlet {
         String numero = (String) request.getParameter("numero");
 
         if(repeatPsw.compareTo(psw)==0){
-            Cliente c = (Cliente) session.getAttribute("utente");
-            c.setEmail(email);
-            c.setTelefono(numero);
-            c.setPassword(psw);
-            UserManager.updateUser(c);
+            Utente u = (Utente) session.getAttribute("utente");
+            u.setEmail(email);
+            u.setTelefono(numero);
+            u.setPassword(psw);
+            UserManager.updateUser(u);
         }else
             return "/errore.jsp";
 

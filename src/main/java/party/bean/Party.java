@@ -146,4 +146,20 @@ public class Party {
             fornitori.put(f, prezzo);
     }
 
+    public Artista findArtistaById(int idArtista)
+    {
+        for(Artista a:artisti.keySet())
+        {
+            if(a.getId()==idArtista)
+                return a;
+        }
+        return null;
+    }
+
+    public Fornitore findFornitoreById(int id){
+        for(Fornitore f: fornitori.keySet())
+            if(f.getId()==id)
+                return f;
+        return null;
+    }
 }

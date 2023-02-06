@@ -3,6 +3,7 @@ package party.bean;
 import user.bean.Utente;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class Artista extends Utente {
 

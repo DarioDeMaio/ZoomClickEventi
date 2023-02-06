@@ -167,7 +167,7 @@
               </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="#">Profilo</a>
-              <a class="dropdown-item" href="#">Prenotazioni in corso</a>
+              <a class="dropdown-item" href="prenotazione">Prenotazioni in corso</a>
             </div>
             <% } else if(contabile != null){  %>
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="funct()">

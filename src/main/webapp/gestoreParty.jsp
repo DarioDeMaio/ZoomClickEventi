@@ -1,24 +1,18 @@
-<%@ page import="java.util.HashSet" %>
 <%@ page import="party.bean.Party" %>
-<%@ page import="user.bean.Cliente" %>
-<%@ page import="java.util.Iterator" %>
-<%@ page import="java.util.HashMap" %><%--
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.HashSet" %>
+<%@ page import="java.util.Iterator" %><%--
   Created by IntelliJ IDEA.
-  User: demai
-  Date: 05/02/2023
-  Time: 20:26
+  User: 122nl
+  Date: 06/02/2023
+  Time: 18:08
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    /*HashSet<Party> party = (HashSet<Party>) request.getAttribute("miePrenotazioni");
-    Iterator<Party> it = party.iterator();*/
-    HashMap<Party, Double> party = (HashMap<Party, Double>) request.getAttribute("miePrenotazioni");
-    String from = (String) request.getAttribute("fromWhere");
-%>
+
 <html>
 <head>
-    <title>Mie prenotazioni</title>
+    <title>Gestore Party</title>
 
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
@@ -35,7 +29,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
-
 
     <style>
         body {
@@ -78,16 +71,31 @@
             margin-rigth:2%;
         }
 
+        .linkServlet {
+            color: inherit;
+            text-decoration: none;
+            transition: none;
+        }
+        .linkServlet:hover{
+            color: inherit;
+            text-decoration: none;
+            transition: none;
+        }
+
     </style>
 
 </head>
 <body>
+
 <%@ include file="navbar.jsp"%>
-<h1 style="text-align: center">Mie prenotazioni</h1>
+<h1 style="text-align: center">Party In attesa di riscontri</h1>
 <%
-    for (Party p : party.keySet()) {
-        if(p.getStato().compareTo(from)==0){
+    Iterator<Party> it = gParty.getParty().iterator();
+    while(it.hasNext()) {
+        Party p = it.next();
+        if(p.getStato().compareTo("In attesa")==0){
 %>
+<a href="prenotazione?action=conferma&idParty=<%=p.getId()%>" class="linkServlet">
 <div class="div-generale" class="container d-flex justify-content-center mt-50 mb-50">
 
     <div class="row">
@@ -114,7 +122,7 @@
 
                     <div class="mt-3 mt-lg-0 ml-lg-3 text-center">
 
-                        <h3 class="mb-0 font-weight-semibold">&euro; <%=party.get(p)%>0</h3>
+                        <h3 class="mb-0 font-weight-semibold">&euro; <%=p.getPacchetto().getPrezzo()%>0</h3>
 
                         <div>
                             <i class="fa fa-star"></i>
@@ -130,7 +138,9 @@
         </div>
     </div>
 </div>
+</a>
 <%}
 }%>
+
 </body>
 </html>

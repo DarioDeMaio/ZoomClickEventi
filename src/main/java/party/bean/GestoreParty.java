@@ -22,4 +22,15 @@ public class GestoreParty extends Gestore {
     public void setParty(HashSet<Party> party) {
         this.parties = party;
     }
+
+    public Party findById(int idParty)
+    {
+        Iterator<Party> it = parties.iterator();
+        while(it.hasNext()){
+            Party p = it.next();
+            if(p.getId()==idParty)
+                return p;
+        }
+        return null;
+    }
 }

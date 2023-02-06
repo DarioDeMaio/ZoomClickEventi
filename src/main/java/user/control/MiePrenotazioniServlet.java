@@ -17,7 +17,7 @@ public class MiePrenotazioniServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String fromWhere = (String) request.getParameter("from");
-        String indirizzo = "/Prenotazioni.jsp";
+        String indirizzo = "/miePrenotazioni.jsp";
         HttpSession session = request.getSession();
 
         if(fromWhere.compareTo("Incorso")==0)
