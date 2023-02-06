@@ -11,6 +11,7 @@ import user.manager.UserManager;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 
 public class PartyManager {
@@ -80,10 +81,10 @@ public class PartyManager {
 
     public static void prenotaParty(Party p){
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO party (tipo, data, dataPrenotazione, nomeLocale, servizi, stato, idPacchetto, idCliente, prezzoPacchetto, citta) VALUES (?, ?, ?, ?, ?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = con.prepareStatement("INSERT INTO party (tipo, data, dataPrenotazione, nomeLocale, servizi, stato, idPacchetto, idCliente, prezzoPacchetto, citta, festeggiato) VALUES (?, ?, ?, ?, ?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1,p.getTipo());
-            ps.setDate(2,(java.sql.Date) p.getData());
-            ps.setDate(3, (java.sql.Date) p.getDataPrenotazione());
+            ps.setDate(2, new Date(p.getData().getTime()));
+            ps.setDate(3, new Date(p.getDataPrenotazione().getTime()));
             ps.setString(4, p.getNomeLocale());
             ps.setString(5, p.getServizi());
             ps.setString(6,"In attesa");
@@ -91,6 +92,7 @@ public class PartyManager {
             ps.setInt(8,p.getIdCliente());
             ps.setDouble(9,p.getPacchetto().getPrezzo());
             ps.setString(10,p.getCitta());
+            ps.setString(11,p.getFesteggiato());
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }
@@ -164,12 +166,29 @@ public class PartyManager {
                 p = new Party(rs.getString("tipo"), rs.getString("festeggiato"), rs.getString("nomeLocale"), rs.getString("citta"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"),rs.getString("servizi"), pacchetto, idCliente);
                 p.setId(rs.getInt("id"));
                 p.setArtisti(UserManager.findArtistaByIdParty(p.getId()));
+                p.setFornitori(UserManager.findFornitoreByIdParty(p.getId()));
                 collection.add(p);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return collection;
+    }
+
+    public static  HashMap<Fornitore, Double> findFornitoreByIdParty(int idParty){
+        HashMap<Fornitore, Double> list = new  HashMap<Fornitore, Double>();
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("SELECT f.prezzo, f.id, f.nomeAzienda, f.proprietario, f.telefono, f.tipoFornitore" +
+                        " FROM party AS p, richiede AS r WHERE p.id=? AND p.id=r.idParty");
+            ps.setInt(1, idParty);
+            ResultSet rs = ps.executeQuery();
+            Fornitore f = new Fornitore(rs.getString("telefono"), rs.getString("nomeAzienda"), rs.getString("proprietario"), rs.getString("tipoFornitore") );
+            f.setId(rs.getInt("id"));
+            list.put(f, rs.getDouble("prezzo"));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
     }
 
 }
