@@ -1,5 +1,7 @@
 package party.bean;
 
+import java.util.Iterator;
+
 public class Fornitore {
     private int id;
     private String nomeAzienda, proprietario, tipoFornitore, telefono;
@@ -51,4 +53,5 @@ public class Fornitore {
     public void setTipoFornitore(String tipoFornitore) {
         this.tipoFornitore = tipoFornitore;
     }
+
 }

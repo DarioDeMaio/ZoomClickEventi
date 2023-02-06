@@ -145,4 +145,5 @@ public class Party {
         if(!fornitori.containsKey(f))
             fornitori.put(f, prezzo);
     }
+
 }

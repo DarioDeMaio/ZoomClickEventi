@@ -33,7 +33,7 @@ public class ConPool {
         String port = "3306";
         String db = "zoomclickeventi";
         String username = "root";
-        String password = "Djangelo19.";
+        String password = "Giulia-dario1";
         newConnection = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + port + "/" + db + "", username, password);
         newConnection.setAutoCommit(true);
         return newConnection;

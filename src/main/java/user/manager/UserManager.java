@@ -333,6 +333,7 @@ public class UserManager {
         return collection;
     }
 
+
     public static HashMap<Fornitore,Double> findFornitoreByIdParty(int idParty){
 
         HashMap<Fornitore,Double> collection = new HashMap<>();
