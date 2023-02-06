@@ -2,10 +2,10 @@ package user.manager;
 
 import connection.ConPool;
 import pacchetto.bean.GestorePacchetti;
-import party.bean.Artista;
-import party.bean.Contabile;
-import party.bean.Fornitore;
-import party.bean.GestoreParty;
+import pacchetto.bean.Pacchetto;
+import pacchetto.manager.PacchettoManager;
+import party.bean.*;
+import party.manager.PartyManager;
 import user.bean.Cliente;
 import user.bean.Gestore;
 import user.bean.GestoreImpiegati;
@@ -15,6 +15,7 @@ import user.bean.Utente;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class UserManager {
 

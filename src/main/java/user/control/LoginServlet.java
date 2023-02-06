@@ -55,6 +55,8 @@ public class LoginServlet extends HttpServlet {
             //setto la collection di parties del cliente
             Cliente c = UserManager.isCliente(u);
             c.setParties(PartyManager.findPartyByIdCliente(id));
+            for(Party p: c.getParties())
+                p.setFornitori(UserManager.findFornitoreByIdParty(p.getId()));
             session.setAttribute("utente", c);
             request.setAttribute("nome", c.getNome());
         }else if(UserManager.isArtista(u) != null)

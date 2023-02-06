@@ -11,6 +11,7 @@ import user.manager.UserManager;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 
 public class PartyManager {
@@ -171,6 +172,22 @@ public class PartyManager {
             throw new RuntimeException(e);
         }
         return collection;
+    }
+
+    public static  HashMap<Fornitore, Double> findFornitoreByIdParty(int idParty){
+        HashMap<Fornitore, Double> list = new  HashMap<Fornitore, Double>();
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("SELECT f.prezzo, f.id, f.nomeAzienda, f.proprietario, f.telefono, f.tipoFornitore" +
+                        " FROM party AS p, richiede AS r WHERE p.id=? AND p.id=r.idParty");
+            ps.setInt(1, idParty);
+            ResultSet rs = ps.executeQuery();
+            Fornitore f = new Fornitore(rs.getString("telefono"), rs.getString("nomeAzienda"), rs.getString("proprietario"), rs.getString("tipoFornitore") );
+            f.setId(rs.getInt("id"));
+            list.put(f, rs.getDouble("prezzo"));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
     }
 
 }
