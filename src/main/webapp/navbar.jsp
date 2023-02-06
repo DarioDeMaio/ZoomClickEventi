@@ -130,7 +130,7 @@
                 Account
               </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Profilo</a>
+              <a class="dropdown-item" href="PersonalInformationServlet?action=home">Profilo</a>
               <a class="dropdown-item" href="MiePrenotazioniServlet?from=Confermato">Mie prenotazioni</a>
               <a class="dropdown-item" href="MiePrenotazioniServlet?from=Incorso">Prenotazioni in corso</a>
             </div>

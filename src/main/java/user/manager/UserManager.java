@@ -177,7 +177,7 @@ public class UserManager {
         }
     }
 
-    public void updateUser(Utente u)
+    public static void updateUser(Utente u)
     {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("Update utente\n" +
@@ -187,7 +187,6 @@ public class UserManager {
             ps.setString(2, u.getPassword());
             ps.setString(3, u.getTelefono());
             ps.setInt(4, u.getId());
-            ResultSet rs = ps.executeQuery();
 
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("UPDATE error.");

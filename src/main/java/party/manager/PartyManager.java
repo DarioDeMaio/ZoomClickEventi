@@ -166,6 +166,7 @@ public class PartyManager {
                 p = new Party(rs.getString("tipo"), rs.getString("festeggiato"), rs.getString("nomeLocale"), rs.getString("citta"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"),rs.getString("servizi"), pacchetto, idCliente);
                 p.setId(rs.getInt("id"));
                 p.setArtisti(UserManager.findArtistaByIdParty(p.getId()));
+                p.setFornitori(UserManager.findFornitoreByIdParty(p.getId()));
                 collection.add(p);
             }
         } catch (SQLException e) {

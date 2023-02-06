@@ -28,7 +28,7 @@ public class MiePrenotazioniServlet extends HttpServlet {
         HashSet<Party> party = c.getParties();
         HashMap<Party, Double> miePrenotazioni = getMap(party);
 
-        //HashMap<Party, Double> miePrenotazioni = UserManager.findPartyClientById(c.getId());
+
         request.setAttribute("miePrenotazioni", miePrenotazioni);
         RequestDispatcher rd = getServletContext().getRequestDispatcher(indirizzo);
         rd.forward(request, response);
