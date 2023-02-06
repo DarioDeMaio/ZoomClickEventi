@@ -175,20 +175,25 @@ public class PartyManager {
         return collection;
     }
 
-    public static  HashMap<Fornitore, Double> findFornitoreByIdParty(int idParty){
-        HashMap<Fornitore, Double> list = new  HashMap<Fornitore, Double>();
+    public static HashSet<Fornitore> retrieveAllFornitori()
+    {
+        HashSet<Fornitore> collection = new HashSet<Fornitore>();
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT f.prezzo, f.id, f.nomeAzienda, f.proprietario, f.telefono, f.tipoFornitore" +
-                        " FROM party AS p, richiede AS r WHERE p.id=? AND p.id=r.idParty");
-            ps.setInt(1, idParty);
-            ResultSet rs = ps.executeQuery();
-            Fornitore f = new Fornitore(rs.getString("telefono"), rs.getString("nomeAzienda"), rs.getString("proprietario"), rs.getString("tipoFornitore") );
-            f.setId(rs.getInt("id"));
-            list.put(f, rs.getDouble("prezzo"));
+            PreparedStatement ps = con.prepareStatement("SELECT f.id, f.nomeAzienda, f.proprietario, f.telefono, f.tipoFornitore\n" +
+                    "FROM fornitori AS f");
+
+            ResultSet rs= ps.executeQuery();
+
+            while(rs.next())
+            {
+                Fornitore f = new Fornitore(rs.getString("telefono"), rs.getString("nomeAzienda"), rs.getString("proprietario"), rs.getString("tipoFornitore"));
+                f.setId(rs.getInt("id"));
+                collection.add(f);
+            }
+            return collection;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return list;
     }
 
 }
