@@ -17,6 +17,7 @@
 <html>
 <head>
     <title>Conferma Party</title>
+
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -32,14 +33,34 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
+
+    <style>
+
+        button{
+            margin-left:2%;
+        }
+
+        .box{
+            margin-left: 2%;
+        }
+
+        .labelArtisti{
+            margin-left: 2%;
+            font-weight: bold;
+        }
+
+    </style>
 </head>
 <body>
 <%@ include file="navbar.jsp"%>
 <% Party p = gParty.findById(idParty); %>
+
+<h1>Servizi richiesti:<%=p.getServizi()%></h1>
 <form method="post" action="prenotazione?action=confermaParty&idParty=<%=idParty%>" >
 
     <label>DJ</label>
     <select name="dj">
+        <option value="">Seleziona un dj</option>
         <%
             for(Artista art:artisti)
             {
@@ -52,10 +73,11 @@
         <%  } %>
 
     </select>
-    <input type="text" name="prezzoDj">costo
-
+    <input type="text" name="prezzoDj" placeholder="costo dj">
+    <br><br>
     <label>Fotografi</label>
     <select name="fotografi">
+        <option value="">Seleziona un fotografo</option>
         <%
             for(Artista art:artisti)
             {
@@ -67,10 +89,11 @@
         <%  } %>
 
     </select>
-    <input type="text" name="prezzoFotografo">costo
-
+    <input type="text" name="prezzoFotografo" placeholder="costo fotografo">
+    <br><br>
     <label>Speaker</label>
     <select name="speaker">
+        <option value="">Seleziona uno speaker</option>
         <%
             for(Artista art:artisti)
             {
@@ -82,7 +105,7 @@
         <%  } %>
 
     </select>
-    <input type="text" name="prezzoSpeaker">costo
+    <input type="text" name="prezzoSpeaker" placeholder="costo speaker">
     <br><br>
 
     <label class="labelFornitori">Fornitori</label>
@@ -94,8 +117,11 @@
     <input class="box" name="idFornitori" type="checkbox" value=<%=f.getId() %>> <%=f.getNomeAzienda() %>
 
     <%} %>
-
+    <br><br>
     <button type="submit" class="btn btn-primary">Conferma</button>
 </form>
+
+<a href="prenotazione?action=rifiuta&idParty=<%=idParty%>"><button type="" class="btn btn-primary">Rifiuta</button></a>
+
 </body>
 </html>
