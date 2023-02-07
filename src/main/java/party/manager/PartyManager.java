@@ -137,11 +137,10 @@ public class PartyManager {
                 }
             }
 
-            for(Fornitore f : p.getFornitori().keySet()){
-                PreparedStatement ps2 = con.prepareStatement("INSERT INTO richiede (idFornitore, idParty, prezzo) VALUES (?,?,?)");
+            for(Fornitore f : p.getFornitori()){
+                PreparedStatement ps2 = con.prepareStatement("INSERT INTO richiede (idFornitore, idParty) VALUES (?,?)");
                 ps2.setInt(1, f.getId());
                 ps2.setInt(2, p.getId());
-                ps2.setDouble(3, p.getFornitori().get(f));
                 if (ps2.executeUpdate() != 1) {
                     throw new RuntimeException("Inserimento fornitore error.");
                 }
@@ -179,14 +178,14 @@ public class PartyManager {
     {
         HashSet<Fornitore> collection = new HashSet<Fornitore>();
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT f.id, f.nomeAzienda, f.proprietario, f.telefono, f.tipoFornitore\n" +
+            PreparedStatement ps = con.prepareStatement("SELECT f.id, f.nomeAzienda, f.proprietario, f.telefono, f.tipoFornitore, f.prezzo\n" +
                     "FROM fornitori AS f");
 
             ResultSet rs= ps.executeQuery();
 
             while(rs.next())
             {
-                Fornitore f = new Fornitore(rs.getString("telefono"), rs.getString("nomeAzienda"), rs.getString("proprietario"), rs.getString("tipoFornitore"));
+                Fornitore f = new Fornitore(rs.getString("telefono"), rs.getString("nomeAzienda"), rs.getString("proprietario"), rs.getString("tipoFornitore"), rs.getDouble("prezzo"));
                 f.setId(rs.getInt("id"));
                 collection.add(f);
             }

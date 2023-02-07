@@ -53,6 +53,8 @@ public class PrenotazioneServlet extends HttpServlet {
             indirizzo=redirectToConfermaParty(request);
         }else if(action.compareTo("confermaParty")==0){
             indirizzo = confermaParty(request);
+        }else if(action.compareTo("rifiuta")==0){
+            indirizzo = rifiutaParty(request);
         }
 
         RequestDispatcher rd = getServletContext().getRequestDispatcher(indirizzo);
@@ -65,6 +67,14 @@ public class PrenotazioneServlet extends HttpServlet {
         doGet(request, response);
     }
 
+    private String rifiutaParty(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        GestoreParty gParty = (GestoreParty) session.getAttribute("utente");
+        Party p = gParty.findById(Integer.parseInt(request.getParameter("idParty")));
+        p.setStato("Rifiutato");
+        PartyManager.rifiutoParty(Integer.parseInt(request.getParameter("idParty")));
+        return "/header";
+    }
     private String redirectToConfermaParty(HttpServletRequest request)
     {
         HashSet<Artista> artisti = UserManager.retrieveAllArtisti();
@@ -127,25 +137,26 @@ public class PrenotazioneServlet extends HttpServlet {
         return "/header";
     }
 
-    private String confermaParty(HttpServletRequest request)
-    {
+    private String confermaParty(HttpServletRequest request) {
         HttpSession session = request.getSession();
         GestoreParty gParty = (GestoreParty) session.getAttribute("utente");
-
-        String dj = request.getParameter("dj");
-        dj = dj.substring(0,1);
-        int idDj = Integer.parseInt(dj);
-        double prezzoDj = Double.parseDouble(request.getParameter("prezzoDj"));
-
-        String fotografo = request.getParameter("fotografi");
-        fotografo = fotografo.substring(0,1);
-        int idFotografo = Integer.parseInt(fotografo);
-        double prezzoFotografo= Double.parseDouble(request.getParameter("prezzoFotografo"));
-
-        String speaker = request.getParameter("speaker");
-        speaker = speaker.substring(0,1);
-        int idSpeaker = Integer.parseInt(speaker);
-        double prezzoSpeaker = Double.parseDouble(request.getParameter("prezzoSpeaker"));
+        int idDj = 0, idFotografo = 0, idSpeaker = 0;
+        double prezzoDj = 0, prezzoFotografo = 0, prezzoSpeaker = 0;
+        if (request.getParameter("dj").compareTo("") != 0) {
+            String dj = request.getParameter("dj");
+            idDj = Integer.parseInt(dj);
+            prezzoDj = Double.parseDouble(request.getParameter("prezzoDj"));
+        }
+        if (request.getParameter("fotografi").compareTo("") != 0) {
+            String fotografo = request.getParameter("fotografi");
+            idFotografo = Integer.parseInt(fotografo);
+            prezzoFotografo = Double.parseDouble(request.getParameter("prezzoFotografo"));
+        }
+        if (request.getParameter("speaker").compareTo("") != 0) {
+            String speaker = request.getParameter("speaker");
+            idSpeaker = Integer.parseInt(speaker);
+            prezzoSpeaker = Double.parseDouble(request.getParameter("prezzoSpeaker"));
+        }
 
         int idParty = Integer.parseInt(request.getParameter("idParty"));
 
@@ -165,13 +176,18 @@ public class PrenotazioneServlet extends HttpServlet {
         }
 
         String[] idFornitori = request.getParameterValues("idFornitori");
+        if(idFornitori != null) {
 
-
-        for(Fornitore f:fornitori)
-        {
-
+            for (Fornitore f : fornitori) {
+                for (int i = 0; i < idFornitori.length; i++)
+                    if ((Integer.parseInt(idFornitori[i])) == f.getId()) {
+                        p.addFornitore(f);
+                    }
+            }
         }
+        p.setStato("Confermato");
+        PartyManager.confermaParty(p);
 
-        return "/homePage";
+        return "/header";
     }
 }

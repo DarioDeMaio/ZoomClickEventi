@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-
+<%
+	Object bool = request.getAttribute("bool");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,15 +31,26 @@ text-align:center;
 </style>
 </head>
 <body>
-		
+		<%if(bool != null){%>
+			<div class="w3-container w3-purple" id="div-errore">
+				<h1>ERRORE</h1>
+			</div>
+			<div class="w3-container w3-white" id="div-errore2">
+
+			<h2>EMAIL O PASSWORD ERRATI</h2>
+			<p>Ritorna a <a href="login.jsp">LOGIN</a> o <a href="registrazione.jsp">REGISTRAZIONE</a></p>
+		</div>
+		<%}else{%>
 		<div class="w3-container w3-purple" id="div-errore">
   			<h1>ERRORE</h1> 
 		</div>
 		<div class="w3-container w3-white" id="div-errore2">
 
    			<h2>EMAIL GIÀ ESISTENTE!</h2>
-		<p>Ritorna a <a href="Login.jsp">LOGIN</a> o <a href="Registrazione.jsp">REGISTRAZIONE</a></p>
+		<p>Ritorna a <a href="login.jsp">LOGIN</a> o <a href="registrazione.jsp">REGISTRAZIONE</a></p>
 		</div>
+		<%}%>
+
 </body>
 
 </html>

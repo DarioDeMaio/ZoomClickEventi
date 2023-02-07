@@ -333,37 +333,39 @@ public class UserManager {
         return collection;
     }
 
-    public static HashMap<Fornitore,Double> findFornitoreByIdParty(int idParty){
 
-        HashMap<Fornitore,Double> collection = new HashMap<>();
+    public static HashSet<Fornitore> findFornitoreByIdParty(int idParty){
+
+        HashSet<Fornitore> collection = new HashSet<Fornitore>();
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("select richiede.prezzo, fornitori.id, fornitori.nomeAzienda, fornitori.proprietario, fornitori.telefono, fornitori.tipoFornitore\n" +
+            PreparedStatement ps = con.prepareStatement("select fornitori.prezzo, fornitori.id, fornitori.nomeAzienda, fornitori.proprietario, fornitori.telefono, fornitori.tipoFornitore\n" +
                     "from richiede, fornitori, party\n" +
                     "where party.id=? AND richiede.idParty = party.id AND fornitori.id=richiede.idFornitore");
             ps.setInt(1, idParty);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                Fornitore f = new Fornitore(rs.getString("telefono"), rs.getString("nomeAzienda"), rs.getString("proprietario"), rs.getString("tipoFornitore"));
+                Fornitore f = new Fornitore(rs.getString("telefono"), rs.getString("nomeAzienda"), rs.getString("proprietario"), rs.getString("tipoFornitore"), rs.getDouble("prezzo"));
                 f.setId(rs.getInt("id"));
-                collection.put(f,rs.getDouble("prezzo"));
+                collection.add(f);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return collection;
     }
-    public Fornitore insertFornitore(String nomeAzienda,String proprietario, String telefono, String tipoFornitore){
+    public Fornitore insertFornitore(String nomeAzienda,String proprietario, String telefono, String tipoFornitore, double prezzo){
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO fornitori (nomeAzienda, proprietario, telefono, tipoFornitore) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = con.prepareStatement("INSERT INTO fornitori (nomeAzienda, proprietario, telefono, tipoFornitore, prezzo) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, nomeAzienda);
             ps.setString(2, proprietario);
             ps.setString(3, telefono);
             ps.setString(4, tipoFornitore);
+            ps.setDouble(5,prezzo);
             if (ps.executeUpdate() != 1)
             {
                 throw new RuntimeException("INSERT error.");
             }
-            Fornitore f = new Fornitore(telefono, nomeAzienda, proprietario, tipoFornitore);
+            Fornitore f = new Fornitore(telefono, nomeAzienda, proprietario, tipoFornitore, prezzo);
             ResultSet rs= ps.getGeneratedKeys();
             rs.next();
             f.setId(rs.getInt("id"));
@@ -441,12 +443,12 @@ public class UserManager {
         HashMap<Fornitore, Double> mapFinal = new HashMap<>();
         try (Connection con = ConPool.getConnection()) {
             for(Integer i : map.keySet()) {
-                PreparedStatement ps = con.prepareStatement("SELECT f.id, f.nomeAzienda, f.proprietario, f.telefono, f.tipoFornitore\n" +
+                PreparedStatement ps = con.prepareStatement("SELECT f.id, f.nomeAzienda, f.proprietario, f.telefono, f.tipoFornitore, f.prezzo\n" +
                         "FROM fornitori AS f\n" +
                         "WHERE f.idFornitore = ?");
                 ps.setInt(1, i);
                 ResultSet rs = ps.executeQuery();
-                Fornitore fornitore = new Fornitore(rs.getString("telefono"), rs.getString("nomeAzienda"), rs.getString("proprietario"), rs.getString("tipoFornitore"));
+                Fornitore fornitore = new Fornitore(rs.getString("telefono"), rs.getString("nomeAzienda"), rs.getString("proprietario"), rs.getString("tipoFornitore"), rs.getDouble("prezzo"));
                 fornitore.setId(rs.getInt("id"));
                 mapFinal.put(fornitore, map.get(i));
             }

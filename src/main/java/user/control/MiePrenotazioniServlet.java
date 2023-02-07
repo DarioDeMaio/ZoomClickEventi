@@ -43,8 +43,8 @@ public class MiePrenotazioniServlet extends HttpServlet {
         HashMap<Party, Double> miePrenotazioni = new HashMap<>();
         for(Party p: party){
             double sum = p.getPacchetto().getPrezzo();
-            for(Fornitore f: p.getFornitori().keySet()){
-                sum += p.getFornitori().get(f);
+            for(Fornitore f: p.getFornitori()){
+                sum += f.getPrezzo();
             }
             miePrenotazioni.put(p,sum);
         }

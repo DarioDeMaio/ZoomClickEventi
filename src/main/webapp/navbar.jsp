@@ -139,7 +139,7 @@
                 Visualizza
               </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Profilo</a>
+              <a class="dropdown-item" href="PersonalInformationServlet?action=home">Profilo</a>
               <a class="dropdown-item" href="#">Eventi Passati</a>
               <a class="dropdown-item" href="#">Eventi Futuri</a>
             </div>
@@ -148,7 +148,7 @@
                 Visualizza
               </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Profilo</a>
+              <a class="dropdown-item" href="PersonalInformationServlet?action=home">Profilo</a>
               <a class="dropdown-item" href="#">Impiegati</a>
               <a class="dropdown-item" href="#">Nuovo impiegato</a>
             </div>
@@ -157,7 +157,7 @@
                 Visualizza
               </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Profilo</a>
+              <a class="dropdown-item" href="PersonalInformationServlet?action=home">Profilo</a>
               <a class="dropdown-item" href="#">Pacchetti</a>
               <a class="dropdown-item" href="#">Nuovo pacchetto</a>
             </div>
@@ -166,7 +166,7 @@
                 Visualizza
               </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Profilo</a>
+              <a class="dropdown-item" href="PersonalInformationServlet?action=home">Profilo</a>
               <a class="dropdown-item" href="prenotazione">Prenotazioni in corso</a>
             </div>
             <% } else if(contabile != null){  %>
@@ -174,7 +174,7 @@
                 Visualizza
               </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Profilo</a>
+              <a class="dropdown-item" href="PersonalInformationServlet?action=home">Profilo</a>
               <a class="dropdown-item" href="#">Eventi Passati</a>
               <a class="dropdown-item" href="#">Eventi Futuri</a>
             </div>
