@@ -52,7 +52,7 @@
     </style>
 </head>
 <body>
-<%@ include file="navbar.jsp"%>
+<%@ include file="../user/navbar.jsp"%>
 <% Party p = gParty.findById(idParty); %>
 
 <h1>Pacchetto richiesto: <%=p.getPacchetto().getTitolo()%></h1>

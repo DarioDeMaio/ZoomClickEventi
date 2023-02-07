@@ -31,6 +31,7 @@ text-align:center;
 </style>
 </head>
 <body>
+
 		<%if(bool != null){%>
 			<div class="w3-container w3-purple" id="div-errore">
 				<h1>ERRORE</h1>
@@ -38,7 +39,7 @@ text-align:center;
 			<div class="w3-container w3-white" id="div-errore2">
 
 			<h2>EMAIL O PASSWORD ERRATI</h2>
-			<p>Ritorna a <a href="login.jsp">LOGIN</a> o <a href="registrazione.jsp">REGISTRAZIONE</a></p>
+			<p>Ritorna a <a href="./login?action=send">LOGIN</a> o <a href="./registra?action=send">REGISTRAZIONE</a></p>
 		</div>
 		<%}else{%>
 		<div class="w3-container w3-purple" id="div-errore">
@@ -47,7 +48,7 @@ text-align:center;
 		<div class="w3-container w3-white" id="div-errore2">
 
    			<h2>EMAIL GIÀ ESISTENTE!</h2>
-		<p>Ritorna a <a href="login.jsp">LOGIN</a> o <a href="registrazione.jsp">REGISTRAZIONE</a></p>
+		<p>Ritorna a <a href="./login?action=send">LOGIN</a> o <a href="./registra?action=send">REGISTRAZIONE</a></p>
 		</div>
 		<%}%>
 

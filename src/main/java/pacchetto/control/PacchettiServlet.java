@@ -20,16 +20,10 @@ public class PacchettiServlet extends HttpServlet {
 
         if(action == null)
         {
-            indirizzo = "/gestorePacchetti.jsp";
+            indirizzo = "/pacchetto/gestorePacchetti.jsp";
         }else if(action.compareTo("delete")==0)
         {
             indirizzo = delete(request);
-        }else if(action.compareTo("update")==0)
-        {
-            indirizzo = sendToUpdate(request);
-        }else if(action.compareTo("updatePacchetto")==0)
-        {
-            indirizzo = update(request);
         }else if(action.compareTo("insert")==0)
         {
             indirizzo = sendToInsert(request);
@@ -56,43 +50,12 @@ public class PacchettiServlet extends HttpServlet {
         Pacchetto p = gp.findById(id);
         gp.deletePacchetto(p);
         PacchettoManager.deletePacchetto(id);
-        return "/gestorePacchetti.jsp";
-    }
-
-    private String update(HttpServletRequest request)
-    {
-        HttpSession session = request.getSession();
-        GestorePacchetti gp = (GestorePacchetti) session.getAttribute("utente");
-
-        int id = Integer.parseInt(request.getParameter("id"));
-        double prezzo = Double.parseDouble(request.getParameter("prezzo"));
-        String eventi = request.getParameter("eventi");
-        Pacchetto p = gp.findById(id);
-
-        p.setPrezzo(prezzo);
-        p.setEventiConsigliati(eventi);
-        p.setFlag(0);
-
-        PacchettoManager.updatePacchetto(p);
-
-        return "/gestorePacchetti.jsp";
-    }
-
-    private String sendToUpdate(HttpServletRequest request)
-    {
-        HttpSession session = request.getSession();
-        GestorePacchetti gp = (GestorePacchetti) session.getAttribute("utente");
-
-        int id = Integer.parseInt(request.getParameter("id"));
-        Pacchetto p = gp.findById(id);
-        request.setAttribute("pacchetto", p);
-
-        return "/updatePacchetto.jsp";
+        return "/pacchetto/gestorePacchetti.jsp";
     }
 
     private String sendToInsert(HttpServletRequest request)
     {
-        return "/newPacchetto.jsp";
+        return "/pacchetto/newPacchetto.jsp";
     }
     private String insert(HttpServletRequest request)
     {
@@ -109,6 +72,6 @@ public class PacchettiServlet extends HttpServlet {
 
         gp.addPacchetto(p);
 
-        return "/gestorePacchetti.jsp";
+        return "/pacchetto/gestorePacchetti.jsp";
     }
 }

@@ -1,7 +1,6 @@
 <%@ page import="party.bean.Party" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="java.util.HashSet" %>
-<%@ page import="java.util.Iterator" %><%--
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.util.*" %><%--
   Created by IntelliJ IDEA.
   User: 122nl
   Date: 06/02/2023
@@ -88,14 +87,12 @@
 <body>
 
 <%@ include file="navbar.jsp"%>
-<h1 style="text-align: center">Party In attesa di riscontri</h1>
+<h1 style="text-align: center">Lista Impiegati</h1>
 <%
-    Iterator<Party> it = gParty.getParty().iterator();
-    while(it.hasNext()) {
-        Party p = it.next();
-        if(p.getStato().compareTo("In attesa")==0){
+    for(Gestore g: gi.getImpiegati()){
+        System.out.println(g.getId());
+        if(gi.getId() != g.getId()){
 %>
-<a href="prenotazione?action=conferma&idParty=<%=p.getId()%>" class="linkServlet">
 <div class="div-generale" class="container d-flex justify-content-center mt-50 mb-50">
 
     <div class="row">
@@ -106,41 +103,32 @@
 
 
                     <div class="media-body">
+                        <h2>Tipo gestore: <%=g.getTipoGestore()%></h2>
                         <h3 class="media-title font-weight-semibold">
-                            Nome festeggiato/i: <%=p.getFesteggiato()%>
+                            Nome gestore: <%=g.getNome()%>
                         </h3>
-                        <h3>Tipo evento: <%=p.getTipo()%></h3>
+
+                        <h3 class="media-title font-weight-semibold">
+                            Nome gestore: <%=g.getCognome()%>
+                        </h3>
+
                         <ul class="list-inline list-inline-dotted mb-3 mb-lg-2">
-                            <li class="list-inline-item"><h6>Data</h6></li>
-                            <li><h6><%=p.getData()%></h6></li>
+                            <li class="list-inline-item"><h6>Telefono</h6></li>
+                            <li><h6><%=g.getTelefono()%></h6></li>
+                            <a href="EmployeeServlet?action=delete&idImpiegato=<%=g.getId()%>"><button>Elimina</button></a>
                         </ul>
-
-                        <p class="mb-3">Città: <%=p.getCitta()%></p>
-                        <h5 class="mb-3">Acquistato il <%=p.getDataPrenotazione() %> </h5>
-
                     </div>
-
-                    <div class="mt-3 mt-lg-0 ml-lg-3 text-center">
-
-                        <h3 class="mb-0 font-weight-semibold">&euro; <%=p.getPacchetto().getPrezzo()%>0</h3>
-
-                        <div>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
-</a>
+
 <%}
-}%>
+    }%>
 
 </body>
 </html>
+

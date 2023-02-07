@@ -12,6 +12,13 @@ import java.io.IOException;
 public class RegistrazioneServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if(action.compareTo("send")==0)
+        {
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/user/registrazione.jsp");
+            rd.forward(request, response);
+        }
+
         String nome= request.getParameter("nome");
         String cognome= request.getParameter("cognome");
         String psw= request.getParameter("password");
@@ -28,7 +35,7 @@ public class RegistrazioneServlet extends HttpServlet {
             request.setAttribute("email", email);
             request.setAttribute("password", psw);
         }else{
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/errore.jsp");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/user/errore.jsp");
             dispatcher.forward(request, response);
         }
 

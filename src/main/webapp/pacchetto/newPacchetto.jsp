@@ -11,7 +11,7 @@
     <title>Nuovo Pacchetto</title>
 </head>
 <body>
-<%@ include file="navbar.jsp" %>
+<%@ include file="../user/navbar.jsp" %>
 <form action="pacchettiControl?action=insertPacchetto" method="post">
   <div class="form-row">
     <div class="form-group col-md-6">

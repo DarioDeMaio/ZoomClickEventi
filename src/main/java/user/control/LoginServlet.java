@@ -28,6 +28,12 @@ public class LoginServlet extends HttpServlet {
     public static int id=0;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if(action!=null)
+        {
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/user/login.jsp");
+            rd.forward(request, response);
+        }
 
         String email="", psw="";
         if(request.getParameter("email")!=null) {
@@ -45,7 +51,7 @@ public class LoginServlet extends HttpServlet {
 
         if(u==null) {
             request.setAttribute("bool", true);
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/errore.jsp");
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/user/errore.jsp");
             rd.forward(request, response);
         }
 
@@ -69,7 +75,6 @@ public class LoginServlet extends HttpServlet {
         }else{
             //qui se è un gestore vediamo che tipo di gestore è, così da caricargli subito le varie liste
             Gestore g = (Gestore) UserManager.isGestore(u);
-            indirizzo = "/gestore";
             if(g.getTipoGestore().compareTo("contabile") == 0) {
                 Contabile c = new Contabile(g.getNome(), g.getCognome(), g.getEmail(), g.getPassword(), g.getTelefono(), g.getTipoGestore());
                 c.setId(g.getId());

@@ -41,7 +41,7 @@
   </style>
 </head>
 <body>
-<%@ include file="navbar.jsp" %>
+<%@ include file="../user/navbar.jsp" %>
 
 <%
   HashSet<Pacchetto> pacchetti = gPacchetti.getPacchetti();
@@ -88,7 +88,6 @@
           </div>
         </div>
       <a href="pacchettiControl?action=delete&id=<%= p.getId()%>"><button type="submit" class="bottone_search2" class="btn btn-outline-success"><h6 class = "testoCarrello">Rimuovi</h6></button></a>
-      <a href="pacchettiControl?action=update&id=<%= p.getId()%>"><button type="submit" class="bottone_search2" class="btn btn-outline-success"><h6 class = "testoCarrello">Modifica</h6></button></a>
     </div>
   </div>
 </div>

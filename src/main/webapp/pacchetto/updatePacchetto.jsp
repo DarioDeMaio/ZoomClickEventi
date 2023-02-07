@@ -14,7 +14,7 @@
     <title>Modifica Pacchetto</title>
 </head>
 <body>
-<%@ include file="navbar.jsp" %>
+<%@ include file="../user/navbar.jsp" %>
 <form action="pacchettiControl?action=updatePacchetto&id=<%= p.getId() %>" method="post">
 
     <div class="form-row">

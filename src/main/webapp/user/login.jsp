@@ -43,10 +43,10 @@
             <div class="col col-xl-10">
                 <div class="card" style="border-radius: 1rem;">
                     <div class="row g-0">
-                        <div class="col-md-6 col-lg-5 d-none d-md-block"><img src="img/zoomClickLogo.png"></div>
+                        <div class="col-md-6 col-lg-5 d-none d-md-block"><img src="./img/zoomClickLogo.png"></div>
                         <div class="col-md-6 col-lg-7 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
-                                <form action="login" method="post" onsubmit="return validate(this)">
+                                <form action="./login" method="post" onsubmit="return validate(this)">
 
                                     <div class="d-flex align-items-center mb-3 pb-1">
                                         <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
@@ -69,8 +69,6 @@
                                         <input type="submit" value="Login" class="btn btn-dark btn-lg btn-block">
                                     </div>
 
-                                    <p class="mb-5 pb-lg-2" style="color: #393f81;">Non hai un account?
-                                        <a href="registrazione.jsp" style="color: #393f81;">Registrati qui!</a></p>
                                 </form>
 
                             </div>

@@ -28,7 +28,7 @@ public class HeaderServlet extends HttpServlet {
             request.setAttribute("catalogo", catalogo);
         }
 
-        RequestDispatcher rd = getServletContext().getRequestDispatcher("/HomePage.jsp");
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/user/HomePage.jsp");
         rd.forward(request, response);
     }
 

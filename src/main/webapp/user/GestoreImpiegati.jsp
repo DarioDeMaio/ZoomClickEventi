@@ -32,7 +32,7 @@
         <div class="card" style="border-radius: 1rem;">
           <div class="row g-0">
             <div class="col-md-6 col-lg-5 d-none d-md-block">
-              <img src="img/zoomClickLogo.png">
+              <img src="./img/zoomClickLogo.png">
 
             </div>
             <div class="col-md-6 col-lg-7 d-flex align-items-center">
@@ -91,7 +91,7 @@
     </div>
   </div>
 </section>
-<script type="text/javascript" src="js/validationForm.js"></script>
+<script type="text/javascript" src="../js/validationForm.js"></script>
 </body>
 </html>
 

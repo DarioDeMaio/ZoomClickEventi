@@ -12,7 +12,7 @@
     <title>Incassi</title>
 </head>
 <body>
-<%@ include file="navbar.jsp" %>
+<%@ include file="../user/navbar.jsp" %>
 
 <%
     HashMap<Party, Double> map = (HashMap<Party, Double>) request.getAttribute("parties");

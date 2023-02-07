@@ -86,7 +86,7 @@
 </head>
 <body>
 
-<%@ include file="navbar.jsp"%>
+<%@ include file="../user/navbar.jsp"%>
 <%Object bool = request.getAttribute("bool");
 if(bool != null){
 %>

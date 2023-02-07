@@ -20,7 +20,7 @@
 
 </head>
 <body>
-<%@ include file="navbar.jsp" %>
+<%@ include file="../user/navbar.jsp" %>
 
 <div class="page-header">
     <h1>PACCHETTO: <%=titolo%><br>
