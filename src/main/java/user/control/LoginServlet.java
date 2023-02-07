@@ -63,6 +63,7 @@ public class LoginServlet extends HttpServlet {
             //quì se è un artista gli carichiamo subito tutti i party a cui ha partecipato
             Artista a = UserManager.isArtista(u);
             HashMap<Party, Double> parties = PartyManager.retrievePartyByIdArtista(id);
+            //System.out.println(parties.size());
             a.setParties(parties);
             session.setAttribute("utente", a);
         }else{
