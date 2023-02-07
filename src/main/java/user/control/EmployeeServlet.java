@@ -56,7 +56,7 @@ public class EmployeeServlet extends HttpServlet {
         String tipo = request.getParameter("tipo");
 
         if(UserManager.checkIdByEmail(email)) {
-            Utente u = UserManager.insertUser(nome, cognome, email, psw, telefono);
+            Utente u = new Utente(nome, cognome, email, psw, telefono);
             UserManager.insertGestore(u,tipo);
         }else
             return "/errore.jsp";

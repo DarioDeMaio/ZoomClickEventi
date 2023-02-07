@@ -479,8 +479,9 @@ public class UserManager {
                     "WHERE p.id=?");
             ps.setInt(1, idParty);
             ResultSet rs = ps.executeQuery();
-            return rs.getDouble("incasso");
-
+            if(rs.next())
+                return rs.getDouble("incasso");
+            return 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

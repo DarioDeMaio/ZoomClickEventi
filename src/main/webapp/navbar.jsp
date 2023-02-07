@@ -158,8 +158,8 @@
               </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="PersonalInformationServlet?action=home">Profilo</a>
-              <a class="dropdown-item" href="#">Pacchetti</a>
-              <a class="dropdown-item" href="#">Nuovo pacchetto</a>
+              <a class="dropdown-item" href="pacchettiControl">Pacchetti</a>
+              <a class="dropdown-item" href="pacchettiControl?action=insert">Nuovo pacchetto</a>
             </div>
             <% } else if(gParty != null) {%>
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="funct()">

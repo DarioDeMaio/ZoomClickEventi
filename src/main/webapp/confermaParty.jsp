@@ -55,10 +55,12 @@
 <%@ include file="navbar.jsp"%>
 <% Party p = gParty.findById(idParty); %>
 
-<h1>Servizi richiesti:<%=p.getServizi()%></h1>
-<h1>Città:<%=p.getCitta()%></h1>
-<h1>Locale:<%=p.getNomeLocale()%></h1>
-<h1>Telefono: <%=p.getTipo()%></h1>
+<h1>Pacchetto richiesto: <%=p.getPacchetto().getTitolo()%></h1>
+<h2>Prezzo pacchetto: <%=p.getPacchetto().getPrezzo()%></h2>
+<h2>Servizi richiesti:<%=p.getServizi()%></h2>
+<h2>Città:<%=p.getCitta()%></h2>
+<h2>Locale:<%=p.getNomeLocale()%></h2>
+<h2>Tipo: <%=p.getTipo()%></h2>
 
 <form method="post" action="prenotazione?action=confermaParty&idParty=<%=idParty%>" >
 
