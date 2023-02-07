@@ -1,7 +1,9 @@
 package user.control;
 
+import com.mysql.cj.Session;
 import party.bean.Artista;
 import party.bean.Party;
+import user.bean.GestoreImpiegati;
 import user.bean.Utente;
 import user.manager.UserManager;
 
@@ -17,6 +19,7 @@ import java.util.HashMap;
 public class EmployeeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String action = request.getParameter("action");
         String indirizzo=null;
         if(action.compareTo("eventiPassati")==0){
@@ -31,6 +34,8 @@ public class EmployeeServlet extends HttpServlet {
         }else if(action.compareTo("insertGestore")==0){
             indirizzo = "/GestoreImpiegati.jsp";
         }else if(action.compareTo("listDelete")==0){
+            GestoreImpiegati gi = (GestoreImpiegati) session.getAttribute("utente");
+            request.setAttribute("map", gi.getImpiegati());
             indirizzo = "/ListImpiegati.jsp";
         }else if(action.compareTo("add")==0){
             indirizzo = redirectToInserGestore(request);
@@ -43,11 +48,19 @@ public class EmployeeServlet extends HttpServlet {
     }
 
     private String redirectToDelete(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        GestoreImpiegati gi = (GestoreImpiegati) session.getAttribute("utente");
+        String id = request.getParameter("idImpiegato");
+        int idImpiegato = Integer.parseInt(id);
+        gi.removeImpiegato(idImpiegato);
+        UserManager.deleteUser(idImpiegato);
 
-        return "/header";
+        return "/EmployeeServlet?action=listDelete";
     }
 
     private String redirectToInserGestore(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        GestoreImpiegati gi = (GestoreImpiegati) session.getAttribute("utente");
         String nome= request.getParameter("nome");
         String cognome= request.getParameter("cognome");
         String psw= request.getParameter("password");
@@ -57,7 +70,10 @@ public class EmployeeServlet extends HttpServlet {
 
         if(UserManager.checkIdByEmail(email)) {
             Utente u = new Utente(nome, cognome, email, psw, telefono);
+            GestoreImpiegati g = new GestoreImpiegati(nome,cognome,email,psw,telefono,tipo);
+            gi.addImpiegato(g);
             UserManager.insertGestore(u,tipo);
+
         }else
             return "/errore.jsp";
 

@@ -63,7 +63,7 @@ public class UserManager {
         }
     }
 
-    public void deleteUser(int idEmployee)
+    public static void deleteUser(int idEmployee)
     {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("DELETE FROM utente WHERE id=?");
