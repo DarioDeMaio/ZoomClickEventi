@@ -139,25 +139,25 @@
                 Visualizza
               </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="PersonalInformationServlet?action=home">Profilo</a>
-              <a class="dropdown-item" href="EmployeeServlet?action=eventiPassati">Eventi Passati</a>
-              <a class="dropdown-item" href="EmployeeServlet?action=eventiFuturi">Eventi Futuri</a>
+              <a class="dropdown-item" href="#">Profilo</a>
+              <a class="dropdown-item" href="#">Eventi Passati</a>
+              <a class="dropdown-item" href="#">Eventi Futuri</a>
             </div>
             <% }else if(gi != null){%>
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="funct()">
                 Visualizza
               </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="PersonalInformationServlet?action=home">Profilo</a>
-              <a class="dropdown-item" href="EmployeeServlet?action=listDelete">Impiegati</a>
-              <a class="dropdown-item" href="EmployeeServlet?action=insertGestore">Nuovo impiegato</a>
+              <a class="dropdown-item" href="#">Profilo</a>
+              <a class="dropdown-item" href="#">Impiegati</a>
+              <a class="dropdown-item" href="#">Nuovo impiegato</a>
             </div>
             <% } else if(gPacchetti != null){ %>
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="funct()">
                 Visualizza
               </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="PersonalInformationServlet?action=home">Profilo</a>
+              <a class="dropdown-item" href="#">Profilo</a>
               <a class="dropdown-item" href="#">Pacchetti</a>
               <a class="dropdown-item" href="#">Nuovo pacchetto</a>
             </div>
@@ -166,7 +166,7 @@
                 Visualizza
               </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="PersonalInformationServlet?action=home">Profilo</a>
+              <a class="dropdown-item" href="#">Profilo</a>
               <a class="dropdown-item" href="prenotazione">Prenotazioni in corso</a>
             </div>
             <% } else if(contabile != null){  %>
@@ -174,7 +174,7 @@
                 Visualizza
               </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="PersonalInformationServlet?action=home">Profilo</a>
+              <a class="dropdown-item" href="#">Profilo</a>
               <a class="dropdown-item" href="#">Eventi Passati</a>
               <a class="dropdown-item" href="#">Eventi Futuri</a>
             </div>
