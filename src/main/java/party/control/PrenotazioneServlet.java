@@ -36,7 +36,7 @@ public class PrenotazioneServlet extends HttpServlet {
         String action = request.getParameter("action");
 
         if(session.getAttribute("logged") == null){
-            indirizzo = "/login.jsp";
+            indirizzo = "/user/login.jsp";
             RequestDispatcher rd = getServletContext().getRequestDispatcher(indirizzo);
             rd.forward(request, response);
         }
@@ -83,11 +83,11 @@ public class PrenotazioneServlet extends HttpServlet {
         request.setAttribute("idParty2", idParty);
         request.setAttribute("artisti", artisti);
         request.setAttribute("fornitori", fornitori);
-        return "/confermaParty.jsp";
+        return "/party/confermaParty.jsp";
     }
     private String redirectToGestoreParty(HttpServletRequest request)
     {
-        return "/gestoreParty.jsp";
+        return "/party/gestoreParty.jsp";
     }
     private String redirectToPrenotazione(HttpServletRequest request)
     {
@@ -99,7 +99,7 @@ public class PrenotazioneServlet extends HttpServlet {
         request.setAttribute("titolo", titolo);
         request.setAttribute("idPacchetto", id);
 
-        return "/prenotazione.jsp";
+        return "/party/prenotazione.jsp";
     }
 
     private String prenotaParty(HttpServletRequest request)

@@ -28,17 +28,16 @@ public class EmployeeServlet extends HttpServlet {
             HashMap<Party, Double> map = redirectToEventiFuturi(request);
             request.setAttribute("bool", false);
             request.setAttribute("map", map);
-            indirizzo = "/Artista.jsp";
+            indirizzo = "/party/Artista.jsp";
         }else if(action.compareTo("eventiFuturi")==0){
             HashMap<Party, Double> map = redirectToEventiParty(request);
             request.setAttribute("map", map);
-            indirizzo = "/Artista.jsp";
+            indirizzo = "/party/Artista.jsp";
         }else if(action.compareTo("insertGestore")==0){
-            indirizzo = "/GestoreImpiegati.jsp";
+            indirizzo = "/user/GestoreImpiegati.jsp";
         }else if(action.compareTo("listDelete")==0){
             GestoreImpiegati gi = (GestoreImpiegati) session.getAttribute("utente");
-            request.setAttribute("map", gi.getImpiegati());
-            indirizzo = "/ListImpiegati.jsp";
+            indirizzo = "/user/ListImpiegati.jsp";
         }else if(action.compareTo("add")==0){
             indirizzo = redirectToInserGestore(request);
         }else if(action.compareTo("delete")==0){
@@ -57,6 +56,7 @@ public class EmployeeServlet extends HttpServlet {
         String id = request.getParameter("idImpiegato");
         int idImpiegato = Integer.parseInt(id);
         gi.removeImpiegato(idImpiegato);
+        System.out.println(idImpiegato);
         UserManager.deleteUser(idImpiegato);
         return "/EmployeeServlet?action=listDelete";
     }
@@ -78,7 +78,7 @@ public class EmployeeServlet extends HttpServlet {
             UserManager.insertGestore(u,tipo);
 
         }else
-            return "/errore.jsp";
+            return "/user/errore.jsp";
 
 
         return "/header";
@@ -100,8 +100,6 @@ public class EmployeeServlet extends HttpServlet {
             if(currentDateOnly.before(p.getData()))
                 map.put(p, a.getParties().get(p));
         }
-
-
         return map;
     }
 
@@ -121,8 +119,6 @@ public class EmployeeServlet extends HttpServlet {
             if(currentDateOnly.after(p.getData()))
                 map.put(p, a.getParties().get(p));
         }
-
-
         return map;
     }
 
@@ -143,7 +139,7 @@ public class EmployeeServlet extends HttpServlet {
 
         request.setAttribute("parties", incassi);
 
-        return "/incassi.jsp";
+        return "/party/incassi.jsp";
     }
 
     @Override

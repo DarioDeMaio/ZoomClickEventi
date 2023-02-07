@@ -175,7 +175,7 @@
               </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="PersonalInformationServlet?action=home">Profilo</a>
-              <a class="dropdown-item" href="employeeServlet?action=incassi">Incassi</a>
+              <a class="dropdown-item" href="EmployeeServlet?action=incassi">Incassi</a>
             </div>
             <% } %>
 

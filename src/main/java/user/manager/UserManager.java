@@ -66,7 +66,7 @@ public class UserManager {
     public static void deleteUser(int idEmployee)
     {
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("DELETE FROM utente WHERE id=?");
+            PreparedStatement ps = con.prepareStatement("DELETE FROM utente WHERE utente.id=?");
             ps.setInt(1, idEmployee);
 
             if (ps.executeUpdate() != 1) {
@@ -470,20 +470,5 @@ public class UserManager {
             throw new RuntimeException(e);
         }
         return mapFinal;
-    }
-
-    public static double visualizzaIncassi(int idParty){
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT (p.prezzoPacchetto-SUM(i.prezzo)) AS incasso\n" +
-                    "FROM ingaggio AS i, party AS p\n" +
-                    "WHERE p.id=?");
-            ps.setInt(1, idParty);
-            ResultSet rs = ps.executeQuery();
-            if(rs.next())
-                return rs.getDouble("incasso");
-            return 0;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

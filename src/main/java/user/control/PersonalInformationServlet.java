@@ -17,7 +17,7 @@ public class PersonalInformationServlet extends HttpServlet {
         String indirizzo = null;
 
         if(action.compareTo("home")==0){
-            indirizzo = "/PersonalInformation.jsp";
+            indirizzo = "/user/PersonalInformation.jsp";
         }else {
             indirizzo = modificaInformazioni(request);
         }
@@ -46,7 +46,7 @@ public class PersonalInformationServlet extends HttpServlet {
             u.setPassword(psw);
             UserManager.updateUser(u);
         }else
-            return "/errore.jsp";
+            return "/user/errore.jsp";
 
         return "/header";
     }

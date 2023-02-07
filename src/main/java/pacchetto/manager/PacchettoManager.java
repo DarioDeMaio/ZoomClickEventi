@@ -27,21 +27,6 @@ public class PacchettoManager {
         }
     }
 
-    public static void updatePacchetto(Pacchetto p) {
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("UPDATE pacchetti SET eventiConsigliati=?, prezzo=? WHERE id=?");
-            ps.setString(1, p.getEventiConsigliati());
-            ps.setDouble(2, p.getPrezzo());
-            ps.setInt(3, p.getId());
-
-            if (ps.executeUpdate() != 1) {
-                throw new RuntimeException("UPDATE error.");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static HashSet<Pacchetto> retrieveAll(){
 
         HashSet<Pacchetto> collection = new HashSet<>();
@@ -75,7 +60,7 @@ public class PacchettoManager {
     public static Pacchetto findPacchettoById(int id){
         Pacchetto p = null;
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM  pacchetti WHERE id=? and flag=1");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM  pacchetti WHERE id=?");
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
