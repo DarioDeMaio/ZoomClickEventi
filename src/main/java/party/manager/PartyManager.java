@@ -61,7 +61,7 @@ public class PartyManager {
         HashMap<Party, Double> collection = new HashMap<>();
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("SELECT id, tipo, festeggiato, data, citta, dataPrenotazione, nomeLocale, servizi, stato, prezzo, idPacchetto, idCliente, prezzoPacchetto" +
-                    " FROM  party, ingaggio WHERE ingaggio.idArtista=?");
+                    " FROM  party, ingaggio WHERE ingaggio.idArtista=? AND party.id=ingaggio.idParty");
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -71,7 +71,7 @@ public class PartyManager {
                 p = new Party(rs.getString("tipo"), rs.getString("festeggiato"), rs.getString("nomeLocale"), rs.getString("citta"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"),rs.getString("servizi"), pacchetto, rs.getInt("idCliente"));
                 p.setId(rs.getInt("id"));
                 p.setArtisti(UserManager.findArtistaByIdParty(p.getId()));
-                collection.put(p,rs.getDouble("prezzoPacchetto"));
+                collection.put(p,rs.getDouble("prezzo"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -56,6 +56,10 @@
 <% Party p = gParty.findById(idParty); %>
 
 <h1>Servizi richiesti:<%=p.getServizi()%></h1>
+<h1>Città:<%=p.getCitta()%></h1>
+<h1>Locale:<%=p.getNomeLocale()%></h1>
+<h1>Telefono: <%=p.getTipo()%></h1>
+
 <form method="post" action="prenotazione?action=confermaParty&idParty=<%=idParty%>" >
 
     <label>DJ</label>

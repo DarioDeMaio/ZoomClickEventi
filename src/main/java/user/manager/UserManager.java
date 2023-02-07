@@ -63,7 +63,21 @@ public class UserManager {
         }
     }
 
-    private static Gestore insertGestore(Utente u, String tipoGestore)
+    public void deleteUser(int idEmployee)
+    {
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("DELETE FROM utente WHERE id=?");
+            ps.setInt(1, idEmployee);
+
+            if (ps.executeUpdate() != 1) {
+                throw new RuntimeException("DELETE error.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Gestore insertGestore(Utente u, String tipoGestore)
     {
         try (Connection con = ConPool.getConnection()) {
             u=insertUser(u.getNome(), u.getCognome(), u.getEmail(), u.getPassword(), u.getTelefono());

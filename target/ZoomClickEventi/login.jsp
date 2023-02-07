@@ -70,7 +70,7 @@
                                     </div>
 
                                     <p class="mb-5 pb-lg-2" style="color: #393f81;">Non hai un account?
-                                        <a href="Registrazione.jsp" style="color: #393f81;">Registrati qui!</a></p>
+                                        <a href="registrazione.jsp" style="color: #393f81;">Registrati qui!</a></p>
                                 </form>
 
                             </div>
