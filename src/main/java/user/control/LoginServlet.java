@@ -44,7 +44,8 @@ public class LoginServlet extends HttpServlet {
         Utente u = UserManager.login(email, psw);
 
         if(u==null) {
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/errore");
+            request.setAttribute("bool", true);
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/errore.jsp");
             rd.forward(request, response);
         }
 
