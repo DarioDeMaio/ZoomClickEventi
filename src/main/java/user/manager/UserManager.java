@@ -471,19 +471,4 @@ public class UserManager {
         }
         return mapFinal;
     }
-
-    public static double visualizzaIncassi(int idParty){
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT (p.prezzoPacchetto-SUM(i.prezzo)) AS incasso\n" +
-                    "FROM ingaggio AS i, party AS p\n" +
-                    "WHERE p.id=?");
-            ps.setInt(1, idParty);
-            ResultSet rs = ps.executeQuery();
-            if(rs.next())
-                return rs.getDouble("incasso");
-            return 0;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
