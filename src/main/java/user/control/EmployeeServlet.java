@@ -58,7 +58,6 @@ public class EmployeeServlet extends HttpServlet {
         int idImpiegato = Integer.parseInt(id);
         gi.removeImpiegato(idImpiegato);
         UserManager.deleteUser(idImpiegato);
-
         return "/EmployeeServlet?action=listDelete";
     }
 
