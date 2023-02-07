@@ -2,6 +2,8 @@ package user.control;
 
 import com.mysql.cj.Session;
 import party.bean.Artista;
+import party.bean.Contabile;
+import party.bean.Fornitore;
 import party.bean.Party;
 import user.bean.GestoreImpiegati;
 import user.bean.Utente;
@@ -41,6 +43,8 @@ public class EmployeeServlet extends HttpServlet {
             indirizzo = redirectToInserGestore(request);
         }else if(action.compareTo("delete")==0){
             indirizzo = redirectToDelete(request);
+        }else if(action.compareTo("incassi")==0) {
+            indirizzo = incassi(request);
         }
 
         RequestDispatcher rd = getServletContext().getRequestDispatcher(indirizzo);
@@ -121,6 +125,26 @@ public class EmployeeServlet extends HttpServlet {
 
 
         return map;
+    }
+
+    private String incassi(HttpServletRequest request)
+    {
+        HttpSession session = request.getSession();
+        Contabile c = (Contabile) session.getAttribute("utente");
+
+        HashMap<Party, Double> incassi = new HashMap<Party, Double>();
+        for(Party p: c.getParty()){
+            double amount = p.getPacchetto().getPrezzo();
+
+            for(Artista a: p.getArtisti().keySet()){
+                amount -= p.getArtisti().get(a);
+            }
+            incassi.put(p,amount);
+        }
+
+        request.setAttribute("parties", incassi);
+
+        return "/incassi.jsp";
     }
 
     @Override
