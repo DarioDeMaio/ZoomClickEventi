@@ -8,7 +8,7 @@ import java.util.HashSet;
 
 public class PacchettoManager {
 
-    public void insertPacchetto(Pacchetto p) {
+    public static void insertPacchetto(Pacchetto p) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("INSERT INTO pacchetti (titolo, eventiConsigliati, prezzo, flag) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1,p.getTitolo());
@@ -27,12 +27,12 @@ public class PacchettoManager {
         }
     }
 
-    public static void updatePacchetto(int id, String eventoConsigliato, double prezzo) {
+    public static void updatePacchetto(Pacchetto p) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("UPDATE pacchetti SET eventiConsigliati=?, prezzo=? WHERE id=?");
-            ps.setString(1,eventoConsigliato);
-            ps.setDouble(2, prezzo);
-            ps.setInt(3, id);
+            ps.setString(1, p.getEventiConsigliati());
+            ps.setDouble(2, p.getPrezzo());
+            ps.setInt(3, p.getId());
 
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("UPDATE error.");

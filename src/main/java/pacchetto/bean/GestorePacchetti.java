@@ -3,6 +3,7 @@ package pacchetto.bean;
 import user.bean.Gestore;
 
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class GestorePacchetti extends Gestore {
 
@@ -31,6 +32,18 @@ public class GestorePacchetti extends Gestore {
     public void deletePacchetto(Pacchetto p){
         if(pacchetti.contains(p))
             pacchetti.remove(p);
+    }
+
+    public Pacchetto findById(int id)
+    {
+        Iterator<Pacchetto> it = pacchetti.iterator();
+        while(it.hasNext())
+        {
+            Pacchetto p = it.next();
+            if(p.getId()==id)
+                return p;
+        }
+        return null;
     }
 
 }
