@@ -36,21 +36,23 @@
 <body>
 <%@ include file="navbar.jsp"%>
 <% Party p = gParty.findById(idParty); %>
-<form action="/prenotazione?action=confermaParty&idParty=<%=idParty%>" method="post" enctype="multipart/form-data">
+<form method="post" action="prenotazione?action=confermaParty&idParty=<%=idParty%>" >
 
     <label>DJ</label>
     <select name="dj">
         <%
             for(Artista art:artisti)
             {
+
                 if(art.getTipoArtista().compareTo("DJ")==0)
                 {
         %>
-        <option value=<%= art.getId() %>> <%= art.getNome() %> <%= art.getCognome() %></option>
+        <option value=<%= art.getId() %>> <%= art.getNome() %> <%= art.getCognome() %> </option>
             <%  } %>
         <%  } %>
 
     </select>
+    <input type="text" name="prezzoDj">costo
 
     <label>Fotografi</label>
     <select name="fotografi">
@@ -65,6 +67,7 @@
         <%  } %>
 
     </select>
+    <input type="text" name="prezzoFotografo">costo
 
     <label>Speaker</label>
     <select name="speaker">
@@ -78,7 +81,9 @@
             <%  } %>
         <%  } %>
 
-    </select><br><br>
+    </select>
+    <input type="text" name="prezzoSpeaker">costo
+    <br><br>
 
     <label class="labelFornitori">Fornitori</label>
 

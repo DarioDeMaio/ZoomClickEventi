@@ -127,25 +127,24 @@ public class PrenotazioneServlet extends HttpServlet {
         return "/header";
     }
 
-    private String confermaParty(HttpServletRequest request)
-    {
+    private String confermaParty(HttpServletRequest request) {
         HttpSession session = request.getSession();
         GestoreParty gParty = (GestoreParty) session.getAttribute("utente");
-
-        String dj = request.getParameter("dj");
-        dj = dj.substring(0,1);
-        int idDj = Integer.parseInt(dj);
-        double prezzoDj = Double.parseDouble(request.getParameter("prezzoDj"));
-
-        String fotografo = request.getParameter("fotografi");
-        fotografo = fotografo.substring(0,1);
-        int idFotografo = Integer.parseInt(fotografo);
-        double prezzoFotografo= Double.parseDouble(request.getParameter("prezzoFotografo"));
-
-        String speaker = request.getParameter("speaker");
-        speaker = speaker.substring(0,1);
-        int idSpeaker = Integer.parseInt(speaker);
-        double prezzoSpeaker = Double.parseDouble(request.getParameter("prezzoSpeaker"));
+        int idDj = 0, idFotografo = 0, idSpeaker = 0;
+        double prezzoDj = 0, prezzoFotografo = 0, prezzoSpeaker = 0;
+        if (request.getParameter("dj") != null) {
+            String dj = request.getParameter("dj");
+            idDj = Integer.parseInt(dj);
+            prezzoDj = Double.parseDouble(request.getParameter("prezzoDj"));
+        } else if (request.getParameter("fotografi") != null) {
+            String fotografo = request.getParameter("fotografi");
+            idFotografo = Integer.parseInt(fotografo);
+            prezzoFotografo = Double.parseDouble(request.getParameter("prezzoFotografo"));
+        } else if (request.getParameter("speaker") != null) {
+            String speaker = request.getParameter("speaker");
+            idSpeaker = Integer.parseInt(speaker);
+            prezzoSpeaker = Double.parseDouble(request.getParameter("prezzoSpeaker"));
+        }
 
         int idParty = Integer.parseInt(request.getParameter("idParty"));
 
@@ -167,11 +166,15 @@ public class PrenotazioneServlet extends HttpServlet {
         String[] idFornitori = request.getParameterValues("idFornitori");
 
 
-        for(Fornitore f:fornitori)
-        {
-
+        for(Fornitore f:fornitori){
+            for(int i = 0; i<idFornitori.length; i++)
+            if((Integer.parseInt(idFornitori[i])) == f.getId()) {
+                p.addFornitore(f);
+            }
         }
+        p.setStato("Confermato");
+        PartyManager.confermaParty(p);
 
-        return "/homePage";
+        return "/header";
     }
 }

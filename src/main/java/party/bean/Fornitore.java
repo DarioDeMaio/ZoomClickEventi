@@ -4,14 +4,23 @@ import java.util.Iterator;
 
 public class Fornitore {
     private int id;
+    private double prezzo;
     private String nomeAzienda, proprietario, tipoFornitore, telefono;
 
-    public Fornitore(String telefono, String nomeAzienda, String proprietario, String tipoFornitore) {
-
+    public Fornitore(String telefono, String nomeAzienda, String proprietario, String tipoFornitore, double prezzo) {
         this.telefono = telefono;
         this.nomeAzienda = nomeAzienda;
         this.proprietario = proprietario;
         this.tipoFornitore = tipoFornitore;
+        this.prezzo = prezzo;
+    }
+
+    public double getPrezzo() {
+        return prezzo;
+    }
+
+    public void setPrezzo(double prezzo) {
+        this.prezzo = prezzo;
     }
 
     public int getId() {

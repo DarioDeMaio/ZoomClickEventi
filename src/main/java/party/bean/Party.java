@@ -4,6 +4,7 @@ import pacchetto.bean.Pacchetto;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class Party {
     private int id;
@@ -12,7 +13,7 @@ public class Party {
     private String stato, servizi, festeggiato;
     private Pacchetto pacchetto;
     private HashMap<Artista, Double> artisti;
-    private HashMap<Fornitore, Double> fornitori;
+    private HashSet<Fornitore> fornitori;
     private int idCliente;
 
 
@@ -25,7 +26,7 @@ public class Party {
         this.stato = stato;
         this.servizi = servizi;
         this.artisti = new HashMap<>();
-        this.fornitori = new HashMap<>();
+        this.fornitori = new HashSet<>();
         this.pacchetto = pacchetto;
         this.idCliente = idCliente;
         this.festeggiato=festeggiato;
@@ -118,11 +119,11 @@ public class Party {
         this.artisti = artisti;
     }
 
-    public HashMap<Fornitore, Double> getFornitori() {
+    public HashSet<Fornitore> getFornitori() {
         return fornitori;
     }
 
-    public void setFornitori(HashMap<Fornitore, Double> fornitori) {
+    public void setFornitori(HashSet<Fornitore> fornitori) {
         this.fornitori = fornitori;
     }
 
@@ -140,10 +141,11 @@ public class Party {
         }
     }
 
-    public void addFornitore(Fornitore f, double prezzo)
+    public void addFornitore(Fornitore f)
     {
-        if(!fornitori.containsKey(f))
-            fornitori.put(f, prezzo);
+        if(!fornitori.contains(f)) {
+            fornitori.add(f);
+        }
     }
 
     public Artista findArtistaById(int idArtista)
@@ -157,7 +159,7 @@ public class Party {
     }
 
     public Fornitore findFornitoreById(int id){
-        for(Fornitore f: fornitori.keySet())
+        for(Fornitore f: fornitori)
             if(f.getId()==id)
                 return f;
         return null;
