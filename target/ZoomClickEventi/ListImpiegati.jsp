@@ -91,7 +91,7 @@
 <%
     HashSet<Gestore> map = (HashSet<Gestore>) request.getAttribute("map");
     for(Gestore g: map){
-
+        if(gi.getId() != g.getId()){
 %>
 <div class="div-generale" class="container d-flex justify-content-center mt-50 mb-50">
 
@@ -103,40 +103,31 @@
 
 
                     <div class="media-body">
+                        <h2>Tipo gestore: <%=g.getTipoGestore()%></h2>
                         <h3 class="media-title font-weight-semibold">
-                            Nome festeggiato/i: <%=p.getFesteggiato()%>
+                            Nome gestore: <%=g.getNome()%>
                         </h3>
-                        <h3>Tipo evento: <%=p.getTipo()%></h3>
+
+                        <h3 class="media-title font-weight-semibold">
+                            Nome gestore: <%=g.getCognome()%>
+                        </h3>
+
                         <ul class="list-inline list-inline-dotted mb-3 mb-lg-2">
-                            <li class="list-inline-item"><h6>Data</h6></li>
-                            <li><h6><%=p.getData()%></h6></li>
+                            <li class="list-inline-item"><h6>Telefono</h6></li>
+                            <li><h6><%=g.getTelefono()%></h6></li>
+                            <a href="EmployeeServlet?action=delete&idImpiegato=<%=g.getId()%>"><button>Elimina</button></a>
                         </ul>
-
-                        <p class="mb-3">Città: <%=p.getCitta()%></p>
-                        <p class="mb-3">Locale: <%=p.getNomeLocale()%></p>
-
                     </div>
-
-                    <div class="mt-3 mt-lg-0 ml-lg-3 text-center">
-
-                        <h3 class="mb-0 font-weight-semibold">&euro; <%=a.getParties().get(p)%></h3>
-
-                        <div>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 
-<%}%>
+<%}
+    }%>
 
 </body>
 </html>

@@ -175,8 +175,7 @@
               </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="PersonalInformationServlet?action=home">Profilo</a>
-              <a class="dropdown-item" href="#">Eventi Passati</a>
-              <a class="dropdown-item" href="#">Eventi Futuri</a>
+              <a class="dropdown-item" href="employeeServlet?action=incassi">Incassi</a>
             </div>
             <% } %>
 
