@@ -147,21 +147,4 @@ public class Party {
             fornitori.add(f);
         }
     }
-
-    public Artista findArtistaById(int idArtista)
-    {
-        for(Artista a:artisti.keySet())
-        {
-            if(a.getId()==idArtista)
-                return a;
-        }
-        return null;
-    }
-
-    public Fornitore findFornitoreById(int id){
-        for(Fornitore f: fornitori)
-            if(f.getId()==id)
-                return f;
-        return null;
-    }
 }

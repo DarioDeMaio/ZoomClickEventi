@@ -29,31 +29,31 @@
     <br><br>
 </div>
 
-<form action="prenotazione?action=prenotazione&idPacchetto=<%=idPacchetto%>" method="post">
+<form action="prenotazione?action=prenotazione&idPacchetto=<%=idPacchetto%>" method="post" onsubmit="return validate(this)">
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="inputEmail4">Tipo Evento</label>
-            <input type="text" name="tipoEvento" class="form-control" id="inputEmail4" placeholder="18 esimo / laurea / matrimonio" style="text-transform:capitalize;">
+            <input type="text" name="tipoEvento" class="form-control" id="inputEmail4" placeholder="18 esimo / laurea / matrimonio" style="text-transform:capitalize;" required >
         </div>
         <div class="form-group col-md-6">
             <label for="inputPassword4">Festeggiato</label>
-            <input type="text" name="festeggiato" class="form-control" id="inputPassword4" placeholder="Nome/i del/dei festeggiato/festeggiati" style="text-transform:capitalize;">
+            <input type="text" name="festeggiato" class="form-control" id="inputPassword4" placeholder="Nome/i del/dei festeggiato/festeggiati" style="text-transform:capitalize;" required >
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="inputAddress2">Nome Locale</label>
-            <input type="text" name="locale" class="form-control" id="inputAddress2" placeholder="Nome del Locale">
+            <input type="text" name="locale" class="form-control" id="inputAddress2" placeholder="Nome del Locale" required >
         </div>
         <div class="form-group col-md-6">
             <label for="exampleFormControlTextarea1">Città</label>
-            <input type="text" name="citta" class="form-control" id="inputAddress2" placeholder="Città del locale">
+            <input type="text" name="citta" class="form-control" id="inputAddress2" placeholder="Città del locale" required >
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="inputAddress2">Data Evento</label>
-            <input type="date" name="dataEvento" class="form-control" id="inputAddress2" placeholder="Data dell'evento">
+            <input type="date" name="dataEvento" class="form-control" id="inputAddress2" placeholder="Data dell'evento" required >
         </div>
         <div class="form-group col-md-6">
             <label for="exampleFormControlTextarea1">Servizi aggiuntivi</label>
@@ -62,6 +62,6 @@
     </div>
     <input type="submit" class="btn btn-primary" value="Prenota">
 </form>
-
+<script type="text/javascript" src="js/validationPrenotazione.js"></script>
 </body>
 </html>

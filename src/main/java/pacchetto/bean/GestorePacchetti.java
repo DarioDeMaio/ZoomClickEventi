@@ -29,12 +29,16 @@ public class GestorePacchetti extends Gestore {
         if(!pacchetti.contains(p))
             pacchetti.add(p);
     }
-    public void deletePacchetto(Pacchetto p){
-        if(pacchetti.contains(p))
-            pacchetti.remove(p);
+    public void deletePacchetto(int idPacchetto){
+        Pacchetto p = findById(idPacchetto);
+        if(p!=null)
+        {
+            if(pacchetti.contains(p))
+                pacchetti.remove(p);
+        }
     }
 
-    public Pacchetto findById(int id)
+    private Pacchetto findById(int id)
     {
         Iterator<Pacchetto> it = pacchetti.iterator();
         while(it.hasNext())

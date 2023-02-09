@@ -1,5 +1,6 @@
-package party.bean;
+package user.bean;
 
+import party.bean.Party;
 import user.bean.Gestore;
 
 import java.util.HashSet;

@@ -39,14 +39,24 @@ public class PersonalInformationServlet extends HttpServlet {
         String repeatPsw = (String) request.getParameter("rPsw");
         String numero = (String) request.getParameter("numero");
 
+        Utente u = (Utente) session.getAttribute("utente");
+
+        if(!UserManager.checkIdByEmail(email) && (u.getEmail().compareTo(email)!=0))
+        {
+            return "/user/errore.jsp";
+        }
+
         if(repeatPsw.compareTo(psw)==0){
-            Utente u = (Utente) session.getAttribute("utente");
             u.setEmail(email);
             u.setTelefono(numero);
             u.setPassword(psw);
             UserManager.updateUser(u);
         }else
+        {
+            request.setAttribute("repeat", true);
             return "/user/errore.jsp";
+        }
+
 
         return "/header";
     }

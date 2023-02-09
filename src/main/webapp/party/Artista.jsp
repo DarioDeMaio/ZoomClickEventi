@@ -90,9 +90,9 @@
 <%Object bool = request.getAttribute("bool");
 if(bool != null){
 %>
-  <h1 style="text-align: center">Eventi passati </h1>
+  <h1 style="text-align: center; color: white">Eventi passati </h1>
 <%}else{%>
-  <h1 style="text-align: center">Eventi futuri </h1>
+  <h1 style="text-align: center; color: white">Eventi futuri </h1>
 <%}%>
 <%
   HashMap<Party, Double> map = (HashMap<Party, Double>) request.getAttribute("map");

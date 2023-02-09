@@ -15,7 +15,7 @@
 </head>
 <body>
 <%@ include file="navbar.jsp" %>
-<form action="PersonalInformationServlet?action=modifica" method="post">
+<form action="PersonalInformationServlet?action=modifica" method="post" onsubmit="return validate(this)">
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="inputEmail4">Email</label>
@@ -25,13 +25,13 @@
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="inputAddress2">Password</label>
-            <input type="text" name="psw" class="form-control" id="inputAddress2" value="<%= u.getPassword()%>">
+            <input type="text" name="psw" class="form-control" id="inputAddress2" value=<%=u.getPassword()%>>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="exampleFormControlTextarea1">Repeat Password</label>
-            <input type="text" name="rPsw" class="form-control" id="inputAddress2" value="<%=u.getPassword()%>">
+            <input type="text" name="rPsw" class="form-control" id="inputAddress2" value=<%=u.getPassword()%>>
         </div>
     </div>
     <div class="form-row">
@@ -42,5 +42,6 @@
     </div>
     <input type="submit" class="btn btn-primary" value="Modifica">
 </form>
+<script type="text/javascript" src="js/validationUpdateUser.js"></script>
 </body>
 </html>

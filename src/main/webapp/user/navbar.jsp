@@ -4,7 +4,7 @@
 <%@ page import="user.bean.GestoreImpiegati" %>
 <%@ page import="pacchetto.bean.GestorePacchetti" %>
 <%@ page import="party.bean.GestoreParty" %>
-<%@ page import="party.bean.Contabile" %>
+<%@ page import="user.bean.Contabile" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%

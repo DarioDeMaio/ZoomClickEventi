@@ -88,7 +88,7 @@
 <body>
 
 <%@ include file="../user/navbar.jsp"%>
-<h1 style="text-align: center">Party In attesa di riscontri</h1>
+<h1 style="text-align: center; color: white">Party In attesa di riscontri</h1>
 <%
     Iterator<Party> it = gParty.getParty().iterator();
     while(it.hasNext()) {

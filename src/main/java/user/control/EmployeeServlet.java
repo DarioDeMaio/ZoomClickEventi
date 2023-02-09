@@ -1,9 +1,7 @@
 package user.control;
 
-import com.mysql.cj.Session;
 import party.bean.Artista;
-import party.bean.Contabile;
-import party.bean.Fornitore;
+import user.bean.Contabile;
 import party.bean.Party;
 import user.bean.GestoreImpiegati;
 import user.bean.Utente;

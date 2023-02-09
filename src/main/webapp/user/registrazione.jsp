@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Register Page</title>
 
     <style>
@@ -68,7 +69,7 @@
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <input type="tel" name="telefono" class="form-control form-control-lg" required/>
+                                        <input type="text" name="telefono" class="form-control form-control-lg" required/>
                                         <label class="form-label" for="form2Example17">Telefono</label>
                                     </div>
 
@@ -86,6 +87,6 @@
     </div>
 
 </section>
-<script type="text/javascript" src="/js/validationForm.js"></script>
+<script type="text/javascript" src="js/validationForm.js"></script>
 </body>
 </html>
