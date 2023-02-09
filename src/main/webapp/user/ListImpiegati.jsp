@@ -87,7 +87,7 @@
 <body>
 
 <%@ include file="navbar.jsp"%>
-<h1 style="text-align: center">Lista Impiegati</h1>
+<h1 style="text-align: center; color: white">Lista Impiegati</h1>
 <%
     for(Gestore g: gi.getImpiegati()){
         System.out.println(g.getId());

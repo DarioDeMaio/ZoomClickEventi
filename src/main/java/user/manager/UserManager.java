@@ -2,20 +2,16 @@ package user.manager;
 
 import connection.ConPool;
 import pacchetto.bean.GestorePacchetti;
-import pacchetto.bean.Pacchetto;
-import pacchetto.manager.PacchettoManager;
 import party.bean.*;
-import party.manager.PartyManager;
-import user.bean.Cliente;
-import user.bean.Gestore;
-import user.bean.GestoreImpiegati;
-import user.bean.Utente;
+import user.bean.*;
 
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 
 public class UserManager {
 
@@ -26,7 +22,7 @@ public class UserManager {
             ps.setString(1, firstLetterUpperCase(nome));
             ps.setString(2, firstLetterUpperCase(cognome));
             ps.setString(3, email);
-            ps.setString(4, password);
+            ps.setString(4, hash(password));
             ps.setString(5, telefono);
 
 
@@ -39,11 +35,31 @@ public class UserManager {
             rs.next();
             int idUtente = rs.getInt(1);
 
-            Utente u = new Utente(nome, cognome, email, password, telefono);
+            Utente u = new Utente();
             u.setId(idUtente);
+            u.setNome(nome);
+            u.setCognome(cognome);
+            u.setEmail(email);
+            u.setPassword(password);
+            u.setTelefono(telefono);
 
             return u;
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static String hash(String text)
+    {
+        try {
+            String text1 = text;
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            digest.reset();
+            digest.update(text1.getBytes(StandardCharsets.UTF_8));
+            text1 = String.format("%040x", new BigInteger(1, digest.digest()));
+            return text1;
+        }
+        catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
     }
@@ -198,7 +214,7 @@ public class UserManager {
                     "SET email=?, password=?, telefono=?\n" +
                     "WHERE id=?");
             ps.setString(1, u.getEmail());
-            ps.setString(2, u.getPassword());
+            ps.setString(2, hash(u.getPassword()));
             ps.setString(3, u.getTelefono());
             ps.setInt(4, u.getId());
 
@@ -234,9 +250,9 @@ public class UserManager {
     public static Utente login(String email, String pwd)
     {
         try(Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM utente WHERE email=? AND password=?/*SHA1(?)*/");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM utente WHERE email=? AND password=?");
             ps.setString(1, email);
-            ps.setString(2, pwd);
+            ps.setString(2, hash(pwd));
             ResultSet rs = ps.executeQuery();
             if (rs.next())
             {
@@ -245,7 +261,7 @@ public class UserManager {
                 u.setNome(rs.getString(2));
                 u.setCognome(rs.getString(3));
                 u.setEmail(rs.getString(4));
-                u.setPassword(rs.getString(5));
+                u.setPassword(pwd);
                 u.setTelefono(rs.getString(6));
 
                 return u;
@@ -265,7 +281,7 @@ public class UserManager {
 
             if (rs.next())
             {
-                Cliente c = new Cliente(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"));
+                Cliente c = new Cliente(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), u.getPassword(), rs.getString("telefono"));
                 c.setId(rs.getInt("id"));
                 return c;
             }else
@@ -274,7 +290,6 @@ public class UserManager {
             throw new RuntimeException(e);
         }
     }
-
 
 
     public static Artista isArtista(Utente u)
@@ -291,7 +306,7 @@ public class UserManager {
 
             if (rs.next())
             {
-                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipoArtista"));
+                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), u.getPassword(), rs.getString("telefono"), rs.getString("tipoArtista"));
                 a.setId(rs.getInt("id"));
                 return a;
             }else
@@ -316,75 +331,13 @@ public class UserManager {
             if (rs.next())
             {
                 String tipoGestore = rs.getString("tipoGestore");
-                Gestore g = new Gestore(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), tipoGestore);
+                Gestore g = new Gestore(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), u.getPassword(), rs.getString("telefono"), tipoGestore);
                 g.setId(rs.getInt("id"));
                 return g;
             }else
                 return null;
 
         }catch(SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static HashMap<Artista,Double> findArtistaByIdParty(int idParty){
-
-        HashMap<Artista,Double> collection = new HashMap<>();
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("select ingaggio.prezzo, artista.tipoArtista, utente.id, utente.nome, utente.cognome, utente.email, utente.telefono, utente.password\n" +
-                    "from artista, ingaggio, utente\n" +
-                    "where ingaggio.idParty=? AND utente.id = ingaggio.idArtista AND ingaggio.idArtista = artista.idArtista");
-            ps.setInt(1, idParty);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipoArtista"));
-                a.setId(rs.getInt("id"));
-                collection.put(a,rs.getDouble("prezzo"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return collection;
-    }
-
-
-    public static HashSet<Fornitore> findFornitoreByIdParty(int idParty){
-
-        HashSet<Fornitore> collection = new HashSet<Fornitore>();
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("select fornitori.prezzo, fornitori.id, fornitori.nomeAzienda, fornitori.proprietario, fornitori.telefono, fornitori.tipoFornitore\n" +
-                    "from richiede, fornitori, party\n" +
-                    "where party.id=? AND richiede.idParty = party.id AND fornitori.id=richiede.idFornitore");
-            ps.setInt(1, idParty);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                Fornitore f = new Fornitore(rs.getString("telefono"), rs.getString("nomeAzienda"), rs.getString("proprietario"), rs.getString("tipoFornitore"), rs.getDouble("prezzo"));
-                f.setId(rs.getInt("id"));
-                collection.add(f);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return collection;
-    }
-    public Fornitore insertFornitore(String nomeAzienda,String proprietario, String telefono, String tipoFornitore, double prezzo){
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO fornitori (nomeAzienda, proprietario, telefono, tipoFornitore, prezzo) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, nomeAzienda);
-            ps.setString(2, proprietario);
-            ps.setString(3, telefono);
-            ps.setString(4, tipoFornitore);
-            ps.setDouble(5,prezzo);
-            if (ps.executeUpdate() != 1)
-            {
-                throw new RuntimeException("INSERT error.");
-            }
-            Fornitore f = new Fornitore(telefono, nomeAzienda, proprietario, tipoFornitore, prezzo);
-            ResultSet rs= ps.getGeneratedKeys();
-            rs.next();
-            f.setId(rs.getInt("id"));
-            return f;
-        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -432,43 +385,5 @@ public class UserManager {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static HashMap<Artista, Double> findArtistiById(HashMap<Integer, Double> map) {
-        HashMap<Artista, Double> mapFinal = new HashMap<>();
-        try (Connection con = ConPool.getConnection()) {
-            for(Integer i : map.keySet()) {
-                PreparedStatement ps = con.prepareStatement("SELECT u.id, u.nome, u.cognome, u.email, u.password, u.telefono, a.tipoArtista\n" +
-                        "FROM artista AS a, utente AS u\n" +
-                        "WHERE a.idArtista = u.id AND a.idArtista = ?");
-                ps.setInt(1, i);
-                ResultSet rs = ps.executeQuery();
-                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipoArtista"));
-                a.setId(rs.getInt("id"));
-                mapFinal.put(a, map.get(i));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return mapFinal;
-    }
-
-    public static HashMap<Fornitore, Double> findFornitoriById(HashMap<Integer, Double> map) {
-        HashMap<Fornitore, Double> mapFinal = new HashMap<>();
-        try (Connection con = ConPool.getConnection()) {
-            for(Integer i : map.keySet()) {
-                PreparedStatement ps = con.prepareStatement("SELECT f.id, f.nomeAzienda, f.proprietario, f.telefono, f.tipoFornitore, f.prezzo\n" +
-                        "FROM fornitori AS f\n" +
-                        "WHERE f.idFornitore = ?");
-                ps.setInt(1, i);
-                ResultSet rs = ps.executeQuery();
-                Fornitore fornitore = new Fornitore(rs.getString("telefono"), rs.getString("nomeAzienda"), rs.getString("proprietario"), rs.getString("tipoFornitore"), rs.getDouble("prezzo"));
-                fornitore.setId(rs.getInt("id"));
-                mapFinal.put(fornitore, map.get(i));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return mapFinal;
     }
 }

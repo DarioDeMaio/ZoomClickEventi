@@ -3,7 +3,7 @@ package user.control;
 import pacchetto.bean.GestorePacchetti;
 import pacchetto.manager.PacchettoManager;
 import party.bean.Artista;
-import party.bean.Contabile;
+import user.bean.Contabile;
 import party.bean.GestoreParty;
 import party.bean.Party;
 import party.manager.PartyManager;
@@ -17,11 +17,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.HashSet;
-
-import static user.manager.UserManager.isArtista;
 
 @WebServlet(name = "login", value = "/login")
 public class LoginServlet extends HttpServlet {

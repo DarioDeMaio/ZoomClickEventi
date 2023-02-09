@@ -13,7 +13,7 @@ public class RegistrazioneServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        if(action.compareTo("send")==0)
+        if(action != null && action.compareTo("send")==0)
         {
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/user/registrazione.jsp");
             rd.forward(request, response);
@@ -33,7 +33,7 @@ public class RegistrazioneServlet extends HttpServlet {
             UserManager.insertCliente(u);
             indirizzo = "/login";
             request.setAttribute("email", email);
-            request.setAttribute("password", psw);
+            request.setAttribute("password", u.getPassword());
         }else{
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/user/errore.jsp");
             dispatcher.forward(request, response);

@@ -47,8 +47,8 @@ public class PacchettiServlet extends HttpServlet {
         GestorePacchetti gp = (GestorePacchetti) session.getAttribute("utente");
 
         int id = Integer.parseInt(request.getParameter("id"));
-        Pacchetto p = gp.findById(id);
-        gp.deletePacchetto(p);
+
+        gp.deletePacchetto(id);
         PacchettoManager.deletePacchetto(id);
         return "/pacchetto/gestorePacchetti.jsp";
     }

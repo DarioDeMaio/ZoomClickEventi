@@ -45,8 +45,8 @@ public class PartyManager {
                 Party p;
                 p = new Party(rs.getString("tipo"), rs.getString("festeggiato"), rs.getString("nomeLocale"), rs.getString("citta"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"),rs.getString("servizi"), pacchetto, rs.getInt("idCliente"));
                 p.setId(rs.getInt("id"));
-                p.setArtisti(UserManager.findArtistaByIdParty(p.getId()));
-                p.setFornitori(UserManager.findFornitoreByIdParty(p.getId()));
+                p.setArtisti(findArtistaByIdParty(p.getId()));
+                p.setFornitori(findFornitoreByIdParty(p.getId()));
                 collection.add(p);
             }
         } catch (SQLException e) {
@@ -60,7 +60,7 @@ public class PartyManager {
 
         HashMap<Party, Double> collection = new HashMap<>();
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT id, tipo, festeggiato, data, citta, dataPrenotazione, nomeLocale, servizi, stato, prezzo, idPacchetto, idCliente, prezzoPacchetto" +
+            PreparedStatement ps = con.prepareStatement("SELECT id, tipo, festeggiato, data, citta, dataPrenotazione, nomeLocale, servizi, stato, prezzo, idPacchetto, idCliente" +
                     " FROM  party, ingaggio WHERE ingaggio.idArtista=? AND party.id=ingaggio.idParty");
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();
@@ -70,7 +70,7 @@ public class PartyManager {
                 Party p;
                 p = new Party(rs.getString("tipo"), rs.getString("festeggiato"), rs.getString("nomeLocale"), rs.getString("citta"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"),rs.getString("servizi"), pacchetto, rs.getInt("idCliente"));
                 p.setId(rs.getInt("id"));
-                p.setArtisti(UserManager.findArtistaByIdParty(p.getId()));
+                p.setArtisti(findArtistaByIdParty(p.getId()));
                 collection.put(p,rs.getDouble("prezzo"));
             }
         } catch (SQLException e) {
@@ -81,7 +81,7 @@ public class PartyManager {
 
     public static void prenotaParty(Party p){
         try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO party (tipo, data, dataPrenotazione, nomeLocale, servizi, stato, idPacchetto, idCliente, prezzoPacchetto, citta, festeggiato) VALUES (?, ?, ?, ?, ?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = con.prepareStatement("INSERT INTO party (tipo, data, dataPrenotazione, nomeLocale, servizi, stato, idPacchetto, idCliente, citta, festeggiato) VALUES (?, ?, ?, ?, ?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1,p.getTipo());
             ps.setDate(2, new Date(p.getData().getTime()));
             ps.setDate(3, new Date(p.getDataPrenotazione().getTime()));
@@ -90,9 +90,8 @@ public class PartyManager {
             ps.setString(6,"In attesa");
             ps.setInt(7,p.getPacchetto().getId());
             ps.setInt(8,p.getIdCliente());
-            ps.setDouble(9,p.getPacchetto().getPrezzo());
-            ps.setString(10,p.getCitta());
-            ps.setString(11,p.getFesteggiato());
+            ps.setString(9,p.getCitta());
+            ps.setString(10,p.getFesteggiato());
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("INSERT error.");
             }
@@ -164,8 +163,8 @@ public class PartyManager {
                 Party p;
                 p = new Party(rs.getString("tipo"), rs.getString("festeggiato"), rs.getString("nomeLocale"), rs.getString("citta"), rs.getDate("data"), rs.getDate("dataPrenotazione"), rs.getString("stato"),rs.getString("servizi"), pacchetto, idCliente);
                 p.setId(rs.getInt("id"));
-                p.setArtisti(UserManager.findArtistaByIdParty(p.getId()));
-                p.setFornitori(UserManager.findFornitoreByIdParty(p.getId()));
+                p.setArtisti(findArtistaByIdParty(p.getId()));
+                p.setFornitori(findFornitoreByIdParty(p.getId()));
                 collection.add(p);
             }
         } catch (SQLException e) {
@@ -193,6 +192,46 @@ public class PartyManager {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static HashMap<Artista,Double> findArtistaByIdParty(int idParty){
+
+        HashMap<Artista,Double> collection = new HashMap<>();
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("select ingaggio.prezzo, artista.tipoArtista, utente.id, utente.nome, utente.cognome, utente.email, utente.telefono, utente.password\n" +
+                    "from artista, ingaggio, utente\n" +
+                    "where ingaggio.idParty=? AND utente.id = ingaggio.idArtista AND ingaggio.idArtista = artista.idArtista");
+            ps.setInt(1, idParty);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Artista a = new Artista(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("password"), rs.getString("telefono"), rs.getString("tipoArtista"));
+                a.setId(rs.getInt("id"));
+                collection.put(a,rs.getDouble("prezzo"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return collection;
+    }
+
+    public static HashSet<Fornitore> findFornitoreByIdParty(int idParty){
+
+        HashSet<Fornitore> collection = new HashSet<Fornitore>();
+        try (Connection con = ConPool.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("select fornitori.prezzo, fornitori.id, fornitori.nomeAzienda, fornitori.proprietario, fornitori.telefono, fornitori.tipoFornitore\n" +
+                    "from richiede, fornitori, party\n" +
+                    "where party.id=? AND richiede.idParty = party.id AND fornitori.id=richiede.idFornitore");
+            ps.setInt(1, idParty);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Fornitore f = new Fornitore(rs.getString("telefono"), rs.getString("nomeAzienda"), rs.getString("proprietario"), rs.getString("tipoFornitore"), rs.getDouble("prezzo"));
+                f.setId(rs.getInt("id"));
+                collection.add(f);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return collection;
     }
 
 }

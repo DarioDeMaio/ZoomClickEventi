@@ -62,7 +62,7 @@
 <h2>Locale:<%=p.getNomeLocale()%></h2>
 <h2>Tipo: <%=p.getTipo()%></h2>
 
-<form method="post" action="prenotazione?action=confermaParty&idParty=<%=idParty%>" >
+<form method="post" action="prenotazione?action=confermaParty&idParty=<%=idParty%>" onsubmit="return validate(this)">
 
     <label>DJ</label>
     <select name="dj">
@@ -79,7 +79,7 @@
         <%  } %>
 
     </select>
-    <input type="text" name="prezzoDj" placeholder="costo dj">
+    <input type="number" name="prezzoDj" placeholder="costo dj" value="0">
     <br><br>
     <label>Fotografi</label>
     <select name="fotografi">
@@ -95,7 +95,7 @@
         <%  } %>
 
     </select>
-    <input type="text" name="prezzoFotografo" placeholder="costo fotografo">
+    <input type="number" name="prezzoFotografo" placeholder="costo fotografo" value="0">
     <br><br>
     <label>Speaker</label>
     <select name="speaker">
@@ -111,7 +111,7 @@
         <%  } %>
 
     </select>
-    <input type="text" name="prezzoSpeaker" placeholder="costo speaker">
+    <input type="number" name="prezzoSpeaker" placeholder="costo speaker" value="0">
     <br><br>
 
     <label class="labelFornitori">Fornitori</label>
@@ -129,5 +129,6 @@
 
 <a href="prenotazione?action=rifiuta&idParty=<%=idParty%>"><button type="" class="btn btn-primary">Rifiuta</button></a>
 
+<script type="text/javascript" src="js/validationGestoreParty.js"></script>
 </body>
 </html>

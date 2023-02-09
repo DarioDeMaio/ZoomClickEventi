@@ -1,6 +1,12 @@
 
+function checkPwdSize(input){
+	var pwd=/^.{8,}$/;
+	if(input.value.match(pwd))
+		return true;
+	return false;
+}
 function checkPwd(input){
-	var pwd=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/g;
+	var pwd=/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
 	if(input.value.match(pwd))
 		return true;
 	return false;
@@ -21,13 +27,19 @@ function checkEmail(input)
 	return false;
 }
 
-function checkPhonenumber(input){
-	var phone = /^([0-9]{10})+$/;
-	if(input.value.match(phone))
+function checkPhonenumber(input) {
+	var numbers = /^[0-9]+$/;
+	if(input.value.match(numbers))
 		return true;
 	return false;
 }
 
+function checkPhonenumberSize(input) {
+	var tenChar = /^.{10}$/;
+	if(input.value.match(tenChar))
+		return true;
+	return false;
+}
 
 function validate(obj)
 {
@@ -41,7 +53,7 @@ function validate(obj)
 		name.classList.add("error");
 	}else
 		name.classList.remove("error");
-	
+
 	//validiamo il cognome
 	var cognome=document.getElementsByName("cognome")[0];
 	if(!checkName(cognome)){
@@ -62,25 +74,37 @@ function validate(obj)
 
 	//validiamo la password
 	var pwd = document.getElementsByName("password")[0];
-	if(!checkPwd(pwd)){
+	if(checkPwdSize(pwd))
+	{
+		if(!checkPwd(pwd)){
+			valid=false;
+			alert('Formato PASSWORD non corretto!');
+			pwd.classList.add("error");
+		}else
+			pwd.classList.remove("error");
+	}else{
 		valid=false;
-		alert('Campo PASSWORD non corretto!');
+		alert('Lunghezza PASSWORD non corretto');
 		pwd.classList.add("error");
-	}else
-		pwd.classList.remove("error");
+	}
 
 	//validiamo il numero di telefono
-	var numbers = document.getElementsByName("telefono");
-	for(var i=0; i<numbers.length; i++)
+	var numbers = document.getElementsByName("telefono")[0];
+	if(checkPhonenumberSize(numbers))
 	{
-		if(!checkPhonenumber(numbers[i])){
+		//numbers.classList.remove("error");
+		if(!checkPhonenumber(numbers)){
 			valid=false;
-			alert('Campo TELEFONO non corretto!');
-			numbers[i].classList.add("error");
+			alert('Formato TELEFONO non corretto!');
+			numbers.classList.add("error");
 		}else
-			numbers[i].classList.remove("error");
+			numbers.classList.remove("error");
+	}else{
+		valid=false;
+		alert('Lunghezza TELEFONO non corretta');
+		numbers.classList.add("error");
 	}
-	
+
 	return valid;
 }
 
