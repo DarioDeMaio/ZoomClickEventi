@@ -10,6 +10,9 @@ public class Artista extends Utente {
     private String tipoArtista;
     private HashMap<Party, Double> parties;
 
+    public Artista(){
+        parties = new HashMap<>();
+    }
     public Artista(String nome, String cognome, String email, String password, String telefono, String tipoArtista) {
         super(nome, cognome, email, password, telefono);
         this.tipoArtista = tipoArtista;

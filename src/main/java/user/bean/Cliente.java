@@ -8,6 +8,9 @@ public class Cliente extends Utente{
 
     private HashSet<Party> parties;
 
+    public Cliente(){
+        parties = new HashSet<>();
+    }
     public Cliente(String nome, String cognome, String email, String password, String telefono) {
         super(nome, cognome, email, password, telefono);
         parties = new HashSet<Party>();
@@ -27,9 +30,5 @@ public class Cliente extends Utente{
             parties.add(p);
     }
 
-    public void deleteParty(Party p)
-    {
-        if(parties.contains(p))
-            parties.remove(p);
-    }
+
 }

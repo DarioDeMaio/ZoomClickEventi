@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%
 	Object bool = request.getAttribute("bool");
+	Object repeat = request.getAttribute("repeat");
 %>
 <!DOCTYPE html>
 <html>
@@ -41,15 +42,23 @@ text-align:center;
 			<h2>EMAIL O PASSWORD ERRATI</h2>
 			<p>Ritorna a <a href="./login?action=send">LOGIN</a> o <a href="./registra?action=send">REGISTRAZIONE</a></p>
 		</div>
-		<%}else{%>
+		<%}else if(repeat != null){%>
 		<div class="w3-container w3-purple" id="div-errore">
   			<h1>ERRORE</h1> 
 		</div>
 		<div class="w3-container w3-white" id="div-errore2">
 
-   			<h2>EMAIL GIÀ ESISTENTE!</h2>
-		<p>Ritorna a <a href="./login?action=send">LOGIN</a> o <a href="./registra?action=send">REGISTRAZIONE</a></p>
+   			<h2>Il campo password non corrisponde al Repeat Password</h2>
+		<p>Ritorna a <a href="./PersonalInformationServlet?action=home">Modifica Dati Personali</a></p>
 		</div>
+		<%}else{%>
+		<div class="w3-container w3-purple" id="div-errore">
+			<h1>ERRORE</h1>
+		</div>
+		<div class="w3-container w3-white" id="div-errore2">
+
+			<h2>EMAIL GIÀ ESISTENTE!</h2>
+
 		<%}%>
 
 </body>

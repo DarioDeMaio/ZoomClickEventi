@@ -15,38 +15,41 @@ import java.util.HashSet;
 
 public class UserManager {
 
+    public UserManager(){
+
+    }
     public static Utente insertUser(String nome, String cognome, String email, String password, String telefono)
     {
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO utente (nome, cognome, email, password, telefono) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, firstLetterUpperCase(nome));
-            ps.setString(2, firstLetterUpperCase(cognome));
-            ps.setString(3, email);
-            ps.setString(4, hash(password));
-            ps.setString(5, telefono);
+            try (Connection con = ConPool.getConnection()) {
+                PreparedStatement ps = con.prepareStatement("INSERT INTO utente (nome, cognome, email, password, telefono) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, firstLetterUpperCase(nome));
+                ps.setString(2, firstLetterUpperCase(cognome));
+                ps.setString(3, email);
+                ps.setString(4, hash(password));
+                ps.setString(5, telefono);
 
 
-            if (ps.executeUpdate() != 1)
-            {
-                throw new RuntimeException("INSERT error.");
+                if (ps.executeUpdate() != 1) {
+                    throw new RuntimeException("INSERT error.");
+                }
+
+                ResultSet rs = ps.getGeneratedKeys();
+                rs.next();
+                int idUtente = rs.getInt(1);
+
+                Utente u = new Utente();
+                u.setId(idUtente);
+                u.setNome(nome);
+                u.setCognome(cognome);
+                u.setEmail(email);
+                u.setPassword(password);
+                u.setTelefono(telefono);
+
+                return u;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
 
-            ResultSet rs= ps.getGeneratedKeys();
-            rs.next();
-            int idUtente = rs.getInt(1);
-
-            Utente u = new Utente();
-            u.setId(idUtente);
-            u.setNome(nome);
-            u.setCognome(cognome);
-            u.setEmail(email);
-            u.setPassword(password);
-            u.setTelefono(telefono);
-
-            return u;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private static String hash(String text)
@@ -64,22 +67,23 @@ public class UserManager {
         }
     }
 
-    public static void insertCliente(Utente u)
+    public static boolean insertCliente(Utente u)
     {
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO cliente (idCliente) VALUES (?)");
-            ps.setInt(1, u.getId());
+            try (Connection con = ConPool.getConnection()) {
+                PreparedStatement ps = con.prepareStatement("INSERT INTO cliente (idCliente) VALUES (?)");
+                ps.setInt(1, u.getId());
 
-            if (ps.executeUpdate() != 1)
-            {
-                throw new RuntimeException("INSERT error.");
+                if (ps.executeUpdate() != 1)
+                {
+                    throw new RuntimeException("INSERT error.");
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            return true;
     }
 
-    public static void deleteUser(int idEmployee)
+    public static boolean deleteUser(int idEmployee)
     {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("DELETE FROM utente WHERE utente.id=?");
@@ -88,6 +92,7 @@ public class UserManager {
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("DELETE error.");
             }
+            return true;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -68,7 +68,7 @@
                   </div>
 
                   <div class="form-outline mb-4">
-                    <input type="tel" name="telefono" class="form-control form-control-lg" required/>
+                    <input type="text" name="telefono" class="form-control form-control-lg" required/>
                     <label class="form-label" for="form2Example17">Telefono</label>
                   </div>
                   <select name="tipo">
@@ -91,7 +91,7 @@
     </div>
   </div>
 </section>
-<script type="text/javascript" src="../js/validationForm.js"></script>
+<script type="text/javascript" src="js/validationForm.js"></script>
 </body>
 </html>
 

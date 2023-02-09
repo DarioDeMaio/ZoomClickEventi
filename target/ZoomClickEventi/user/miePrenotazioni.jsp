@@ -81,7 +81,7 @@
 </head>
 <body>
 <%@ include file="navbar.jsp"%>
-<h1 style="text-align: center">Prenotazioni <%=from%></h1>
+<h1 style="text-align: center; color: white">Prenotazioni <%=from%></h1>
 <%
     for (Party p : party.keySet()) {
         if(p.getStato().compareTo(from)==0){

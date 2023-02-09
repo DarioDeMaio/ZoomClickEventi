@@ -6,6 +6,9 @@ public class Pacchetto {
     private double prezzo;
     private int flag;
 
+    public Pacchetto(){
+
+    }
     public Pacchetto(String titolo, String eventiConsigliati, double prezzo, int flag) {
         this.titolo = titolo;
         this.eventiConsigliati = eventiConsigliati;
