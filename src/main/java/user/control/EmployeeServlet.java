@@ -3,6 +3,7 @@ package user.control;
 import party.bean.Artista;
 import user.bean.Contabile;
 import party.bean.Party;
+import user.bean.Gestore;
 import user.bean.GestoreImpiegati;
 import user.bean.Utente;
 import user.manager.UserManager;
@@ -71,9 +72,8 @@ public class EmployeeServlet extends HttpServlet {
 
         if(UserManager.checkIdByEmail(email)) {
             Utente u = new Utente(nome, cognome, email, psw, telefono);
-            GestoreImpiegati g = new GestoreImpiegati(nome,cognome,email,psw,telefono,tipo);
+            Gestore g = UserManager.insertGestore(u,tipo);
             gi.addImpiegato(g);
-            UserManager.insertGestore(u,tipo);
 
         }else
             return "/user/errore.jsp";

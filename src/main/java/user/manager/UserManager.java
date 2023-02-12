@@ -25,7 +25,6 @@ public class UserManager {
             ps.setString(4, hash(password));
             ps.setString(5, telefono);
 
-
             if (ps.executeUpdate() != 1)
             {
                 throw new RuntimeException("INSERT error.");
@@ -112,19 +111,16 @@ public class UserManager {
             if(g.getTipoGestore()=="contabile")
             {
                 Contabile c = insertContabile(g);
-                return c;
             }else if(g.getTipoGestore()=="impiegati")
             {
                 GestoreImpiegati gi = insertGestoreImpiegati(g);
-                return gi;
             }else if(g.getTipoGestore()=="pacchetti")
             {
                 GestorePacchetti gp = insertGestorePacchetti(g);
-                return gp;
             }else{
                 GestoreParty gParty = insertGestoreParty(g);
-                return gParty;
             }
+            return g;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
