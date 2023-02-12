@@ -15,9 +15,6 @@ import java.util.HashSet;
 
 public class UserManager {
 
-    public UserManager(){
-
-    }
     public static Utente insertUser(String nome, String cognome, String email, String password, String telefono)
     {
             try (Connection con = ConPool.getConnection()) {
@@ -28,11 +25,9 @@ public class UserManager {
                 ps.setString(4, hash(password));
                 ps.setString(5, telefono);
 
-
                 if (ps.executeUpdate() != 1) {
                     throw new RuntimeException("INSERT error.");
                 }
-
                 ResultSet rs = ps.getGeneratedKeys();
                 rs.next();
                 int idUtente = rs.getInt(1);
@@ -52,7 +47,7 @@ public class UserManager {
 
     }
 
-    private static String hash(String text)
+    public static String hash(String text)
     {
         try {
             String text1 = text;
@@ -88,7 +83,6 @@ public class UserManager {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("DELETE FROM utente WHERE utente.id=?");
             ps.setInt(1, idEmployee);
-
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("DELETE error.");
             }
@@ -117,26 +111,23 @@ public class UserManager {
             if(g.getTipoGestore()=="contabile")
             {
                 Contabile c = insertContabile(g);
-                return c;
             }else if(g.getTipoGestore()=="impiegati")
             {
                 GestoreImpiegati gi = insertGestoreImpiegati(g);
-                return gi;
             }else if(g.getTipoGestore()=="pacchetti")
             {
                 GestorePacchetti gp = insertGestorePacchetti(g);
-                return gp;
             }else{
                 GestoreParty gParty = insertGestoreParty(g);
-                return gParty;
             }
+            return g;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static Contabile insertContabile(Gestore g)
+    public static Contabile insertContabile(Gestore g)
     {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("INSERT INTO contabile (idContabile) VALUES (?)");
@@ -155,7 +146,7 @@ public class UserManager {
         }
     }
 
-    private static GestoreParty insertGestoreParty(Gestore g)
+    public static GestoreParty insertGestoreParty(Gestore g)
     {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("INSERT INTO gestoreParty (idGestoreParty) VALUES (?)");
@@ -174,7 +165,7 @@ public class UserManager {
         }
     }
 
-    private static GestoreImpiegati insertGestoreImpiegati(Gestore g)
+    public static GestoreImpiegati insertGestoreImpiegati(Gestore g)
     {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("INSERT INTO gestoreImpiegati (idGestoreImpiegati) VALUES (?)");
@@ -193,7 +184,7 @@ public class UserManager {
         }
     }
 
-    private static GestorePacchetti insertGestorePacchetti(Gestore g)
+    public static GestorePacchetti insertGestorePacchetti(Gestore g)
     {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("INSERT INTO gestorePacchetti (idGestorePacchetti) VALUES (?)");
@@ -212,7 +203,7 @@ public class UserManager {
         }
     }
 
-    public static void updateUser(Utente u)
+    public static boolean updateUser(Utente u)
     {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("Update utente\n" +
@@ -229,6 +220,7 @@ public class UserManager {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return true;
     }
 
     public static boolean checkIdByEmail(String email)
@@ -238,16 +230,16 @@ public class UserManager {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
 
-            if(rs.next())
+            if(rs.next()) {
                 return false;
-            else
+            }else
                 return true;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static String firstLetterUpperCase(String str)
+    public static String firstLetterUpperCase(String str)
     {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
@@ -261,6 +253,7 @@ public class UserManager {
             ResultSet rs = ps.executeQuery();
             if (rs.next())
             {
+
                 Utente u = new Utente();
                 u.setId(rs.getInt(1));
                 u.setNome(rs.getString(2));

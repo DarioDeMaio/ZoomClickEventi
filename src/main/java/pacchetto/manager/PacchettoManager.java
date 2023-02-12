@@ -8,7 +8,7 @@ import java.util.HashSet;
 
 public class PacchettoManager {
 
-    public static void insertPacchetto(Pacchetto p) {
+    public static boolean insertPacchetto(Pacchetto p) {
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("INSERT INTO pacchetti (titolo, eventiConsigliati, prezzo, flag) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1,p.getTitolo());
@@ -22,6 +22,7 @@ public class PacchettoManager {
             rs.next();
             int idPacchetto = rs.getInt(1);
             p.setId(idPacchetto);
+            return true;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -44,7 +45,7 @@ public class PacchettoManager {
         return collection;
     }
 
-    public static void deletePacchetto(int id){
+    public static boolean deletePacchetto(int id){
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("UPDATE pacchetti SET flag=? WHERE id=?");
             ps.setInt(1, 0);
@@ -52,6 +53,7 @@ public class PacchettoManager {
             if (ps.executeUpdate() != 1) {
                 throw new RuntimeException("DELETE error.");
             }
+            return true;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
