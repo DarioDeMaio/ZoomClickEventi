@@ -12,6 +12,9 @@ public class GestoreImpiegati extends Gestore{
     private HashSet<Gestore> impiegati;
     private HashSet<Artista> artisti;
 
+    public GestoreImpiegati(){
+        impiegati = new HashSet<Gestore>();
+    }
     public GestoreImpiegati(String nome, String cognome, String email, String password, String telefono, String tipoGestore) {
         super(nome, cognome, email, password, telefono, tipoGestore);
         impiegati = new HashSet<>();

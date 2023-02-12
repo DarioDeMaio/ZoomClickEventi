@@ -17,7 +17,7 @@ import java.util.Iterator;
 public class PartyManager {
 
 
-    public static void deleteParty(int id){
+    public static boolean deleteParty(int id){
 
         try(Connection con = ConPool.getConnection()){
             PreparedStatement ps = con.prepareStatement("DELETE FROM party WHERE id=?");
@@ -30,10 +30,12 @@ public class PartyManager {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return true;
     }
 
     //gestore party, cliente
     public static HashSet<Party> retrieveAllParty(){
+
         HashSet<Party> collection = new HashSet<>();
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM  party");
@@ -104,7 +106,7 @@ public class PartyManager {
         }
     }
 
-    public static void rifiutoParty(int id){
+    public static boolean rifiutoParty(int id){
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("UPDATE party SET stato=? WHERE id=?");
             ps.setString(1, "Rifiutato");
@@ -115,9 +117,10 @@ public class PartyManager {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return true;
     }
 
-    public static void confermaParty(Party p){
+    public static boolean confermaParty(Party p){
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("UPDATE party SET stato=? WHERE id=?");
             ps.setString(1, "Confermato");
@@ -148,6 +151,7 @@ public class PartyManager {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return true;
     }
 
     public static HashSet<Party> findPartyByIdCliente(int idCliente){

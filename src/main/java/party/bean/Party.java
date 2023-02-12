@@ -16,7 +16,10 @@ public class Party {
     private HashSet<Fornitore> fornitori;
     private int idCliente;
 
-
+    public Party(){
+        artisti = new HashMap<>();
+        fornitori = new HashSet<>();
+    }
     public Party(String tipo, String festeggiato, String nomeLocale, String citta, Date data, Date dataPrenotazione, String stato, String servizi, Pacchetto pacchetto, int idCliente) {
         this.tipo = tipo;
         this.nomeLocale = nomeLocale;

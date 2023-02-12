@@ -14,6 +14,9 @@ public class GestorePacchetti extends Gestore {
         pacchetti = new HashSet<Pacchetto>();
     }
 
+    public GestorePacchetti(){
+        pacchetti = new HashSet<>();
+    }
 
     public HashSet<Pacchetto> getPacchetti() {
         return pacchetti;

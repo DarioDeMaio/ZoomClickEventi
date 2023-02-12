@@ -10,6 +10,10 @@ public class GestoreParty extends Gestore {
 
     private HashSet<Party> parties;
 
+
+    public GestoreParty(){
+        parties = new HashSet<>();
+    }
     public GestoreParty(String nome, String cognome, String email, String password, String telefono, String tipoGestore) {
         super(nome, cognome, email, password, telefono, tipoGestore);
         parties = new HashSet<Party>();

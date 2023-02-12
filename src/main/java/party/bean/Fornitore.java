@@ -7,6 +7,9 @@ public class Fornitore {
     private double prezzo;
     private String nomeAzienda, proprietario, tipoFornitore, telefono;
 
+    public Fornitore(){
+
+    }
     public Fornitore(String telefono, String nomeAzienda, String proprietario, String tipoFornitore, double prezzo) {
         this.telefono = telefono;
         this.nomeAzienda = nomeAzienda;
