@@ -177,6 +177,23 @@ public class TestPartyManager {
     }
 
     @Test
+    public void testPrenotaParty_PartyNullNotSuccess() {
+        try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
+            utilities.when(ConPool::getConnection).thenReturn(connection);
+            when(preparedStatement.executeUpdate()).thenReturn(1);
+            when(preparedStatement.getGeneratedKeys()).thenReturn(resultSet);
+            when(resultSet.next()).thenReturn(true);
+            when(resultSet.getInt(1)).thenReturn(1);
+            Party p = null;
+            PartyManager.prenotaParty(p);
+            assertEquals(null, p);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
     public void testPrenotaParty_NotSuccess() {
         try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
             utilities.when(ConPool::getConnection).thenReturn(connection);

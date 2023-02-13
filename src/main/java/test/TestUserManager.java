@@ -67,6 +67,22 @@ public class TestUserManager {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    public void testInsertUser_NotSuccessEmail(){
+        try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
+            utilities.when(ConPool::getConnection).thenReturn(connection);
+            when(preparedStatement.executeUpdate()).thenReturn(1);
+            when(preparedStatement.getGeneratedKeys()).thenReturn(resultSet);
+            when(resultSet.next()).thenReturn(true);
+            when(resultSet.getInt(1)).thenReturn(1);
+
+            Utente result = UserManager.insertUser("nome1","cognome",null,"password","telefono");
+            assertEquals(null, result);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @Test
     public void testInsertUser_InsertError() throws SQLException {
         try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
@@ -83,6 +99,7 @@ public class TestUserManager {
             utilities.when(ConPool::getConnection).thenReturn(connection);
             //when(connection.prepareStatement("INSERT INTO utente (nome, cognome, email, password, telefono) VALUES (?, ?, ?, ?, ?)")).thenThrow(new SQLException());
             assertThrows(RuntimeException.class, () -> {
+                when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException());
                 UserManager.insertUser("nome", "cognome", "email", "password", "telefono");
             });
         }
@@ -97,6 +114,20 @@ public class TestUserManager {
             Utente u = new Utente("nome", "cognome", "email", "password", "telefono");
             boolean bool = UserManager.insertCliente(u);
             assertEquals(true, bool);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void testinsertCliente_NotSuccess() {
+        try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
+            utilities.when(ConPool::getConnection).thenReturn(connection);
+            when(preparedStatement.executeUpdate()).thenReturn(1);
+            Utente u = null;
+            boolean bool = UserManager.insertCliente(u);
+            assertEquals(false, bool);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -123,6 +154,7 @@ public class TestUserManager {
             Utente u = new Utente("nome", "cognome", "email", "password", "telefono");
 
             assertThrows(RuntimeException.class, () -> {
+                when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException());
                 UserManager.insertCliente(u);
             });
         }
@@ -158,50 +190,12 @@ public class TestUserManager {
             utilities.when(ConPool::getConnection).thenReturn(connection);
             when(connection.prepareStatement("DELETE FROM utente WHERE utente.id=?")).thenThrow(new SQLException());
             assertThrows(RuntimeException.class, () -> {
+                when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException());
                 UserManager.deleteUser(30);
             });
         }
     }
 
-    //insertGestore
-
-    /*@Test
-    public void testInsertGestoreSuccess() throws SQLException {
-        try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
-            utilities.when(ConPool::getConnection).thenReturn(connection);
-
-            Utente u = mock(Utente.class);
-            when(u.getNome()).thenReturn("nome");
-            when(u.getCognome()).thenReturn("cognome");
-            when(u.getEmail()).thenReturn("email");
-            when(u.getPassword()).thenReturn("password");
-            when(u.getTelefono()).thenReturn("telefono");
-            when(u.getId()).thenReturn(1);
-
-            when(preparedStatement.executeUpdate()).thenReturn(1);
-
-            when(preparedStatement.getGeneratedKeys()).thenReturn(resultSet);
-            when(resultSet.next()).thenReturn(true);
-            when(resultSet.getInt(1)).thenReturn(1);
-
-            Gestore g = mock(Gestore.class);
-            when(g.getNome()).thenReturn("nome");
-            when(g.getCognome()).thenReturn("cognome");
-            when(g.getEmail()).thenReturn("email");
-            when(g.getPassword()).thenReturn("password");
-            when(g.getTelefono()).thenReturn("telefono");
-            when(g.getTipoGestore()).thenReturn("contabile");
-            when(g.getId()).thenReturn(1);
-
-            Contabile c = mock(Contabile.class);
-            //when(c.getId()).thenReturn(1);
-            when(UserManager.insertContabile(g)).thenReturn(c);
-
-            Gestore result = UserManager.insertGestore(u, "contabile");
-
-            assertEquals(1, result.getId());
-        }
-    }*/
 
     //insertContabile
 
@@ -210,9 +204,6 @@ public class TestUserManager {
         try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
             utilities.when(ConPool::getConnection).thenReturn(connection);
             when(preparedStatement.executeUpdate()).thenReturn(1);
-
-
-
             Gestore u = new Gestore("nome", "cognome", "email", "password", "telefono", "contabile");
             Contabile contabile = UserManager.insertContabile(u);
             assertEquals("nome", contabile.getNome());
@@ -221,6 +212,20 @@ public class TestUserManager {
             assertEquals("password", contabile.getPassword());
             assertEquals("telefono", contabile.getTelefono());
             assertEquals("contabile", contabile.getTipoGestore());
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void testinsertContabile_NotSuccessUserNull() {
+        try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
+            utilities.when(ConPool::getConnection).thenReturn(connection);
+            when(preparedStatement.executeUpdate()).thenReturn(1);
+            Gestore u = null;
+            assertEquals(null, UserManager.insertContabile(u));
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -251,6 +256,7 @@ public class TestUserManager {
             Contabile ge = new Contabile("nome", "cognome", "email", "password", "telefono", "tipo");
 
             assertThrows(RuntimeException.class, () -> {
+                when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException());
                 UserManager.insertCliente(ge);
             });
         }
@@ -281,6 +287,20 @@ public class TestUserManager {
     }
 
     @Test
+    public void testinsertGestoreParty_GestoreNull() {
+        try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
+            utilities.when(ConPool::getConnection).thenReturn(connection);
+            when(preparedStatement.executeUpdate()).thenReturn(1);
+            Gestore u = null;
+            assertEquals(null, UserManager.insertContabile(u));
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
     public void testinsertGestoreParty_InsertError() throws SQLException {
         try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
             utilities.when(ConPool::getConnection).thenReturn(connection);
@@ -299,11 +319,10 @@ public class TestUserManager {
     public void testinsertGestoreParty_SQLException() throws SQLException {
         try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
             utilities.when(ConPool::getConnection).thenReturn(connection);
-            when(connection.prepareStatement("INSERT INTO gestoreParty (idGestoreParty) VALUES (?)")).thenThrow(new SQLException());
-
             Contabile ge = new Contabile("nome", "cognome", "email.com", "password", "telefono", "tipo");
 
             assertThrows(RuntimeException.class, () -> {
+                when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException());
                 UserManager.insertGestoreParty(ge);
             });
         }
@@ -335,6 +354,22 @@ public class TestUserManager {
     }
 
     @Test
+    public void testinsertGestoreImpiegatiNull() {
+        try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
+            utilities.when(ConPool::getConnection).thenReturn(connection);
+            when(preparedStatement.executeUpdate()).thenReturn(1);
+
+
+            Gestore u = null;
+            GestoreImpiegati gp = UserManager.insertGestoreImpiegati(u);
+
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Test
     public void testinsertGestoreImpiegati_InsertError() throws SQLException {
         try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
             utilities.when(ConPool::getConnection).thenReturn(connection);
@@ -350,9 +385,9 @@ public class TestUserManager {
     public void testinsertGestoreImpiegati_SQLException() throws SQLException {
         try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
             utilities.when(ConPool::getConnection).thenReturn(connection);
-            //when(connection.prepareStatement("INSERT INTO gestoreParty (idGestoreParty) VALUES (?)")).thenThrow(new SQLException());
             Contabile ge = new Contabile("nome", "cognome", "email.com", "password", "telefono", "tipo");
             assertThrows(RuntimeException.class, () -> {
+                when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException());
                 UserManager.insertGestoreImpiegati(ge);
             });
         }
@@ -361,7 +396,7 @@ public class TestUserManager {
     //test inserGestorePacchetti
 
     @Test
-    public void testinsertGestore() {
+    public void testinsertGestorePacchetti() {
         try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
             utilities.when(ConPool::getConnection).thenReturn(connection);
             when(preparedStatement.executeUpdate()).thenReturn(1);
@@ -376,6 +411,19 @@ public class TestUserManager {
             assertEquals("password", gp.getPassword());
             assertEquals("telefono", gp.getTelefono());
             assertEquals("pacchetti", gp.getTipoGestore());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void testinsertGestorePacchettiNull() {
+        try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
+            utilities.when(ConPool::getConnection).thenReturn(connection);
+            when(preparedStatement.executeUpdate()).thenReturn(1);
+            Gestore u = null;
+            GestorePacchetti gp = UserManager.insertGestorePacchetti(u);
+            assertEquals(null, gp);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -400,6 +448,7 @@ public class TestUserManager {
             //when(connection.prepareStatement("INSERT INTO gestoreParty (idGestoreParty) VALUES (?)")).thenThrow(new SQLException());
             Contabile ge = new Contabile("nome", "cognome", "email.com", "password", "telefono", "pacchetti");
             assertThrows(RuntimeException.class, () -> {
+                when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException());
                 UserManager.insertGestorePacchetti(ge);
             });
         }
@@ -417,6 +466,20 @@ public class TestUserManager {
             u.setId(1);
             boolean b = updateUser(u);
             assertEquals(true, b);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void testUpdateUser_EmailNull(){
+        try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
+            utilities.when(ConPool::getConnection).thenReturn(connection);
+            when(preparedStatement.executeUpdate()).thenReturn(1);
+            boolean result = UserManager.deleteUser(27);
+            Utente u = null;
+            boolean b = updateUser(u);
+            assertEquals(false, b);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -443,6 +506,7 @@ public class TestUserManager {
             Utente u = new Utente("nome","cognome","email","password","telefono");
             u.setId(1);
             assertThrows(RuntimeException.class, () -> {
+                when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException());
                 UserManager.updateUser(u);
             });
         }
@@ -475,6 +539,26 @@ public class TestUserManager {
         }
     }
 
+    @Test public void testLogin_NotSuccessEmail(){
+        try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
+            utilities.when(ConPool::getConnection).thenReturn(connection);
+            when(preparedStatement.executeQuery()).thenReturn(resultSet);
+            when(resultSet.next()).thenReturn(true);
+            when(resultSet.getInt(1)).thenReturn(1);
+            when(resultSet.getString(2)).thenReturn("nome");
+            when(resultSet.getString(3)).thenReturn("cognome");
+            when(resultSet.getString(4)).thenReturn("email");
+            when(resultSet.getString(6)).thenReturn("telefono");
+            String email=null, psw="password";
+            Utente u = UserManager.login(email,psw);
+
+            assertEquals(null, u);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test public void testLogin_NotSuccess(){
         try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
             utilities.when(ConPool::getConnection).thenReturn(connection);
@@ -500,6 +584,7 @@ public class TestUserManager {
         try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
             utilities.when(ConPool::getConnection).thenReturn(connection);
             assertThrows(RuntimeException.class, () -> {
+                when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException());
                 UserManager.login("email","password");
             });
         }
@@ -539,6 +624,30 @@ public class TestUserManager {
     }
 
     @Test
+    public void testIsArtista_NotSuccessNull() {
+        try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
+            utilities.when(ConPool::getConnection).thenReturn(connection);
+            when(preparedStatement.executeQuery()).thenReturn(resultSet);
+            when(resultSet.next()).thenReturn(true);
+
+            Utente u = null;
+            when(resultSet.getInt("id")).thenReturn(1);
+            when(resultSet.getString("nome")).thenReturn("nome");
+            when(resultSet.getString("cognome")).thenReturn("cognome");
+            when(resultSet.getString("email")).thenReturn("email");
+            when(resultSet.getString("password")).thenReturn("password");
+            when(resultSet.getString("telefono")).thenReturn("telefono");
+            when(resultSet.getString("tipoArtista")).thenReturn("artista");
+
+            Artista a = UserManager.isArtista(u);
+            assertEquals(null, a);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
     public void testIsArtista_NotSuccess() {
         try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
             utilities.when(ConPool::getConnection).thenReturn(connection);
@@ -563,6 +672,7 @@ public class TestUserManager {
             Utente u = new Utente("nome","cognome","email","password","telefono");
 
             assertThrows(RuntimeException.class, () -> {
+                when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException());
                 UserManager.isArtista(u);
             });
         }
@@ -594,6 +704,30 @@ public class TestUserManager {
             assertEquals(u.getEmail(), a.getEmail());
             assertEquals(u.getPassword(), a.getPassword());
             assertEquals(u.getTelefono(), a.getTelefono());
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void testIsGestore_Success_NullUser() {
+        try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
+            utilities.when(ConPool::getConnection).thenReturn(connection);
+            when(preparedStatement.executeQuery()).thenReturn(resultSet);
+            when(resultSet.next()).thenReturn(true);
+
+            Utente u = null;
+            when(resultSet.getInt("id")).thenReturn(1);
+            when(resultSet.getString("nome")).thenReturn("nome");
+            when(resultSet.getString("cognome")).thenReturn("cognome");
+            when(resultSet.getString("email")).thenReturn("email");
+            when(resultSet.getString("password")).thenReturn("password");
+            when(resultSet.getString("telefono")).thenReturn("telefono");
+            when(resultSet.getString("tipoArtista")).thenReturn("artista");
+
+            Gestore a = UserManager.isGestore(u);
+            assertEquals(null, u);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -705,6 +839,7 @@ public class TestUserManager {
         try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
             utilities.when(ConPool::getConnection).thenReturn(connection);
             assertThrows(RuntimeException.class, () -> {
+                when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException());
                 UserManager.retrieveAllEmployee();
             });
         }
@@ -753,6 +888,7 @@ public class TestUserManager {
         try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
             utilities.when(ConPool::getConnection).thenReturn(connection);
             assertThrows(RuntimeException.class, () -> {
+                when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException());
                 UserManager.retrieveAllArtisti();
             });
         }

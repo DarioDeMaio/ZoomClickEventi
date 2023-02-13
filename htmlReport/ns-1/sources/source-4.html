@@ -1,0 +1,159 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TestGestorePacchetti</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">test</a>
+</div>
+
+<h1>Coverage Summary for Class: TestGestorePacchetti (test)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TestGestorePacchetti</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package test;
+&nbsp;
+&nbsp;import org.junit.Before;
+&nbsp;import org.junit.Test;
+&nbsp;import org.junit.runner.OrderWith;
+&nbsp;import pacchetto.bean.GestorePacchetti;
+&nbsp;import pacchetto.bean.Pacchetto;
+&nbsp;
+&nbsp;import java.util.HashSet;
+&nbsp;
+&nbsp;import static org.junit.Assert.assertEquals;
+&nbsp;
+<b class="nc">&nbsp;public class TestGestorePacchetti {</b>
+&nbsp;
+&nbsp;    private GestorePacchetti gp;
+<b class="nc">&nbsp;    private Pacchetto p = new Pacchetto();</b>
+&nbsp;    @Before
+&nbsp;    public void setUp(){
+<b class="nc">&nbsp;        gp = new GestorePacchetti();</b>
+<b class="nc">&nbsp;        p = new Pacchetto();</b>
+<b class="nc">&nbsp;        p.setId(1);</b>
+<b class="nc">&nbsp;        gp.addPacchetto(p);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testAddPacchettoTrue(){
+<b class="nc">&nbsp;        HashSet&lt;Pacchetto&gt; pacchetti = gp.getPacchetti();</b>
+<b class="nc">&nbsp;        assertEquals(1, pacchetti.size());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testAddPacchettoFalse(){
+&nbsp;        //Provo ad aggiungerlo anche se già è stato fatto
+<b class="nc">&nbsp;        gp.addPacchetto(p);</b>
+<b class="nc">&nbsp;        HashSet&lt;Pacchetto&gt; pacchetti = gp.getPacchetti();</b>
+<b class="nc">&nbsp;        assertEquals(1, pacchetti.size());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testDeletePacchettoTrue(){
+<b class="nc">&nbsp;        int id = 1;</b>
+<b class="nc">&nbsp;        gp.deletePacchetto(id);</b>
+<b class="nc">&nbsp;        HashSet&lt;Pacchetto&gt; pacchetti = gp.getPacchetti();</b>
+<b class="nc">&nbsp;        assertEquals(0, pacchetti.size());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testDeletePacchettoFalse(){
+<b class="nc">&nbsp;        int id = 0;</b>
+<b class="nc">&nbsp;        gp.deletePacchetto(id);</b>
+<b class="nc">&nbsp;        HashSet&lt;Pacchetto&gt; pacchetti = gp.getPacchetti();</b>
+<b class="nc">&nbsp;        assertEquals(1, pacchetti.size());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-02-11 13:11</div>
+</div>
+</body>
+</html>
