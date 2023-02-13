@@ -9,27 +9,30 @@ import java.util.HashSet;
 public class PacchettoManager {
 
     public static boolean insertPacchetto(Pacchetto p) {
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO pacchetti (titolo, eventiConsigliati, prezzo, flag) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1,p.getTitolo());
-            ps.setString(2, p.getEventiConsigliati());
-            ps.setDouble(3, p.getPrezzo());
-            ps.setInt(4, 1);
-            if (ps.executeUpdate() != 1) {
-                throw new RuntimeException("INSERT error.");
+        if(p!=null) {
+            try (Connection con = ConPool.getConnection()) {
+                PreparedStatement ps = con.prepareStatement("INSERT INTO pacchetti (titolo, eventiConsigliati, prezzo, flag) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, p.getTitolo());
+                ps.setString(2, p.getEventiConsigliati());
+                ps.setDouble(3, p.getPrezzo());
+                ps.setInt(4, 1);
+                if (ps.executeUpdate() != 1) {
+                    throw new RuntimeException("INSERT error.");
+                }
+                ResultSet rs = ps.getGeneratedKeys();
+                rs.next();
+                int idPacchetto = rs.getInt(1);
+                p.setId(idPacchetto);
+                return true;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-            ResultSet rs= ps.getGeneratedKeys();
-            rs.next();
-            int idPacchetto = rs.getInt(1);
-            p.setId(idPacchetto);
-            return true;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        }else
+            return false;
     }
 
-    public static HashSet<Pacchetto> retrieveAll(){
-
+    public static HashSet<Pacchetto> retrieveAll()
+    {
         HashSet<Pacchetto> collection = new HashSet<>();
         try (Connection con = ConPool.getConnection()) {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM  pacchetti WHERE flag=1");

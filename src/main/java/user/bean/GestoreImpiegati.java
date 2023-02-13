@@ -44,7 +44,7 @@ public class GestoreImpiegati extends Gestore{
     //metodi di business
 
     public void addImpiegato(Gestore g){
-        if(!impiegati.contains(g))
+        if((g!=null) && (!impiegati.contains(g)))
             impiegati.add(g);
     }
 
