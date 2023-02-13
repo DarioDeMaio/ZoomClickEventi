@@ -69,6 +69,23 @@ public class TestPacchettoManager {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    public void testInsertPacchetto_PacchettoNullSuccess(){
+        try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
+            utilities.when(ConPool::getConnection).thenReturn(connection);
+            when(preparedStatement.executeUpdate()).thenReturn(1);
+            when(preparedStatement.getGeneratedKeys()).thenReturn(resultSet);
+            when(resultSet.next()).thenReturn(true);
+            when(resultSet.getInt(1)).thenReturn(1);
+            Pacchetto p = null;
+            boolean b = PacchettoManager.insertPacchetto(p);
+            assertEquals(false, b);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @Test
     public void testInsertPacchetto_NotSuccess(){
         try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
@@ -92,6 +109,7 @@ public class TestPacchettoManager {
             utilities.when(ConPool::getConnection).thenReturn(connection);
             Pacchetto p = new Pacchetto("titolo", "eventiConsigliati", 100.0, 1);
             assertThrows(RuntimeException.class, () -> {
+                when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException());
                 PacchettoManager.insertPacchetto(p);
             });
         }
@@ -137,6 +155,7 @@ public class TestPacchettoManager {
         try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
             utilities.when(ConPool::getConnection).thenReturn(connection);
             assertThrows(RuntimeException.class, () -> {
+                when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException());
                 PacchettoManager.retrieveAll();
             });
         }
@@ -175,6 +194,7 @@ public class TestPacchettoManager {
         try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
             utilities.when(ConPool::getConnection).thenReturn(connection);
             assertThrows(RuntimeException.class, () -> {
+                when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException());
                 PacchettoManager.deletePacchetto(1);
             });
         }
@@ -223,6 +243,7 @@ public class TestPacchettoManager {
         try (MockedStatic<ConPool> utilities = Mockito.mockStatic(ConPool.class)) {
             utilities.when(ConPool::getConnection).thenReturn(connection);
             assertThrows(RuntimeException.class, () -> {
+                when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException());
                 PacchettoManager.findPacchettoById(1);
             });
         }

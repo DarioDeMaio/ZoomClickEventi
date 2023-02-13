@@ -18,7 +18,6 @@ public class PartyManager {
 
 
     public static boolean deleteParty(int id){
-
         try(Connection con = ConPool.getConnection()){
             PreparedStatement ps = con.prepareStatement("DELETE FROM party WHERE id=?");
             ps.setInt(1,id);
