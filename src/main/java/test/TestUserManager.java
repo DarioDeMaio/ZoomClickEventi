@@ -40,8 +40,6 @@ public class TestUserManager {
     @Mock
     private ResultSet resultSet;
 
-
-
     @Before
     public void setUp() throws SQLException {
         when(connection.prepareStatement(any(String.class))).thenReturn(preparedStatement);

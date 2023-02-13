@@ -82,27 +82,29 @@ public class PartyManager {
     }
 
     public static void prenotaParty(Party p){
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO party (tipo, data, dataPrenotazione, nomeLocale, servizi, stato, idPacchetto, idCliente, citta, festeggiato) VALUES (?, ?, ?, ?, ?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1,p.getTipo());
-            ps.setDate(2, new Date(p.getData().getTime()));
-            ps.setDate(3, new Date(p.getDataPrenotazione().getTime()));
-            ps.setString(4, p.getNomeLocale());
-            ps.setString(5, p.getServizi());
-            ps.setString(6,"In attesa");
-            ps.setInt(7,p.getPacchetto().getId());
-            ps.setInt(8,p.getIdCliente());
-            ps.setString(9,p.getCitta());
-            ps.setString(10,p.getFesteggiato());
-            if (ps.executeUpdate() != 1) {
-                throw new RuntimeException("INSERT error.");
+        if(p!=null) {
+            try (Connection con = ConPool.getConnection()) {
+                PreparedStatement ps = con.prepareStatement("INSERT INTO party (tipo, data, dataPrenotazione, nomeLocale, servizi, stato, idPacchetto, idCliente, citta, festeggiato) VALUES (?, ?, ?, ?, ?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, p.getTipo());
+                ps.setDate(2, new Date(p.getData().getTime()));
+                ps.setDate(3, new Date(p.getDataPrenotazione().getTime()));
+                ps.setString(4, p.getNomeLocale());
+                ps.setString(5, p.getServizi());
+                ps.setString(6, "In attesa");
+                ps.setInt(7, p.getPacchetto().getId());
+                ps.setInt(8, p.getIdCliente());
+                ps.setString(9, p.getCitta());
+                ps.setString(10, p.getFesteggiato());
+                if (ps.executeUpdate() != 1) {
+                    throw new RuntimeException("INSERT error.");
+                }
+                ResultSet rs = ps.getGeneratedKeys();
+                rs.next();
+                int idParty = rs.getInt(1);
+                p.setId(idParty);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-            ResultSet rs= ps.getGeneratedKeys();
-            rs.next();
-            int idParty = rs.getInt(1);
-            p.setId(idParty);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -121,37 +123,40 @@ public class PartyManager {
     }
 
     public static boolean confermaParty(Party p){
-        try (Connection con = ConPool.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("UPDATE party SET stato=? WHERE id=?");
-            ps.setString(1, "Confermato");
-            ps.setInt(2, p.getId());
-            if (ps.executeUpdate() != 1) {
-                throw new RuntimeException("Conferma error.");
-            }
-
-            for(Artista a : p.getArtisti().keySet()){
-                PreparedStatement ps2 = con.prepareStatement("INSERT INTO ingaggio (idArtista, idParty, prezzo) VALUES (?,?,?)");
-                ps2.setInt(1, a.getId());
-                ps2.setInt(2, p.getId());
-                ps2.setDouble(3, p.getArtisti().get(a));
-                if (ps2.executeUpdate() != 1) {
-                    throw new RuntimeException("Inserimento artista error.");
+        if(p!=null) {
+            try (Connection con = ConPool.getConnection()) {
+                PreparedStatement ps = con.prepareStatement("UPDATE party SET stato=? WHERE id=?");
+                ps.setString(1, "Confermato");
+                ps.setInt(2, p.getId());
+                if (ps.executeUpdate() != 1) {
+                    throw new RuntimeException("Conferma error.");
                 }
-            }
 
-            for(Fornitore f : p.getFornitori()){
-                PreparedStatement ps2 = con.prepareStatement("INSERT INTO richiede (idFornitore, idParty) VALUES (?,?)");
-                ps2.setInt(1, f.getId());
-                ps2.setInt(2, p.getId());
-                if (ps2.executeUpdate() != 1) {
-                    throw new RuntimeException("Inserimento fornitore error.");
+                for (Artista a : p.getArtisti().keySet()) {
+                    PreparedStatement ps2 = con.prepareStatement("INSERT INTO ingaggio (idArtista, idParty, prezzo) VALUES (?,?,?)");
+                    ps2.setInt(1, a.getId());
+                    ps2.setInt(2, p.getId());
+                    ps2.setDouble(3, p.getArtisti().get(a));
+                    if (ps2.executeUpdate() != 1) {
+                        throw new RuntimeException("Inserimento artista error.");
+                    }
                 }
-            }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return true;
+                for (Fornitore f : p.getFornitori()) {
+                    PreparedStatement ps2 = con.prepareStatement("INSERT INTO richiede (idFornitore, idParty) VALUES (?,?)");
+                    ps2.setInt(1, f.getId());
+                    ps2.setInt(2, p.getId());
+                    if (ps2.executeUpdate() != 1) {
+                        throw new RuntimeException("Inserimento fornitore error.");
+                    }
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            return true;
+        }else
+            return false;
     }
 
     public static HashSet<Party> findPartyByIdCliente(int idCliente){

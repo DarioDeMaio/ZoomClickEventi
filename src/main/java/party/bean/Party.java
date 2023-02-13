@@ -138,7 +138,7 @@ public class Party {
         this.festeggiato = festeggiato;
     }
     public void addArtista(Artista a, double prezzo) {
-        if (!artisti.containsKey(a)) {
+        if ((a!=null) && (!artisti.containsKey(a))) {
             artisti.put(a, prezzo);
             a.addParty(this, prezzo);
         }
@@ -146,7 +146,7 @@ public class Party {
 
     public void addFornitore(Fornitore f)
     {
-        if(!fornitori.contains(f)) {
+        if((f!=null) && (!fornitori.contains(f))) {
             fornitori.add(f);
         }
     }

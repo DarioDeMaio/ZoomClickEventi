@@ -26,7 +26,7 @@ public class Cliente extends Utente{
 
     public void addParty(Party p)
     {
-        if(!parties.contains(p))
+        if((p!=null) && (!parties.contains(p)))
             parties.add(p);
     }
 

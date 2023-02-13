@@ -36,7 +36,7 @@ public class Artista extends Utente {
 
     public void addParty(Party p, double prezzo)
     {
-        if(!parties.containsKey(p))
+        if((p!=null) && (!parties.containsKey(p)))
         {
             parties.put(p, prezzo);
             p.addArtista(this, prezzo);
