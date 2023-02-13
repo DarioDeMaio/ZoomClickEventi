@@ -22,9 +22,7 @@ public class HeaderServlet extends HttpServlet {
 
         if(cliente || logged == null)
         {
-            if(catalogo==null) {
-                catalogo = PacchettoManager.retrieveAll();
-            }
+            catalogo = PacchettoManager.retrieveAll();
             request.setAttribute("catalogo", catalogo);
         }
 
