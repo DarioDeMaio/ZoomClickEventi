@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="246b0803-e417-4352-aa36-4176b654373d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/webContexts.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/css/coverage.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/css/idea.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/img/arrowDown.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/img/arrowUp.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_BLOCK.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_BLOCK_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_CLASS.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_CLASS_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_LINE.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_LINE_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_METHOD.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_METHOD_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/index_SORT_BY_NAME_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/js/highlight.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/js/highlightjs-line-numbers.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_BLOCK.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_BLOCK_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_CLASS.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_CLASS_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_LINE.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_LINE_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_METHOD.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_METHOD_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/index_SORT_BY_NAME_DESC.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-1.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-2.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-3.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-4.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-5.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-6.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-7.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/htmlReport/ns-1/sources/source-8.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/connection/ConPool.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pacchetto/bean/GestorePacchetti.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pacchetto/bean/Pacchetto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pacchetto/control/PacchettiServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pacchetto/manager/PacchettoManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/party/bean/Artista.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/party/bean/Fornitore.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/party/bean/GestoreParty.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/party/bean/Party.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/party/control/PrenotazioneServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/party/manager/PartyManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test/TestArtista.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test/TestCliente.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test/TestGestoreImpiegati.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test/TestGestorePacchetti.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test/TestGestoryParty.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test/TestPacchetto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test/TestPacchettoManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test/TestParty.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test/TestPartyManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test/TestUserManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/user/bean/Cliente.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/user/bean/Contabile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/user/bean/Gestore.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/user/bean/GestoreImpiegati.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/user/bean/Utente.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/user/control/EmployeeServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/user/control/HeaderServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/user/control/LoginServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/user/control/LogoutServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/user/control/MiePrenotazioniServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/user/control/PersonalInformationServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/user/control/RegistrazioneServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/user/manager/UserManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/zoomClickLogo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/validationForm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/validationGestoreParty.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/validationPacchetti.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/validationPrenotazione.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/validationUpdateUser.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/pacchetto/gestorePacchetti.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/pacchetto/newPacchetto.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/party/Artista.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/party/confermaParty.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/party/gestoreParty.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/party/incassi.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/party/prenotazione.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/user/GestoreImpiegati.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/user/HomePage.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/user/ListImpiegati.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/user/PersonalInformation.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/user/errore.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/user/login.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/user/miePrenotazioni.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/user/navbar.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/user/registrazione.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi.war" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/connection/ConPool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/pacchetto/bean/GestorePacchetti.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/pacchetto/bean/Pacchetto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/pacchetto/control/PacchettiServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/pacchetto/manager/PacchettoManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/party/bean/Artista.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/party/bean/Fornitore.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/party/bean/GestoreParty.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/party/bean/Party.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/party/control/PrenotazioneServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/party/manager/PartyManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/test/TestArtista.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/test/TestCliente.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/test/TestGestoreImpiegati.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/test/TestGestorePacchetti.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/test/TestGestoryParty.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/test/TestPacchetto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/test/TestPacchettoManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/test/TestParty.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/test/TestPartyManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/test/TestUserManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/user/bean/Cliente.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/user/bean/Contabile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/user/bean/Gestore.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/user/bean/GestoreImpiegati.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/user/bean/Utente.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/user/control/EmployeeServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/user/control/HeaderServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/user/control/LoginServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/user/control/LogoutServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/user/control/MiePrenotazioniServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/user/control/PersonalInformationServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/user/control/RegistrazioneServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/classes/user/manager/UserManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/apiguardian-api-1.1.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/byte-buddy-1.12.16.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/byte-buddy-agent-1.12.16.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/hamcrest-core-1.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/jquery-3.6.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/junit-4.13.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/junit-jupiter-5.9.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/junit-jupiter-api-5.9.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/junit-jupiter-engine-5.9.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/junit-jupiter-params-5.9.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/junit-platform-commons-1.9.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/junit-platform-engine-1.9.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/mockito-core-4.9.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/mockito-inline-4.9.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/mysql-connector-java-8.0.28.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/objenesis-3.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/opentest4j-1.2.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/lib/protobuf-java-3.11.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/img/zoomClickLogo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/js/validationForm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/js/validationGestoreParty.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/js/validationPacchetti.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/js/validationPrenotazione.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/js/validationUpdateUser.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/pacchetto/gestorePacchetti.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/pacchetto/newPacchetto.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/party/Artista.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/party/confermaParty.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/party/gestoreParty.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/party/incassi.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/party/prenotazione.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/user/GestoreImpiegati.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/user/HomePage.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/user/ListImpiegati.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/user/PersonalInformation.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/user/errore.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/user/login.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/user/miePrenotazioni.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/user/navbar.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ZoomClickEventi/user/registrazione.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/connection/ConPool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pacchetto/bean/GestorePacchetti.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pacchetto/bean/Pacchetto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pacchetto/control/PacchettiServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/pacchetto/manager/PacchettoManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/party/bean/Artista.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/party/bean/Fornitore.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/party/bean/GestoreParty.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/party/bean/Party.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/party/control/PrenotazioneServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/party/manager/PartyManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/TestArtista.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/TestCliente.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/TestGestoreImpiegati.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/TestGestorePacchetti.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/TestGestoryParty.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/TestPacchetto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/TestPacchettoManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/TestParty.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/TestPartyManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/TestUserManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/user/bean/Cliente.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/user/bean/Contabile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/user/bean/Gestore.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/user/bean/GestoreImpiegati.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/user/bean/Utente.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/user/control/EmployeeServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/user/control/HeaderServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/user/control/LoginServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/user/control/LogoutServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/user/control/MiePrenotazioniServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/user/control/PersonalInformationServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/user/control/RegistrazioneServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/user/manager/UserManager.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2LhG9JY8czKlAVDGkHzo7VdRIpc" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/122nl/IdeaProjects/ZoomClickEventi/Implementation",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="246b0803-e417-4352-aa36-4176b654373d" name="Changes" comment="" />
+      <created>1676315750525</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1676315750525</updated>
+      <workItem from="1676315751197" duration="77000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

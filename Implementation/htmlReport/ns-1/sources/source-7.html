@@ -1,0 +1,155 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TestParty</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">test</a>
+</div>
+
+<h1>Coverage Summary for Class: TestParty (test)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TestParty</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package test;
+&nbsp;
+&nbsp;import org.junit.Before;
+&nbsp;import org.junit.Test;
+&nbsp;import party.bean.Artista;
+&nbsp;import party.bean.Fornitore;
+&nbsp;import party.bean.Party;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.HashSet;
+&nbsp;
+&nbsp;import static org.junit.Assert.assertEquals;
+&nbsp;
+<b class="nc">&nbsp;public class TestParty {</b>
+&nbsp;
+&nbsp;    private Party p;
+&nbsp;    private Artista a;
+&nbsp;    private Fornitore f;
+&nbsp;    @Before
+&nbsp;    public void setUp(){
+<b class="nc">&nbsp;        p = new Party();</b>
+<b class="nc">&nbsp;        a = new Artista();</b>
+<b class="nc">&nbsp;        f = new Fornitore();</b>
+<b class="nc">&nbsp;        p.addArtista(a,300);</b>
+<b class="nc">&nbsp;        p.addFornitore(f);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testAddArtistaTrue(){
+<b class="nc">&nbsp;        HashMap&lt;Artista, Double&gt; artisti = p.getArtisti();</b>
+<b class="nc">&nbsp;        assertEquals(1, artisti.size());</b>
+&nbsp;    }
+&nbsp;    @Test
+&nbsp;    public void testAddArtistaFalse(){
+<b class="nc">&nbsp;        p.addArtista(a,300);</b>
+<b class="nc">&nbsp;        HashMap&lt;Artista, Double&gt; artisti = p.getArtisti();</b>
+<b class="nc">&nbsp;        assertEquals(1, artisti.size());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void testAddFornitoreTrue(){
+<b class="nc">&nbsp;        HashSet&lt;Fornitore&gt; fornitori = p.getFornitori();</b>
+<b class="nc">&nbsp;        assertEquals(1, fornitori.size());</b>
+&nbsp;    }
+&nbsp;    @Test
+&nbsp;    public void testAddFornitoreFalse(){
+<b class="nc">&nbsp;        p.addFornitore(f);</b>
+<b class="nc">&nbsp;        HashSet&lt;Fornitore&gt; fornitori = p.getFornitori();</b>
+<b class="nc">&nbsp;        assertEquals(1, fornitori.size());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-02-11 13:11</div>
+</div>
+</body>
+</html>
